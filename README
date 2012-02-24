@@ -1,0 +1,15 @@
+FlowchartWiki
+
+Version: 1.1.0-RC7
+Release Date: 2009-03-30
+License: GNU General Public License, Version 2 (or later).
+
+Copyright: Thomas Kock, Delmenhorst, 2008, 2009
+
+Flowchartwiki is an extension to MediaWiki for creating flowcharts from the
+links between wikipages to support process modelling and process documentation
+in MediaWiki. This simplifies the self-organizing of teams and processes.
+
+For documentation and the latest release and update information,
+please see http://www.flowchartwiki.org
+

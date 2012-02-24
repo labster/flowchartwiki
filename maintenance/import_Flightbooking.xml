@@ -38,6 +38,9 @@
       <minor/>
       <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
 
+Source: "ARIS Design Platform: Getting Started with BPM" by Rob Davis, Eric Brabänder, Springer, 2007, Page 31
+
+
 configure the type of the graphics
   '[ModelType::EPK]
   '[ModelType::Flat]
@@ -46,12 +49,7 @@ configure the type of the graphics
 
 For the Customizing of this Process see [[:Customizing:Configure_EPK]]
 
-== Make this a Sub-Process of ProcessList ==
-[[Type::Process]]
-[[Category:ProcessList]]
-[[Type::Rect_Yellow]]
-[[Level::1000]]
-[[:NextStep::Category:ValueStream]]</text>
+</text>
     </revision>
   </page>
   <page>

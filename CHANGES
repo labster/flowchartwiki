@@ -1,4 +1,4 @@
-FlowchartWiki 1.1.0-RC7
+FlowchartWiki 1.1.0
 
     * Updated Special:CheckFchw: Testing for display of real graph,
       fixed Path/Directory issues on Windows, including " " <space> in paths
@@ -7,6 +7,10 @@ FlowchartWiki 1.1.0-RC7
     * graphviz.php: added $wgDBprefix to the Hash of the Filename in
       ./images/flowchartwiki to avoid clashes in installations, where multiple
       wikis are installed on the same base directory structure.
+    * graphviz.php: changed platform-dependend coding to switch-statement
+      and tested for availability of $_SERVER["SERVER_SOFTWARE"]
+      (this variable is not set in a command-line environment, ie. when called
+      by ./extensions/flowchartwiki/maintenance/fchw_RefreshPages.php)
     * categoryBrowser.php: added "concentrate=true;" to .dot file
       This tries to reduce arrows, if the length is > 1 AND there are
       two arrows between two icons, one to, one from --> one arrow to/from.

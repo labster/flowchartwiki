@@ -2,7 +2,7 @@
 
 //////////////////////////////////////////////////////////////
 //
-//    Copyright (C) Thomas Kock, Delmenhorst, 2009
+//    Copyright (C) Thomas Kock, Delmenhorst, 2008, 2009
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,13 +49,13 @@ class CheckFchw extends SpecialPage {
 
         # Output
         $output = "";
+        $output .= "<p>Web Server: <strong>".$_SERVER["SERVER_SOFTWARE"]."</strong></p>";
         $output .= "<p>PHP version: <strong>".phpversion()."</strong></p>";
         $output .= "<p>Platform: <strong>".php_uname()."</strong></p>";
         $output .= "<p>Mediawiki version: <strong>".$wgVersion."</strong></p>";
         $output .= "<p>Database: <strong>".$dbr->getSoftwareLink()." ".$dbr->getServerVersion()."</strong></p>";
         $output .= "<p>Database prefix: <strong>".$wgDBprefix."</strong></p>";
         $output .= "<p>FlowChartWiki version: <strong>".fchw_version."</strong></p>";
-        $output .= "<p>MediaWiki \$wgUploadDirectory: <strong>".$wgUploadDirectory."</strong></p>";
         $output .= "<table border='0' cellpadding='0' cellspacing='0'><tr><td>";
 
         $output .= "<table border='0' cellpadding='0' cellspacing='0'>";
@@ -138,15 +138,29 @@ digraph G { size =\"7,2.4\"; { rank = same; \"Flightbooking\";  }
             $exec = escapeshellarg($DotDir)." -Tpng -o ".escapeshellarg($PNGFile)." ".escapeshellarg($DOTFile);
             //$exec = escapeshellarg($DotDir)." -Tpng -o ".$PNGFile." ".$DOTFile;
             if (substr(php_uname(), 0, 7) == "Windows") {
-                $obj = new COM("WScript.Shell") or die("Unable to init WScript.Shell for Png file");
-                $Res = $obj->Run("".$exec, 0, true);
-                //if ($Res != 0)
-                //die("Dot error - Png file");
-                $obj = null;
+                try {
+                    $obj = new COM("WScript.Shell") or die("Unable to init WScript.Shell for Png file");
+                    // for Apache / PHP
+                    if (substr($_SERVER["SERVER_SOFTWARE"],0,6) == "Apache") {
+                        $Res = $obj->Run("".$exec, 0, true);
+                    } else {
+                        // for IIS
+                        $Res = $obj->Exec("".$exec);
+                    }
+                    $obj = null;
+                    // On Windows, PHP sometimes does not immediately recognize that the file is there.
+                    // http://de.php.net/manual/en/function.file-exists.php#56121
+                    $start = gettimeofday();
+                    while (!file_exists($PNGFile)) {
+                        $stop = gettimeofday();
+                        if ( 1000000 * ($stop['sec'] - $start['sec']) + $stop['usec'] - $start['usec'] > 500000) break;  // wait a moment
+                    }
+                } catch (Exception $e ) {
+                    $execTestMessage = "<b>Command:</b><br>".$exec."<br><b>Error:</b><br>".$e->__toString();
+                }
             } else {
                 exec($exec);
             }
-
             $execTest = file_exists($PNGFile);
         }
         $output .= Status($execTest, wfMsg('checkfchwGraphVizExecTest'), $execTestMessage );

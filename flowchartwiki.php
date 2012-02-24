@@ -2,7 +2,7 @@
 
 //////////////////////////////////////////////////////////////
 //
-//    Copyright (C) Thomas Kock, Delmenhorst, 2009
+//    Copyright (C) Thomas Kock, Delmenhorst, 2008, 2009
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,5 +48,5 @@ require_once("wizardProcessStep.php");
 require_once("linktypes.php");
 
 require_once("checkfchw.php");
-require_once("renumber_levels.php");
+//require_once("renumber_levels.php"); // under construction
 

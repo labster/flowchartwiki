@@ -2,7 +2,7 @@
 
 //////////////////////////////////////////////////////////////
 //
-//    Copyright (C) Thomas Kock, Delmenhorst, 2009
+//    Copyright (C) Thomas Kock, Delmenhorst, 2008, 2009
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -60,35 +60,73 @@ function Graphviz($Filename, $GraphData) {
         if (file_exists($PNGFile)) unlink($PNGFile);
         if (file_exists($MAPFile)) unlink($MAPFile);
 
+
+        // Determine the Platform
+        // Three alternative platform mechanisms:
+        // 0: Unix / Linux
+        // 1: Windows - Apache
+        // 2: Windows - IIS
+        $platform = 0; // default to Unix.
+        if (substr(php_uname(), 0, 7) == "Windows") {
+            if (isset($_SERVER["SERVER_SOFTWARE"])) {
+                if (substr($_SERVER["SERVER_SOFTWARE"],0,6) == "Apache") {
+                    $platform = 1; // Windows - Apache
+                } else {
+                    $platform = 2; // Windows - IIS
+                }
+            } else { // we are in a commandline-environment on Windows.
+                $platform = 1; // default to Apache.
+            }
+        }
         // generate graphs
+        // create .png
         $exec = escapeshellarg($DotDir)." -Tpng -o ".escapeshellarg($PNGFile)." ".escapeshellarg($DOTFile);
         //$exec = escapeshellarg($DotDir)." -Tpng -o ".$PNGFile." ".$DOTFile;
-        if (substr(php_uname(), 0, 7) == "Windows") {
-            $obj = new COM("WScript.Shell") or die("Unable to init WScript.Shell for Png file");
-            //die("COMMAND: ".$exec);
-            $Res = $obj->Run("".$exec, 0, true);
-            if ($Res != 0)
-            die("Dot error - Png file");
-            $obj = null;
-        } else {
-            exec($exec);
-        }
-        $exec = escapeshellarg($DotDir)." -Tcmapx -o ".escapeshellarg($MAPFile)." ".escapeshellarg($DOTFile);
-        //$exec = escapeshellarg($DotDir)." -Tcmapx -o ".$MAPFile." ".$DOTFile;
-        if (substr(php_uname(), 0, 7) == "Windows") {
-            $obj = new COM("WScript.Shell") or die("Unable to init WScript.Shell for Map file");
-            $Res = $obj->Run("".$exec, 0, true);
-            if ($Res != 0)
-            die("Dot error - Map file");
-            $obj = null;
-        } else {
-            exec($exec);
+        switch ($platform) {
+            case 0: // unix
+                exec($exec);
+                break;
+            case 1: // Windows - Apache
+                $obj = new COM("WScript.Shell") or die("Unable to init WScript.Shell for Png file");
+                $Res = $obj->Run("".$exec, 0, true);
+                $obj = null;
+                break;
+            case 2: // Windows - IIS
+                $obj = new COM("WScript.Shell") or die("Unable to init WScript.Shell for Png file");
+                $Res = $obj->Exec("".$exec);
+                $obj = null;
+                break;
         }
 
+        // create .map
+        $exec = escapeshellarg($DotDir)." -Tcmapx -o ".escapeshellarg($MAPFile)." ".escapeshellarg($DOTFile);
+        //$exec = escapeshellarg($DotDir)." -Tcmapx -o ".$MAPFile." ".$DOTFile;
+        switch ($platform) {
+            case 0: // unix
+                exec($exec);
+                break;
+            case 1: // Windows - Apache
+                $obj = new COM("WScript.Shell") or die("Unable to init WScript.Shell for Png file");
+                $Res = $obj->Run("".$exec, 0, true);
+                $obj = null;
+                break;
+            case 2: // Windows - IIS
+                $obj = new COM("WScript.Shell") or die("Unable to init WScript.Shell for Png file");
+                $Res = $obj->Exec("".$exec);
+                $obj = null;
+                // On Windows, PHP sometimes does not immediately recognize that the file is there.
+                // http://de.php.net/manual/en/function.file-exists.php#56121
+                $start = gettimeofday();
+                while (!file_exists($MAPFile)) {
+                    $stop = gettimeofday();
+                    if ( 1000000 * ($stop['sec'] - $start['sec']) + $stop['usec'] - $start['usec'] > 500000) break;  // wait a moment
+                }
+                break;
+        }
     }
 
     if (!file_exists($MAPFile)) {
-        return "MAP file doesn't exists !!!";
+        return "MAP file doesn't exist !!!";
     }
 
     // results...
