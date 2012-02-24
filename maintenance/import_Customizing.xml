@@ -1,0 +1,202 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.3/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.3/ http://www.mediawiki.org/xml/export-0.3.xsd" version="0.3" xml:lang="en">
+  <siteinfo>
+    <sitename>Wiki</sitename>
+    <base>http://localhost/wiki/index.php/Main_Page</base>
+    <generator>MediaWiki 1.13.0</generator>
+    <case>first-letter</case>
+      <namespaces>
+      <namespace key="-2">Media</namespace>
+      <namespace key="-1">Special</namespace>
+      <namespace key="0" />
+      <namespace key="1">Talk</namespace>
+      <namespace key="2">User</namespace>
+      <namespace key="3">User talk</namespace>
+      <namespace key="4">Wiki</namespace>
+      <namespace key="5">Wiki talk</namespace>
+      <namespace key="6">Image</namespace>
+      <namespace key="7">Image talk</namespace>
+      <namespace key="8">MediaWiki</namespace>
+      <namespace key="9">MediaWiki talk</namespace>
+      <namespace key="10">Template</namespace>
+      <namespace key="11">Template talk</namespace>
+      <namespace key="12">Help</namespace>
+      <namespace key="13">Help talk</namespace>
+      <namespace key="14">Category</namespace>
+      <namespace key="15">Category talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Customizing:Configure Chart</title>
+    <id>70</id>
+    <revision>
+      <id>198</id>
+      <timestamp>2008-08-30T11:19:21Z</timestamp>
+      <contributor>
+        <username>Demo</username>
+        <id>2</id>
+      </contributor>
+      <text xml:space="preserve">=== Configure the ModelType / Graphics ===
+== Important Info==
+This page is for customizing purposes only.
+
+&lt;b&gt;Do not edit unless you know what you are doing.&lt;/b&gt;
+
+See [[Customizing:Configure_Chart_Documentation]] for Details on how to configure and edit.
+
+== Configuration ==
+*Sample_Configure_ChartType
+**PageType Shape Color_of_Shape [Color_of_Font Defaults to Black]
+**PageType Shape Color_of_Shape Color_of_Font
+
+
+*Configure_Draw
+**Rect_Blue   box            blue
+**Rect_Yellow rect           yellow
+**Rect_Red    rect           firebrick2
+**Rect_Green  rect           forestgreen
+**Elli_Blue   ellipse        blue
+
+*Configure_ValueStream
+**Rect_Red    polygon        cyan3
+
+*Configure_ShapeTest
+**Box         box            blue
+**Polygon     polygon        blue
+**Ellipse     ellipse        blue
+**Circle      circle         blue
+**Point       point          blue
+**Egg         egg            blue
+**Triangle    triangle       blue
+**Plaintext   plaintext      blue
+**Diamond     diamond        blue
+**Trapezium   trapezium      blue
+**Parallelogram parallelogram blue
+**House         house         blue
+**Pentagon      pentagon      blue
+**Hexagon       hexagon       blue
+**Septagon      septagon      blue
+**Octagon       octagon       blue
+**Doublecircle  doublecircle  blue
+**Doubleoctagon doubleoctagon blue
+**Tripleoctagon tripleoctagon blue
+**Invtriangle   invtriangle   blue
+**Invtrapezium  invtrapezium  blue
+**Invhouse      invhouse      blue
+**Mdiamond      mdiamond      blue
+**Msquare       msquare       blue
+**Mcircle       mcircle       blue
+**Rect          rect          blue
+**Rectangle     rectangle     blue
+**None          none          blue
+**Note          note          blue
+**Tab           tab           blue
+**Folder        folder        blue
+**Box3d         box3d         blue
+**Component     component     blue</text>
+    </revision>
+  </page>
+  <page>
+    <title>Customizing:Configure Chart Documentation</title>
+    <id>71</id>
+    <revision>
+      <id>138</id>
+      <timestamp>2008-08-09T14:06:16Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <comment>/* Configure the ModelType / Graphics */</comment>
+      <text xml:space="preserve">=== Configure the ModelType / Graphics ===
+Documentation for [[Customizing:Configure_Chart]]
+
+The Graphics of the process is configured by making changes to the page [[Customizing:Configure_Chart]].
+
+== Sample Page ==
+Sample &lt;code&gt;Configure_Chart&lt;/code&gt; Page:
+  Some Text with Warning why this page should not be edited.
+  == Configuration ==
+  *Sample_Configure_ChartType
+  **PageType Shape Color_of_Shape [Color_of_Font Defaults to Black]
+  **PageType Shape Color_of_Shape Color_of_Font
+
+The Configure_Chart Page is divided into two Section.
+* The &quot;Warning&quot; Section
+* The &quot;Configuration&quot; Section.
+
+== The Warning Section ==
+The Warning Section is the initial Text in the page and is not parsed. 
+It ends at &lt;code&gt;== Configuration ==&lt;/code&gt;
+
+== The Configuration Section ==
+The Configuration Section starts with &lt;code&gt;== Configuration ==&lt;/code&gt;
+It contains the definition for one or more chart types.
+
+The definition of a configuration is:
+  *Configure_&lt;ChartType_1&gt;
+  **&lt;PageType&gt; &lt;Shape&gt; &lt;Color_of_Shape&gt; [&lt;Color_of_Font&gt;, Defaults to Black]
+  *Configure_&lt;ChartType_2&gt;
+  **&lt;PageType&gt; &lt;Shape&gt; &lt;Color_of_Shape&gt; [&lt;Color_of_Font&gt; Defaults to Black]
+
+Sample:
+  *Configure_EPK
+  **Event      hexagon        azure3
+  **Decision   diamond        azure3
+  **Function   parallelogram  azure3
+  **DataSource rect           khaki1
+  **Person     box            chartreuse1
+  **Department ellipse        chartreuse1
+  **Product    rect           yellow
+
+* First line: &lt;code&gt;*Configure_&lt;ChartType&gt;&lt;/code&gt;
+** Only Groups starting with &lt;code&gt;*Configure&lt;/code&gt; are parsed. If you want to disable a configuration, renaming it to something different (like &lt;code&gt;Disabled_Configure&lt;/code&gt; will disable this configuration block.
+** &lt;code&gt;ChartType&lt;/code&gt; defines the Type of the Chart e.g. &quot;EPK&quot; or &quot;Flat&quot;. This is the type of the Diagram that is being used.
+* Definition of PageTypes on the next lines:
+** &lt;code&gt;PageType&lt;/code&gt; defines the Pagetypes being used in this Diagram, for Example &quot;Person&quot;, &quot;Function&quot;, &quot;Event&quot;, &quot;Decision&quot; etc.
+** &lt;code&gt;Shape&lt;/code&gt; defines the Shape that is being used. The Definition of the shape is taken from the GraphViz Documentation at [[http://www.graphviz.org/doc/info/shapes.html]]. Please be aware that not all shapes are supported/working.
+** &lt;code&gt;Color_of_Shape&lt;/code&gt; defines the color that is used to render the shape. The name of the colors and a color table can be seen at [[http://graphviz.org/doc/info/colors.html]]
+** &lt;code&gt;Color_of_Font&lt;/code&gt; defines that color of the font that is used for writing the name of the process-step into the shape. If not given, it defaults to black. The same table of colors applies as before.
+
+== Examples ==
+Active configuration Block:
+  *Configure_EPK
+  **Event      hexagon        azure3
+  **Decision   diamond        azure3
+  **Function   parallelogram  azure3
+  **DataSource rect           khaki1
+  **Person     box            chartreuse1
+  **Department ellipse        chartreuse1
+  **Product    rect           yellow
+Disabled Configuration Block:
+  *Disabled_Configure_EPK
+  **Event      hexagon        azure3
+  **Decision   diamond        azure3
+  **Function   parallelogram  azure3
+  **DataSource rect           khaki1
+  **Person     box            chartreuse1
+  **Department ellipse        chartreuse1
+  **Product    rect           yellow</text>
+    </revision>
+  </page>
+  <page>
+    <title>Customizing:Configure EPK</title>
+    <id>69</id>
+    <revision>
+      <id>136</id>
+      <timestamp>2008-08-08T11:58:25Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <comment>New page: == Configuration == *Configure_EPK **Event      hexagon        azure3 **Decision   diamond        azure3 **Function   parallelogram  azure3 **DataSource rect           khaki1 **Person     ...</comment>
+      <text xml:space="preserve">== Configuration ==
+*Configure_EPK
+**Event      hexagon        azure3
+**Decision   diamond        azure3
+**Function   parallelogram  azure3
+**DataSource rect           khaki1
+**Person     box            chartreuse1
+**Department ellipse        chartreuse1
+**Product    rect           yellow</text>
+    </revision>
+  </page>
+</mediawiki>
