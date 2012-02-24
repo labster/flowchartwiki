@@ -3,8 +3,8 @@ require_once ( getenv('MW_INSTALL_PATH') !== false
     ? getenv('MW_INSTALL_PATH')."/maintenance/commandLine.inc"
     : dirname( __FILE__ ) . '/../../../maintenance/commandLine.inc' );
 require_once("$IP/maintenance/counter.php");
-require_once("./extensions/fchw/lib.php");
-require_once("./extensions/fchw/linktypes.php");
+require_once("./extensions/flowchartwiki/lib.php");
+require_once("./extensions/flowchartwiki/linktypes.php");
 
 global $wgParser, $wgServer;
 

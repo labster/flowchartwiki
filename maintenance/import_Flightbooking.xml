@@ -1,8 +1,8 @@
 <mediawiki xmlns="http://www.mediawiki.org/xml/export-0.3/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.3/ http://www.mediawiki.org/xml/export-0.3.xsd" version="0.3" xml:lang="en">
   <siteinfo>
-    <sitename>Wiki</sitename>
+    <sitename>Flowchartwiki</sitename>
     <base>http://localhost/wiki/index.php/Main_Page</base>
-    <generator>MediaWiki 1.13.0</generator>
+    <generator>MediaWiki 1.13.1</generator>
     <case>first-letter</case>
       <namespaces>
       <namespace key="-2">Media</namespace>
@@ -11,8 +11,8 @@
       <namespace key="1">Talk</namespace>
       <namespace key="2">User</namespace>
       <namespace key="3">User talk</namespace>
-      <namespace key="4">Wiki</namespace>
-      <namespace key="5">Wiki talk</namespace>
+      <namespace key="4">Flowchartwiki</namespace>
+      <namespace key="5">Flowchartwiki talk</namespace>
       <namespace key="6">Image</namespace>
       <namespace key="7">Image talk</namespace>
       <namespace key="8">MediaWiki</namespace>
@@ -27,36 +27,44 @@
   </siteinfo>
   <page>
     <title>Category:Flightbooking</title>
-    <id>25</id>
+    <id>6</id>
     <revision>
-      <id>159</id>
-      <timestamp>2008-08-22T12:44:10Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <text xml:space="preserve">&lt;CategoryBrowser2 /&gt;
-      
-configure the type of the graphics
-  '[ModelType::EPK]
-  '[ModelType::Flat]
-
-[[ModelType::EPK]]
-</text>
-    </revision>
-  </page>
-  <page>
-    <title>ReceiveBookingRequest</title>
-    <id>2</id>
-    <revision>
-      <id>3</id>
-      <timestamp>2008-08-16T07:59:57Z</timestamp>
+      <id>257</id>
+      <timestamp>2008-09-13T13:36:43Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
       <minor/>
-      <comment>1 revision</comment>
+      <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
+
+configure the type of the graphics
+  '[ModelType::EPK]
+  '[ModelType::Flat]
+
+[[ModelType::EPK]]
+
+For the Customizing of this Process see [[:Customizing:Configure_EPK]]
+
+== Make this a Sub-Process of ProcessList ==
+[[Type::Process]]
+[[Category:ProcessList]]
+[[Type::Rect_Yellow]]
+[[Level::1000]]
+[[:NextStep::Category:ValueStream]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>ReceiveBookingRequest</title>
+    <id>7</id>
+    <revision>
+      <id>247</id>
+      <timestamp>2008-09-13T13:19:31Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
       <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
 
 * [[NextStep::CheckBookingRequest]]
@@ -65,23 +73,50 @@ configure the type of the graphics
 
 
 [[Type::Event]]
-[[Level::100]]
+[[Level::1000]]
 
 [[Category:Flightbooking]]</text>
     </revision>
   </page>
   <page>
-    <title>BookingRequestChecked</title>
-    <id>4</id>
+    <title>CheckBookingRequest</title>
+    <id>8</id>
     <revision>
-      <id>7</id>
-      <timestamp>2008-08-16T07:59:57Z</timestamp>
+      <id>242</id>
+      <timestamp>2008-09-13T13:15:44Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
       <minor/>
-      <comment>1 revision</comment>
+      <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
+
+* [[NextStep::BookingRequestChecked]]
+* [[PerformedBy::MrsKrueger]]
+* [[DataSource::FlightData]]
+* [[Product::BookingForm]]
+* [[Product::BookingRequest]]
+
+&lt;Dependencies /&gt;
+
+[[Type::Function]]
+[[Level::1020]]
+[[Category:Flightbooking]]&lt;br /&gt;
+
+jetzt kann ich hier meine Prozeß- und _Detail-Doku hinterlegen.</text>
+    </revision>
+  </page>
+  <page>
+    <title>BookingRequestChecked</title>
+    <id>9</id>
+    <revision>
+      <id>240</id>
+      <timestamp>2008-09-13T13:13:10Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
       <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
 
 * [[NextStep::DecisionPoint]]
@@ -89,22 +124,21 @@ configure the type of the graphics
 &lt;Dependencies /&gt;
 
 [[Type::Event]]
-[[Level::102]]
+[[Level::1030]]
 [[Category:Flightbooking]]</text>
     </revision>
   </page>
   <page>
     <title>DecisionPoint</title>
-    <id>5</id>
+    <id>10</id>
     <revision>
-      <id>9</id>
-      <timestamp>2008-08-16T07:59:58Z</timestamp>
+      <id>239</id>
+      <timestamp>2008-09-13T13:12:19Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
       <minor/>
-      <comment>1 revision</comment>
       <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
 
 * [[NextStep::PerformFlightbooking]]
@@ -113,114 +147,21 @@ configure the type of the graphics
 &lt;Dependencies /&gt;
 
 [[Type::Decision]]
-[[Level::103]]
-[[Category:Flightbooking]]</text>
-    </revision>
-  </page>
-  <page>
-    <title>FlightbookingCreated</title>
-    <id>9</id>
-    <revision>
-      <id>17</id>
-      <timestamp>2008-08-16T07:59:59Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
-
-&lt;Dependencies /&gt;
-
-[[Type::Event]]
-[[Level::105]]
-[[Category:Flightbooking]]</text>
-    </revision>
-  </page>
-  <page>
-    <title>MrsKrueger</title>
-    <id>10</id>
-    <revision>
-      <id>19</id>
-      <timestamp>2008-08-16T07:59:59Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">== Mrs Krueger ==
-
-* [[Department::CallCenter]]
-
-&lt;Dependencies /&gt;
-
-[[Type::Person]]
-[[Level::101]]
-[[Category:Flightbooking]]&lt;br /&gt;</text>
-    </revision>
-  </page>
-  <page>
-    <title>CallCenter</title>
-    <id>11</id>
-    <revision>
-      <id>21</id>
-      <timestamp>2008-08-16T07:59:59Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">== CallCenter ==
-
-* [[Employee::MrsKrueger]]
-
-&lt;Dependencies /&gt;
-
-[[Type::Department]]
-[[Level::101]]
-[[Category:Flightbooking]]&lt;br /&gt;</text>
-    </revision>
-  </page>
-  <page>
-    <title>OfferAlternativeFlight</title>
-    <id>7</id>
-    <revision>
-      <id>13</id>
-      <timestamp>2008-08-16T07:59:58Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
-
-* [[NextStep::AlternativeFlightOffered]]
-* [[PerformedBy::MrRuppert]]
-* [[DataSource::CustomerData]]
-
-&lt;Dependencies /&gt;
-
-[[Type::Function]]
-[[Level::104]]
+[[Level::1040]]
 [[Category:Flightbooking]]</text>
     </revision>
   </page>
   <page>
     <title>PerformFlightbooking</title>
-    <id>6</id>
+    <id>11</id>
     <revision>
-      <id>11</id>
-      <timestamp>2008-08-16T07:59:58Z</timestamp>
+      <id>238</id>
+      <timestamp>2008-09-13T13:11:28Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
       <minor/>
-      <comment>1 revision</comment>
       <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
 
 * [[NextStep::FlightbookingCreated]]
@@ -232,113 +173,198 @@ configure the type of the graphics
 &lt;Dependencies /&gt;
 
 [[Type::Function]]
-[[Level::104]]
+[[Level::1050]]
+[[Category:Flightbooking]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>OfferAlternativeFlight</title>
+    <id>12</id>
+    <revision>
+      <id>236</id>
+      <timestamp>2008-09-13T13:08:14Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
+
+* [[NextStep::AlternativeFlightOffered]]
+* [[PerformedBy::MrRuppert]]
+* [[DataSource::CustomerData]]
+
+&lt;Dependencies /&gt;
+
+[[Type::Function]]
+[[Level::1050]]
 [[Category:Flightbooking]]</text>
     </revision>
   </page>
   <page>
     <title>AlternativeFlightOffered</title>
-    <id>8</id>
+    <id>13</id>
     <revision>
-      <id>15</id>
-      <timestamp>2008-08-16T07:59:58Z</timestamp>
+      <id>232</id>
+      <timestamp>2008-09-13T13:03:53Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
       <minor/>
-      <comment>1 revision</comment>
       <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
 
 &lt;Dependencies /&gt;
 
 [[Type::Event]]
-[[Level::105]]
+[[Level::1060]]
 [[Category:Flightbooking]]</text>
     </revision>
   </page>
   <page>
-    <title>FlightData</title>
-    <id>12</id>
+    <title>FlightbookingCreated</title>
+    <id>14</id>
     <revision>
-      <id>23</id>
-      <timestamp>2008-08-16T07:59:59Z</timestamp>
+      <id>231</id>
+      <timestamp>2008-09-13T13:02:49Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
+
+&lt;Dependencies /&gt;
+
+[[Type::Event]]
+[[Level::1060]]
+[[Category:Flightbooking]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>MrsKrueger</title>
+    <id>15</id>
+    <revision>
+      <id>244</id>
+      <timestamp>2008-09-13T13:16:44Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
       <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">== FlightData ==
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+== Mrs Krueger ==
 
-* [[UsedBy::CheckBookingRequest]]
+* [[Department::CallCenter]]
+
+&lt;Dependencies /&gt;
+
+[[Type::Person]]
+[[Level::1020]]
+[[Category:Flightbooking]]&lt;br /&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>CallCenter</title>
+    <id>16</id>
+    <revision>
+      <id>245</id>
+      <timestamp>2008-09-13T13:17:17Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+
+== CallCenter ==
+
+* [[Employee::MrsKrueger]]
+
+&lt;Dependencies /&gt;
+
+[[Type::Department]]
+[[Level::1020]]
+[[Category:Flightbooking]]&lt;br /&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>FlightData</title>
+    <id>17</id>
+    <revision>
+      <id>251</id>
+      <timestamp>2008-09-13T13:25:19Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+== FlightData ==
+
 
 &lt;Dependencies /&gt;
 
 [[Type::DataSource]]
-[[Level::101]]
+[[Level::1020]]
 [[Category:Flightbooking]]&lt;br /&gt;</text>
     </revision>
   </page>
   <page>
     <title>CustomerData</title>
-    <id>13</id>
+    <id>18</id>
     <revision>
-      <id>25</id>
-      <timestamp>2008-08-16T07:59:59Z</timestamp>
+      <id>249</id>
+      <timestamp>2008-09-13T13:23:09Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
       <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">== Customer Data ==
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+== Customer Data ==
 
-* [[UsedBy::PerformFlightbooking]]
 
 &lt;Dependencies /&gt;
 
 [[Type::DataSource]]
-[[Level::104]]
+[[Level::1050]]
 [[Category:Flightbooking]]</text>
     </revision>
   </page>
   <page>
     <title>MrsWalker</title>
-    <id>14</id>
+    <id>19</id>
     <revision>
-      <id>27</id>
-      <timestamp>2008-08-16T07:59:59Z</timestamp>
+      <id>234</id>
+      <timestamp>2008-09-13T13:05:58Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
       <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">== Mrs Walker ==
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+== Mrs Walker ==
 
 * [[Department::FlightDispo]]
 
 &lt;Dependencies /&gt;
 
 [[Type::Person]]
-[[Level::104]]
+[[Level::1050]]
 [[Category:Flightbooking]]</text>
     </revision>
   </page>
   <page>
     <title>FlightDispo</title>
-    <id>15</id>
+    <id>20</id>
     <revision>
-      <id>29</id>
-      <timestamp>2008-08-16T07:59:59Z</timestamp>
+      <id>261</id>
+      <timestamp>2008-09-13T15:15:02Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">== FlightDispo ==
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+== FlightDispo ==
 
 * [[Employee::MrsWalker]]
 * [[Employee::MrRuppert]]
@@ -346,45 +372,44 @@ configure the type of the graphics
 &lt;Dependencies /&gt;
 
 [[Type::Department]]
-[[Level::104]]
+[[Level::1050]]
 [[Category:Flightbooking]]</text>
     </revision>
   </page>
   <page>
     <title>MrRuppert</title>
-    <id>16</id>
+    <id>21</id>
     <revision>
-      <id>31</id>
-      <timestamp>2008-08-16T08:00:00Z</timestamp>
+      <id>235</id>
+      <timestamp>2008-09-13T13:07:23Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
       <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">== Mr Ruppert ==
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+== Mr Ruppert ==
 
 * [[Department::FlightDispo]]
 
 &lt;Dependencies /&gt;
 
 [[Type::Person]]
-[[Level::104]]
+[[Level::1050]]
 [[Category:Flightbooking]]</text>
     </revision>
   </page>
   <page>
     <title>BookingForm</title>
-    <id>17</id>
+    <id>22</id>
     <revision>
-      <id>33</id>
-      <timestamp>2008-08-16T08:00:00Z</timestamp>
+      <id>248</id>
+      <timestamp>2008-09-13T13:20:37Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
       <minor/>
-      <comment>1 revision</comment>
       <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
 
 == BookingForm ==
@@ -394,37 +419,44 @@ configure the type of the graphics
 &lt;Dependencies /&gt;
 
 [[Type::Product]]
-[[Level::100]]
+[[Level::1000]]
 [[Category:Flightbooking]]&lt;br /&gt;</text>
     </revision>
   </page>
   <page>
-    <title>Property:Type</title>
-    <id>18</id>
+    <title>BookingRequest</title>
+    <id>24</id>
     <revision>
-      <id>35</id>
-      <timestamp>2008-08-16T08:00:00Z</timestamp>
+      <id>253</id>
+      <timestamp>2008-09-13T13:27:36Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">[[Category:Flightbooking]]</text>
+      <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
+
+== BookingRequest ==
+
+[[UsedBy::CheckBookingRequest]]
+[[UsedBy::PerformFlightbooking]]
+&lt;Dependencies /&gt;
+
+[[Type::Product]]
+[[Level::1030]]
+[[Category:Flightbooking]]</text>
     </revision>
   </page>
   <page>
     <title>FlightTicket</title>
-    <id>20</id>
+    <id>25</id>
     <revision>
-      <id>39</id>
-      <timestamp>2008-08-16T08:00:00Z</timestamp>
+      <id>230</id>
+      <timestamp>2008-09-13T13:01:50Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
       <minor/>
-      <comment>1 revision</comment>
       <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
 
 == BookingForm ==
@@ -434,94 +466,7 @@ configure the type of the graphics
 &lt;Dependencies /&gt;
 
 [[Type::Product]]
-[[Level::105]]
-[[Category:Flightbooking]]</text>
-    </revision>
-  </page>
-  <page>
-    <title>BookingRequestTest</title>
-    <id>21</id>
-    <revision>
-      <id>41</id>
-      <timestamp>2008-08-16T08:00:00Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
-
-* [[PerformedBy::MrsKrueger]]
-
-&lt;Dependencies /&gt;
-
-[[Type::Function]]
-[[Level::102]]
-[[Category:Flightbooking]]&lt;br /&gt;
-neuer Schritt
-
-
-=== Beschreibung ===
-Hier kommt die Beschreibung hin.
-
-=== Qualitätsmerkmale ===
-
-=== Voraussetzungen ===</text>
-    </revision>
-  </page>
-  <page>
-    <title>CheckBookingRequest</title>
-    <id>3</id>
-    <revision>
-      <id>5</id>
-      <timestamp>2008-08-16T07:59:57Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
-
-* [[NextStep::BookingRequestChecked]]
-* [[NextStep::BookingRequestTest]]
-* [[PerformedBy::MrsKrueger]]
-* [[DataSource::FlightData]]
-* [[Product::BookingForm]]
-* [[Product::BookingRequest]]
-
-&lt;Dependencies /&gt;
-
-[[Type::Function]]
-[[Level::101]]
-[[Category:Flightbooking]]&lt;br /&gt;
-
-jetzt kann ich hier meine Prozeß- und _Detail-Doku hinterlegen.</text>
-    </revision>
-  </page>
-  <page>
-    <title>BookingRequest</title>
-    <id>19</id>
-    <revision>
-      <id>37</id>
-      <timestamp>2008-08-16T08:00:00Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;Flightbooking&lt;/CategoryBrowser&gt;
-
-== BookingRequest ==
-
-[[UsedBy::CheckBookingRequest]]
-
-&lt;Dependencies /&gt;
-
-[[Type::Product]]
-[[Level::102]]
+[[Level::1060]]
 [[Category:Flightbooking]]</text>
     </revision>
   </page>

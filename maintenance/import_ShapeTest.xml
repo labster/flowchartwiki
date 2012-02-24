@@ -1,8 +1,8 @@
 <mediawiki xmlns="http://www.mediawiki.org/xml/export-0.3/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.3/ http://www.mediawiki.org/xml/export-0.3.xsd" version="0.3" xml:lang="en">
   <siteinfo>
-    <sitename>Wiki</sitename>
+    <sitename>Flowchartwiki</sitename>
     <base>http://localhost/wiki/index.php/Main_Page</base>
-    <generator>MediaWiki 1.13.0</generator>
+    <generator>MediaWiki 1.13.1</generator>
     <case>first-letter</case>
       <namespaces>
       <namespace key="-2">Media</namespace>
@@ -11,8 +11,8 @@
       <namespace key="1">Talk</namespace>
       <namespace key="2">User</namespace>
       <namespace key="3">User talk</namespace>
-      <namespace key="4">Wiki</namespace>
-      <namespace key="5">Wiki talk</namespace>
+      <namespace key="4">Flowchartwiki</namespace>
+      <namespace key="5">Flowchartwiki talk</namespace>
       <namespace key="6">Image</namespace>
       <namespace key="7">Image talk</namespace>
       <namespace key="8">MediaWiki</namespace>
@@ -27,20 +27,19 @@
   </siteinfo>
   <page>
     <title>Category:ShapeTest</title>
-    <id>26</id>
+    <id>39</id>
     <revision>
-      <id>146</id>
-      <timestamp>2008-08-16T13:43:58Z</timestamp>
+      <id>255</id>
+      <timestamp>2008-09-13T13:32:18Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <text xml:space="preserve">
-{| border=&quot;0&quot;	
-| &lt;CategoryBrowser&gt;ProcessList&lt;/CategoryBrowser&gt; || &lt;CategoryBrowser2 /&gt;
-|}
+      <text xml:space="preserve">&lt;CategoryBrowser2 /&gt;
 
 [[ModelType::ShapeTest]]
+
+For the Customizing of this Layout see [[:Customizing:Configure_ShapeTest]]
 
 == Make it Sub-Process of ProcessList ==
 [[Type::Process]]
@@ -50,18 +49,62 @@
     </revision>
   </page>
   <page>
-    <title>Polygon</title>
-    <id>35</id>
+    <title>Category:GettingStarted</title>
+    <id>27</id>
     <revision>
-      <id>69</id>
-      <timestamp>2008-08-16T08:11:45Z</timestamp>
+      <id>49</id>
+      <timestamp>2008-09-12T11:33:12Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
       <minor/>
       <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser2 /&gt;
+
+[[ModelType::Draw]]
+[[Type::Process]]
+
+== Make it Sub-Process of ProcessList ==
+[[Type::Process]]
+[[Category:ProcessList]]
+[[Type::Rect_Red]]
+[[Level::1020]]
+[[NextStep::Category:ShapeTest]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Box</title>
+    <id>40</id>
+    <revision>
+      <id>164</id>
+      <timestamp>2008-09-12T12:45:39Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+
+* [[NextStep::Polygon]]
+* [[NextStep::Point]]
+&lt;Dependencies /&gt;
+
+[[Type::Box]]
+[[Level::1000]]
+[[Category:ShapeTest]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Polygon</title>
+    <id>41</id>
+    <revision>
+      <id>165</id>
+      <timestamp>2008-09-12T12:46:16Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Ellipse]]
 
@@ -74,17 +117,15 @@
   </page>
   <page>
     <title>Ellipse</title>
-    <id>36</id>
+    <id>42</id>
     <revision>
-      <id>71</id>
-      <timestamp>2008-08-16T08:11:45Z</timestamp>
+      <id>166</id>
+      <timestamp>2008-09-12T12:46:49Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Circle]]
 
@@ -97,10 +138,10 @@
   </page>
   <page>
     <title>Circle</title>
-    <id>37</id>
+    <id>43</id>
     <revision>
-      <id>73</id>
-      <timestamp>2008-08-16T08:11:46Z</timestamp>
+      <id>81</id>
+      <timestamp>2008-09-12T11:35:49Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
@@ -118,19 +159,15 @@
   </page>
   <page>
     <title>Component</title>
-    <id>38</id>
+    <id>44</id>
     <revision>
-      <id>75</id>
-      <timestamp>2008-08-16T08:11:46Z</timestamp>
+      <id>195</id>
+      <timestamp>2008-09-12T13:03:14Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 &lt;Dependencies /&gt;
 
@@ -140,41 +177,16 @@
     </revision>
   </page>
   <page>
-    <title>Box3d</title>
-    <id>40</id>
-    <revision>
-      <id>79</id>
-      <timestamp>2008-08-16T08:11:46Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-
-
-&lt;Dependencies /&gt;
-
-[[Type::Box3d]]
-[[Level::1070]]
-[[Category:ShapeTest]]</text>
-    </revision>
-  </page>
-  <page>
     <title>Egg</title>
-    <id>39</id>
+    <id>45</id>
     <revision>
-      <id>77</id>
-      <timestamp>2008-08-16T08:11:46Z</timestamp>
+      <id>168</id>
+      <timestamp>2008-09-12T12:48:36Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Triangle]]
 
@@ -186,18 +198,35 @@
     </revision>
   </page>
   <page>
-    <title>Triangle</title>
-    <id>41</id>
+    <title>Box3d</title>
+    <id>46</id>
     <revision>
-      <id>81</id>
-      <timestamp>2008-08-16T08:11:46Z</timestamp>
+      <id>194</id>
+      <timestamp>2008-09-12T13:02:45Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+
+&lt;Dependencies /&gt;
+
+[[Type::Box3d]]
+[[Level::1070]]
+[[Category:ShapeTest]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Triangle</title>
+    <id>47</id>
+    <revision>
+      <id>169</id>
+      <timestamp>2008-09-12T12:49:06Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Plaintext]]
 
@@ -210,19 +239,15 @@
   </page>
   <page>
     <title>Plaintext</title>
-    <id>42</id>
+    <id>48</id>
     <revision>
-      <id>83</id>
-      <timestamp>2008-08-16T08:11:47Z</timestamp>
+      <id>170</id>
+      <timestamp>2008-09-12T12:49:55Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 &lt;Dependencies /&gt;
 
@@ -232,18 +257,37 @@
     </revision>
   </page>
   <page>
-    <title>Trapezium</title>
-    <id>44</id>
+    <title>Diamond</title>
+    <id>49</id>
     <revision>
-      <id>87</id>
-      <timestamp>2008-08-16T08:11:47Z</timestamp>
+      <id>171</id>
+      <timestamp>2008-09-12T12:50:24Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+
+* [[NextStep::Trapezium]]
+* [[NextStep::Pentagon]]
+&lt;Dependencies /&gt;
+
+[[Type::Diamond]]
+[[Level::1020]]
+[[Category:ShapeTest]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Trapezium</title>
+    <id>50</id>
+    <revision>
+      <id>172</id>
+      <timestamp>2008-09-12T12:50:52Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Parallelogram]]
 
@@ -256,17 +300,15 @@
   </page>
   <page>
     <title>Parallelogram</title>
-    <id>45</id>
+    <id>51</id>
     <revision>
-      <id>89</id>
-      <timestamp>2008-08-16T08:11:47Z</timestamp>
+      <id>173</id>
+      <timestamp>2008-09-12T12:51:22Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::House]]
 
@@ -279,19 +321,15 @@
   </page>
   <page>
     <title>House</title>
-    <id>46</id>
+    <id>52</id>
     <revision>
-      <id>91</id>
-      <timestamp>2008-08-16T08:11:48Z</timestamp>
+      <id>174</id>
+      <timestamp>2008-09-12T12:51:50Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 &lt;Dependencies /&gt;
 
@@ -302,17 +340,15 @@
   </page>
   <page>
     <title>Folder</title>
-    <id>47</id>
+    <id>53</id>
     <revision>
-      <id>93</id>
-      <timestamp>2008-08-16T08:11:48Z</timestamp>
+      <id>193</id>
+      <timestamp>2008-09-12T13:02:14Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Box3d]]
 
@@ -325,17 +361,15 @@
   </page>
   <page>
     <title>Tab</title>
-    <id>48</id>
+    <id>54</id>
     <revision>
-      <id>95</id>
-      <timestamp>2008-08-16T08:11:48Z</timestamp>
+      <id>192</id>
+      <timestamp>2008-09-12T13:01:44Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Folder]]
 
@@ -348,17 +382,15 @@
   </page>
   <page>
     <title>Note</title>
-    <id>49</id>
+    <id>55</id>
     <revision>
-      <id>97</id>
-      <timestamp>2008-08-16T08:11:48Z</timestamp>
+      <id>191</id>
+      <timestamp>2008-09-12T13:01:10Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Tab]]
 * [[NextStep::Component]]
@@ -372,19 +404,15 @@
   </page>
   <page>
     <title>None</title>
-    <id>50</id>
+    <id>56</id>
     <revision>
-      <id>99</id>
-      <timestamp>2008-08-16T08:11:49Z</timestamp>
+      <id>190</id>
+      <timestamp>2008-09-12T13:00:20Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 &lt;Dependencies /&gt;
 
@@ -394,179 +422,16 @@
     </revision>
   </page>
   <page>
-    <title>Diamond</title>
-    <id>43</id>
-    <revision>
-      <id>85</id>
-      <timestamp>2008-08-16T08:11:47Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-* [[NextStep::Trapezium]]
-* [[NextStep::Pentagon]]
-&lt;Dependencies /&gt;
-
-[[Type::Diamond]]
-[[Level::1020]]
-[[Category:ShapeTest]]</text>
-    </revision>
-  </page>
-  <page>
-    <title>Hexagon</title>
-    <id>52</id>
-    <revision>
-      <id>103</id>
-      <timestamp>2008-08-16T08:11:49Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-* [[NextStep::Septagon]]
-
-&lt;Dependencies /&gt;
-
-[[Type::Hexagon]]
-[[Level::1030]]
-[[Category:ShapeTest]]</text>
-    </revision>
-  </page>
-  <page>
-    <title>Rectangle</title>
-    <id>54</id>
-    <revision>
-      <id>107</id>
-      <timestamp>2008-08-16T08:11:49Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-* [[NextStep::None]]
-
-&lt;Dependencies /&gt;
-
-[[Type::Rectangle]]
-[[Level::1060]]
-[[Category:ShapeTest]]</text>
-    </revision>
-  </page>
-  <page>
-    <title>Septagon</title>
-    <id>53</id>
-    <revision>
-      <id>105</id>
-      <timestamp>2008-08-16T08:11:49Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-* [[NextStep::Octagon]]
-
-&lt;Dependencies /&gt;
-
-[[Type::Septagon]]
-[[Level::1030]]
-[[Category:ShapeTest]]</text>
-    </revision>
-  </page>
-  <page>
-    <title>Octagon</title>
-    <id>55</id>
-    <revision>
-      <id>109</id>
-      <timestamp>2008-08-16T08:11:50Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-
-
-&lt;Dependencies /&gt;
-
-[[Type::Octagon]]
-[[Level::1030]]
-[[Category:ShapeTest]]</text>
-    </revision>
-  </page>
-  <page>
-    <title>Rect</title>
-    <id>56</id>
-    <revision>
-      <id>111</id>
-      <timestamp>2008-08-16T08:11:50Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-* [[NextStep::Rectangle]]
-
-&lt;Dependencies /&gt;
-
-[[Type::Rect]]
-[[Level::1060]]
-[[Category:ShapeTest]]</text>
-    </revision>
-  </page>
-  <page>
-    <title>Mcircle</title>
+    <title>Pentagon</title>
     <id>57</id>
     <revision>
-      <id>113</id>
-      <timestamp>2008-08-16T08:11:50Z</timestamp>
+      <id>175</id>
+      <timestamp>2008-09-12T12:52:38Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-* [[NextStep::Rect]]
-* [[NextStep::Note]]
-&lt;Dependencies /&gt;
-
-[[Type::Mcircle]]
-[[Level::1060]]
-[[Category:ShapeTest]]</text>
-    </revision>
-  </page>
-  <page>
-    <title>Pentagon</title>
-    <id>51</id>
-    <revision>
-      <id>101</id>
-      <timestamp>2008-08-16T08:11:49Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Hexagon]]
 * [[NextStep::Doublecircle]]
@@ -579,18 +444,161 @@
     </revision>
   </page>
   <page>
-    <title>Doubleoctagon</title>
-    <id>59</id>
+    <title>Hexagon</title>
+    <id>58</id>
     <revision>
-      <id>117</id>
-      <timestamp>2008-08-16T08:11:50Z</timestamp>
+      <id>176</id>
+      <timestamp>2008-09-12T12:53:07Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+
+* [[NextStep::Septagon]]
+
+&lt;Dependencies /&gt;
+
+[[Type::Hexagon]]
+[[Level::1030]]
+[[Category:ShapeTest]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Septagon</title>
+    <id>59</id>
+    <revision>
+      <id>177</id>
+      <timestamp>2008-09-12T12:53:36Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+
+* [[NextStep::Octagon]]
+
+&lt;Dependencies /&gt;
+
+[[Type::Septagon]]
+[[Level::1030]]
+[[Category:ShapeTest]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Rectangle</title>
+    <id>60</id>
+    <revision>
+      <id>189</id>
+      <timestamp>2008-09-12T12:59:50Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+
+* [[NextStep::None]]
+
+&lt;Dependencies /&gt;
+
+[[Type::Rectangle]]
+[[Level::1060]]
+[[Category:ShapeTest]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Octagon</title>
+    <id>61</id>
+    <revision>
+      <id>178</id>
+      <timestamp>2008-09-12T12:54:05Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+
+&lt;Dependencies /&gt;
+
+[[Type::Octagon]]
+[[Level::1030]]
+[[Category:ShapeTest]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Rect</title>
+    <id>62</id>
+    <revision>
+      <id>188</id>
+      <timestamp>2008-09-12T12:59:04Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+
+* [[NextStep::Rectangle]]
+
+&lt;Dependencies /&gt;
+
+[[Type::Rect]]
+[[Level::1060]]
+[[Category:ShapeTest]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Mcircle</title>
+    <id>63</id>
+    <revision>
+      <id>187</id>
+      <timestamp>2008-09-12T12:58:33Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+
+* [[NextStep::Rect]]
+* [[NextStep::Note]]
+&lt;Dependencies /&gt;
+
+[[Type::Mcircle]]
+[[Level::1060]]
+[[Category:ShapeTest]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Doublecircle</title>
+    <id>64</id>
+    <revision>
+      <id>179</id>
+      <timestamp>2008-09-12T12:54:36Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+
+* [[NextStep::Doubleoctagon]]
+* [[NextStep::Invtrapezium]]
+&lt;Dependencies /&gt;
+
+[[Type::Doublecircle]]
+[[Level::1040]]
+[[Category:ShapeTest]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Doubleoctagon</title>
+    <id>65</id>
+    <revision>
+      <id>180</id>
+      <timestamp>2008-09-12T12:55:04Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Tripleoctagon]]
 
@@ -603,17 +611,15 @@
   </page>
   <page>
     <title>Tripleoctagon</title>
-    <id>60</id>
+    <id>66</id>
     <revision>
-      <id>119</id>
-      <timestamp>2008-08-16T08:11:51Z</timestamp>
+      <id>181</id>
+      <timestamp>2008-09-12T12:55:35Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Invtriangle]]
 
@@ -626,19 +632,15 @@
   </page>
   <page>
     <title>Invtriangle</title>
-    <id>61</id>
+    <id>67</id>
     <revision>
-      <id>121</id>
-      <timestamp>2008-08-16T08:11:51Z</timestamp>
+      <id>182</id>
+      <timestamp>2008-09-12T12:56:06Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 &lt;Dependencies /&gt;
 
@@ -649,18 +651,15 @@
   </page>
   <page>
     <title>Msquare</title>
-    <id>62</id>
+    <id>68</id>
     <revision>
-      <id>123</id>
-      <timestamp>2008-08-16T08:11:51Z</timestamp>
+      <id>186</id>
+      <timestamp>2008-09-12T12:58:05Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 &lt;Dependencies /&gt;
 
@@ -670,64 +669,16 @@
     </revision>
   </page>
   <page>
-    <title>Doublecircle</title>
-    <id>58</id>
-    <revision>
-      <id>115</id>
-      <timestamp>2008-08-16T08:11:50Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-* [[NextStep::Doubleoctagon]]
-* [[NextStep::Invtrapezium]]
-&lt;Dependencies /&gt;
-
-[[Type::Doublecircle]]
-[[Level::1040]]
-[[Category:ShapeTest]]</text>
-    </revision>
-  </page>
-  <page>
-    <title>Mdiamond</title>
-    <id>64</id>
-    <revision>
-      <id>127</id>
-      <timestamp>2008-08-16T08:11:51Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-* [[NextStep::Msquare]]
-
-&lt;Dependencies /&gt;
-
-[[Type::Mdiamond]]
-[[Level::1050]]
-[[Category:ShapeTest]]</text>
-    </revision>
-  </page>
-  <page>
     <title>Invtrapezium</title>
-    <id>63</id>
+    <id>69</id>
     <revision>
-      <id>125</id>
-      <timestamp>2008-08-16T08:11:51Z</timestamp>
+      <id>183</id>
+      <timestamp>2008-09-12T12:56:36Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Invhouse]]
 * [[NextStep::Mcircle]]
@@ -739,18 +690,37 @@
     </revision>
   </page>
   <page>
-    <title>Invhouse</title>
-    <id>65</id>
+    <title>Mdiamond</title>
+    <id>70</id>
     <revision>
-      <id>129</id>
-      <timestamp>2008-08-16T08:11:52Z</timestamp>
+      <id>185</id>
+      <timestamp>2008-09-12T12:57:34Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
+
+* [[NextStep::Msquare]]
+
+&lt;Dependencies /&gt;
+
+[[Type::Mdiamond]]
+[[Level::1050]]
+[[Category:ShapeTest]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Invhouse</title>
+    <id>71</id>
+    <revision>
+      <id>184</id>
+      <timestamp>2008-09-12T12:57:05Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Mdiamond]]
 
@@ -762,41 +732,16 @@
     </revision>
   </page>
   <page>
-    <title>Box</title>
-    <id>34</id>
-    <revision>
-      <id>67</id>
-      <timestamp>2008-08-16T08:11:45Z</timestamp>
-      <contributor>
-        <username>Admin</username>
-        <id>1</id>
-      </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
-
-* [[NextStep::Polygon]]
-* [[NextStep::Point]]
-&lt;Dependencies /&gt;
-
-[[Type::Box]]
-[[Level::1000]]
-[[Category:ShapeTest]]</text>
-    </revision>
-  </page>
-  <page>
     <title>Point</title>
-    <id>66</id>
+    <id>72</id>
     <revision>
-      <id>131</id>
-      <timestamp>2008-08-16T08:11:52Z</timestamp>
+      <id>167</id>
+      <timestamp>2008-09-12T12:48:05Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
-      <text xml:space="preserve">&lt;CategoryBrowser&gt;ShopeTest&lt;/CategoryBrowser&gt;
+      <text xml:space="preserve">&lt;CategoryBrowser /&gt;
 
 * [[NextStep::Egg]]
 * [[NextStep::Diamond]]
@@ -808,28 +753,51 @@
     </revision>
   </page>
   <page>
-    <title>Category:GettingStarted</title>
-    <id>23</id>
+    <title>Customizing:Configure ShapeTest</title>
+    <id>81</id>
     <revision>
-      <id>160</id>
-      <timestamp>2008-08-22T12:44:33Z</timestamp>
+      <id>219</id>
+      <timestamp>2008-09-12T13:47:29Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <text xml:space="preserve">{| border=&quot;0&quot;	
-| &lt;CategoryBrowser&gt;ProcessList&lt;/CategoryBrowser&gt; || &lt;CategoryBrowser2 /&gt;
-|}
-
-[[ModelType::Draw]]
-[[Type::Process]]
-
-== Make it Sub-Process of ProcessList ==
-[[Type::Process]]
-[[Category:ProcessList]]
-[[Type::Rect_Red]]
-[[Level::1020]]
-[[NextStep::Category:ShapeTest]]</text>
+      <comment>New page: == Configuration == *Configure_ShapeTest **Box         box            blue **Polygon     polygon        blue **Ellipse     ellipse        blue **Circle      circle         blue **Point    ...</comment>
+      <text xml:space="preserve">== Configuration ==
+*Configure_ShapeTest
+**Box         box            blue
+**Polygon     polygon        blue
+**Ellipse     ellipse        blue
+**Circle      circle         blue
+**Point       point          blue
+**Egg         egg            blue
+**Triangle    triangle       blue
+**Plaintext   plaintext      blue
+**Diamond     diamond        blue
+**Trapezium   trapezium      blue
+**Parallelogram parallelogram blue
+**House         house         blue
+**Pentagon      pentagon      blue
+**Hexagon       hexagon       blue
+**Septagon      septagon      blue
+**Octagon       octagon       blue
+**Doublecircle  doublecircle  blue
+**Doubleoctagon doubleoctagon blue
+**Tripleoctagon tripleoctagon blue
+**Invtriangle   invtriangle   blue
+**Invtrapezium  invtrapezium  blue
+**Invhouse      invhouse      blue
+**Mdiamond      mdiamond      blue
+**Msquare       msquare       blue
+**Mcircle       mcircle       blue
+**Rect          rect          blue
+**Rectangle     rectangle     blue
+**None          none          blue
+**Note          note          blue
+**Tab           tab           blue
+**Folder        folder        blue
+**Box3d         box3d         blue
+**Component     component     blue</text>
     </revision>
   </page>
 </mediawiki>

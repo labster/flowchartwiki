@@ -1,13 +1,14 @@
 Category:Flightbooking
 ReceiveBookingRequest
+CheckBookingRequest
 BookingRequestChecked
 DecisionPoint
+PerformFlightbooking
+OfferAlternativeFlight
+AlternativeFlightOffered
 FlightbookingCreated
 MrsKrueger
 CallCenter
-OfferAlternativeFlight
-PerformFlightbooking
-AlternativeFlightOffered
 FlightData
 CustomerData
 MrsWalker
@@ -15,7 +16,6 @@ FlightDispo
 MrRuppert
 BookingForm
 Property:Type
+BookingRequest
 FlightTicket
 BookingRequestTest
-CheckBookingRequest
-BookingRequest
