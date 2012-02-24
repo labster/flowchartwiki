@@ -38,7 +38,7 @@ function findLevelRanking($FullGraph) {
     $Categorylinks = $dbr->tableName( 'categorylinks' );
     $sql = "SELECT from_title, relation, to_title as level FROM $relations ".
       " LEFT OUTER JOIN ${Categorylinks} ON (${Categorylinks}.cl_from = from_id) ".
-      " WHERE $Categorylinks.cl_to = '".$fchw['CurrentCategory']."' and (not (${Categorylinks}.cl_sortkey like '%:Category:".$fchw['CurrentCategory']."')) and relation='Level' ".
+      " WHERE $Categorylinks.cl_to = '".$dbr->strencode($fchw['CurrentCategory'])."' and (not (${Categorylinks}.cl_sortkey like '%:Category:".$dbr->strencode($fchw['CurrentCategory'])."')) and relation='Level' ".
       " group by from_title, relation, to_title order by to_title, from_title LIMIT 500";
     $res = $dbr->query( $sql );
     $count = $dbr->numRows( $res );
@@ -82,7 +82,7 @@ function findPages($FullGraph) {
        "LEFT OUTER JOIN $CategoryLinks ON $CategoryLinks.cl_from = $page.page_id ".
        "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'Type') ".
        "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel2 ON (rel2.from_id = $page.page_id) and (rel2.relation = 'Level') ".
-       "WHERE $CategoryLinks.cl_to = '".$fchw['CurrentCategory']."' and (not (${CategoryLinks}.cl_sortkey like '%:Category:".$fchw['CurrentCategory']."'))".
+       "WHERE $CategoryLinks.cl_to = '".$dbr->strencode($fchw['CurrentCategory'])."' and (not (${CategoryLinks}.cl_sortkey like '%:Category:".$dbr->strencode($fchw['CurrentCategory'])."'))".
        "group by $page.page_namespace, $page.page_title, $page.page_is_redirect, $CategoryLinks.cl_to, rel1.to_title, rel2.to_title ORDER BY $page.page_title  LIMIT 500" );
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
@@ -152,7 +152,7 @@ function findLinks($FullGraph) {
       " LEFT OUTER JOIN $CategoryLinks ON ($CategoryLinks.cl_from = rel0.from_id) ".
        "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel1 ON (rel1.from_id = rel0.from_id) and (rel1.relation = 'Level') ".
        "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel2 ON (rel2.from_id = rel0.to_id) and (rel2.relation = 'Level') ".
-      " WHERE $CategoryLinks.cl_to = '".$fchw['CurrentCategory']."' and (not ($CategoryLinks.cl_sortkey like '%:Category:".$fchw['CurrentCategory']."')) and (rel0.relation <> 'ModelType') ".
+      " WHERE $CategoryLinks.cl_to = '".$dbr->strencode($fchw['CurrentCategory'])."' and (not ($CategoryLinks.cl_sortkey like '%:Category:".$dbr->strencode($fchw['CurrentCategory'])."')) and (rel0.relation <> 'ModelType') ".
       " group by rel0.from_title, rel0.relation, rel0.to_title, rel1.to_title, rel2.to_title order by rel0.from_title, rel0.to_title LIMIT 500";
     $res = $dbr->query($sql );
     $count = $dbr->numRows( $res );
@@ -203,11 +203,11 @@ function renderCategoryBrowser($input, $params, &$parser, $Mode)
         $myTitle = $wgTitle->mPrefixedText;
       else
         $myTitle = $wgTitle;
-    $fchw['CurrentCategory'] = fchw_GetCurrentCategory($myTitle);    
+    $fchw['CurrentCategory'] = fchw_GetCurrentCategory($myTitle);
     $GraphFileName = $myTitle;
     if ($wgTitle->mNamespace == NS_CATEGORY) {
-//    if (strpos(strtoupper($GraphFileName), strtoupper($wgCanonicalNamespaceNames[NS_CATEGORY]).":") === 0) {
-	$fchw['CurrentCategory'] = substr($GraphFileName, strpos($GraphFileName, ":")+1);
+       //if (strpos(strtoupper($GraphFileName), strtoupper($wgCanonicalNamespaceNames[NS_CATEGORY]).":") === 0) {
+	   $fchw['CurrentCategory'] = substr($GraphFileName, strpos($GraphFileName, ":")+1);
     }
     if ($input) {
         $fchw['CurrentCategory'] = $input;
@@ -222,11 +222,12 @@ function renderCategoryBrowser($input, $params, &$parser, $Mode)
 	$GraphFileName .= "_".$fchw['CurrentPage'];
     }
 //    $html = "CURRENT PAGE:: ".$fchw['CurrentPage']." CURRENT PAGE2:: ".$fchw['CurrentPage2']."CURRENT CATEGORY:: ".$fchw['CurrentCategory']." myTitle $myTitle<br />";
+    $fchw['CurrentCategory'] = str_replace(" ","_",$fchw['CurrentCategory']);
     $fchw['CurrentLevel'] 	= fchw_GetCurrentLevel();
-    $fchw['PageNames']		= fchw_GetPageNames($fchw['CurrentCategory']);
-    $fchw['Levels'] 		= fchw_GetLevels($fchw['CurrentCategory']);
-    $fchw['NearLevels'] 		= fchw_GetNearLevels($fchw['Levels'], $fchw['CurrentLevel']);
-    $fchw['GraphDefs'] 		= fchw_GetGraphDefinitions(fchw_GetCategoryModelType($fchw['CurrentCategory']));
+    $fchw['PageNames']		= fchw_GetPageNames($fchw['CurrentCategory']); //$fchw['CurrentCategory']
+    $fchw['Levels'] 		= fchw_GetLevels($fchw['CurrentCategory']); // $fchw['CurrentCategory']
+    $fchw['NearLevels'] 	= fchw_GetNearLevels($fchw['Levels'], $fchw['CurrentLevel']);
+    $fchw['GraphDefs'] 		= fchw_GetGraphDefinitions(fchw_GetCategoryModelType($fchw['CurrentCategory'])); // $fchw['CurrentCategory']
     $GraphHeight = count($fchw['Levels']) ;
     if (($fchw['CurrentLevel'] == "") || ($Mode == 1)) {
 	$output  = "digraph G { size =\"7,$GraphHeight\"; concentrate=true; ".findLevelRanking(true).findPages(true).findLinks(true)."}";

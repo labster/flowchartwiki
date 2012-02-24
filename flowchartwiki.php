@@ -35,16 +35,16 @@ function wfFlowcharwikiSetup() {
 }
 
 
-error_reporting(E_ALL);
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 'On');    
+//error_reporting(E_ALL);
+//ini_set('error_reporting', E_ALL);
+//ini_set('display_errors', 'On');
 
 require_once("version.php");
 require_once("lib.php");
 require_once("graphviz.php");
 require_once("dependencies.php");
 require_once("categoryBrowser.php");
-require_once("wizardProcessStep.php");
+//require_once("wizardProcessStep.php");
 require_once("linktypes.php");
 
 require_once("checkfchw.php");

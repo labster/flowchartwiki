@@ -1,3 +1,12 @@
+FlowchartWiki 1.1.1-pre
+   * ' (Apostroph) in Category-Names bombed the CategoryBrowser with a SQL Error
+     Added $dbr->strencode($Category) to many SQL-Statements
+   * " " (Blank) in Category-Names did not render the Category Graph on the
+     Category Page. (Other Pages were fine.)
+     Added $fchw['CurrentCategory'] = str_replace(" ","_",$fchw['CurrentCategory']);
+     in CategoryBrowser.php
+   * Disabled Logging in flowchartwiki.php which was still enabled by accident.
+
 FlowchartWiki 1.1.0
 
     * Updated Special:CheckFchw: Testing for display of real graph,
