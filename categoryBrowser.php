@@ -302,8 +302,11 @@ function renderCategoryBrowser($input, $params, &$parser, $Mode) {
     } else {
         $GraphHeight += count($fchw['Levels']) ;
     }
+    //$GraphHeight *= 1.5;
+
     if (($fchw['CurrentLevel'] == "") || ($Mode == 1)) {
         $output  = "digraph G { size =\"7,$GraphHeight\"; concentrate=true; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
+        //$output  = "digraph G { concentrate=true; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
         $html    .= Graphviz($GraphFileName, $output);
         //$html    .= "<pre>$output</pre>";
     } else {
