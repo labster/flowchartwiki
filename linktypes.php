@@ -92,7 +92,13 @@ function fchw_UpdateLinks($linksupdate) {
     $fchw['Pages'] = fchw_GetPages();
     $fchw['dbr'] = &wfGetDB(DB_SLAVE);
     $fchw['table_relation'] = $fchw['dbr']->tableName('fchw_relation');
-    $sql = "delete from ".$fchw['table_relation']." where from_title like '".$fchw['dbr']->strencode($linksupdate->mTitle->mPrefixedText)."'";
+    // <patch by Gerrit I.>
+    //$sql = "delete from ".$fchw['table_relation']." where from_title like '".$fchw['dbr']->strencode($linksupdate->mTitle->mPrefixedText)."'";
+    $From_title = $linksupdate->mTitle->mPrefixedText;
+    if (strrpos($From_title, ":") > 0)
+      $From_title = substr($From_title, strpos($From_title, ":")+1);
+    $sql = "delete from ".$fchw['table_relation']." where from_title like '".$fchw['dbr']->strencode($From_title)."'";
+    // </patch by Gerrit I.>
     $res = $fchw['dbr']->query($sql);
     $cnt = 1;
     foreach($linksupdate->mLinks as $Key2=>$Value2) {
@@ -106,7 +112,8 @@ function fchw_UpdateLinks($linksupdate) {
 }
 
 // Delete links when deleting page
-function fchw_DeleteLinks(&$article, &$user, &$reason) {
+// added &$error for compatibility reasons with calling function.
+function fchw_DeleteLinks(&$article, &$user, &$reason, &$error) {
     global $fchw;
     global $wgDBprefix;
     $fchw['dbr'] = &wfGetDB(DB_SLAVE);

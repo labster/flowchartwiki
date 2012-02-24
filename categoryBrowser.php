@@ -22,6 +22,11 @@
 
 $wgExtensionFunctions[] = "wfCategoryBrowserExtension";
 $wgHooks['ArticleSaveComplete'][] = 'wfCategoryBrowserSaveComplete';
+function wfCategoryBrowserSaveComplete(&$article, &$user, $text, $summary,
+ $minoredit, $watchthis, $sectionanchor, &$flags, $revision, &$status, $baseRevId) {
+    return true;
+}
+
 function wfCategoryBrowserExtension() {
     global $wgParser;
     $wgParser->setHook( "CategoryBrowser", "renderCategoryBrowser1" );
@@ -246,7 +251,7 @@ function renderCategoryLinks() {
 
 // Tag: <CategoryBrowser /> or <CategoryBrowser>CategoryName</CategoryBrowser>
 // CategoryBrowser renders the whole graph.
-function renderCategoryBrowser1($input, $params, &$parser) {
+function renderCategoryBrowser1($input, $params, $parser) {
     return renderCategoryBrowser($input, $params, $parser, 1);
 }
 
@@ -254,11 +259,11 @@ function renderCategoryBrowser1($input, $params, &$parser) {
 // CategoryBrowser2 renders two images,
 // 1: The whole graph
 // 2: Just the 2 rows above and below the current row.
-function renderCategoryBrowser2($input, $params, &$parser) {
+function renderCategoryBrowser2($input, $params, $parser) {
     return renderCategoryBrowser($input, $params, $parser, 2);
 }
 // Render the Image, calls most of the functions above.
-function renderCategoryBrowser($input, $params, &$parser, $Mode) {
+function renderCategoryBrowser($input, $params, $parser, $Mode) {
     global $fchw, $wgTitle, $wgUploadDirectory, $wgParser;
     $html = "";
     $fchw['Categories'] = fchw_GetCategories();
@@ -325,6 +330,3 @@ function renderCategoryBrowser($input, $params, &$parser, $Mode) {
     //return $output;
 }
 
-function wfCategoryBrowserSaveComplete(&$article, &$user, &$text, &$summary, &$minoredit, &$watchthis, &$sectionanchor, &$flags, $revision) {
-    return true;
-}

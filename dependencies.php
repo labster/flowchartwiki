@@ -126,7 +126,8 @@ function renderTable() {
     return $output;
 }
 
-function renderDependencies( $input )
+// added $params, $parser for compatibility with caller.
+function renderDependencies( $input, $params, $parser )
 {
     $output = renderTable();
     return $output;

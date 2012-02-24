@@ -1,3 +1,15 @@
+FlowchartWiki 1.2.0
+   * Bugfix by Hiroyuki S.: long pagenames in fchw_LoadPages() in lib.php
+   * catching some php-Notice "undefined index" errors in lib.php with isset()
+
+FlowchartWiki 1.2.0-beta2
+   * Bugfix by Gerrit I. - double entries in Database when tags are
+     twice in a wikipage
+   * PHP 5.3 compatibility - tested together with Peter v.L.
+   * Changed field length in schema_mysql.sql for from_title and relation from 255
+     to 120 due to problems with UTF8 databases and indices being longer than 1024.
+   * added $wgExtensionCredits
+
 FlowchartWiki 1.2.0-beta1
    * major rebuild of .dot file creation,
      reduced Database-accesses and moved data-structure into internal

@@ -23,13 +23,17 @@
 --       please replace fchw_relation to  (prefix)fchw_relation
 --       for example DB prefix = MYDB_         MYDB_fchw_relation
 -- You can check current db prefix on wiki Special:Check flowchart wiki page
+--
+-- change for Version 1.2.0-beta2:
+-- reduced field-length of from_title and relation from 255 to 120
+-- due to problems with length of indices on Unicode Databases.
 
 CREATE TABLE fchw_relation (
   from_id         INT(8) UNSIGNED NOT NULL,
-  from_title      VARCHAR(255) binary NOT NULL,
+  from_title      VARCHAR(120) binary NOT NULL,
   to_id           INT(8) UNSIGNED NOT NULL,
   to_title        VARCHAR(255) binary NOT NULL,
-  relation        VARCHAR(255) binary NOT NULL
+  relation        VARCHAR(120) binary NOT NULL
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE INDEX fchw_relation_idx_tt ON fchw_relation(to_title);

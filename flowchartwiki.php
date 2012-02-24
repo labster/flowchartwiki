@@ -29,6 +29,7 @@ if( !defined( 'MEDIAWIKI' ) ) {
 
 $dir = dirname(__FILE__) . '/';
 $wgExtensionMessagesFiles['flowchartwiki'] = $dir . 'flowchartwiki.i18n.php';
+
 $wgExtensionFunctions[] = 'wfFlowcharwikiSetup';
 function wfFlowcharwikiSetup() {
     wfLoadExtensionMessages('flowchartwiki');
@@ -54,3 +55,10 @@ require_once("linktypes.php");
 require_once("checkfchw.php");
 //require_once("renumber_levels.php"); // under construction
 
+$wgExtensionCredits['parserhook'][] = array(
+    'name'          => 'FlowchartWiki',
+    'author'      => 'Thomas Kock',
+    'description' => 'Creates flowcharts from the links between wikipages to support process modelling and process documentation.',
+    'url'          => 'http://www.flowchartwiki.org',
+    'version'     => fchw_version
+);
