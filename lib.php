@@ -277,3 +277,21 @@ function OneSpaceOnly($Input) {
     }                                         		
     return $text;                             
 }    
+
+// HASH replacement - if function doesn't exists
+if (!function_exists('hash_algos')) {
+    function hash_algos() {
+        $algo[0] = "md5";
+        $algo[1] = "sha1";
+        $algo[2] = "crc32";
+        return($algo);
+    } 
+}
+
+if (!function_exists('hash')) {
+    function hash($algo, $data, $raw_output = 0) {
+        if($algo == 'md5') return(md5($data));
+        if($algo == 'sha1') return(sha1($data));
+        if($algo == 'crc32') return(crc32($data));
+    }
+}

@@ -27,41 +27,57 @@ function Graphviz($Filename, $GraphData) {
 	$ImgDir  = str_replace('/', DIRECTORY_SEPARATOR, $ImgDir);
 	$DotDir  = str_replace('/', DIRECTORY_SEPARATOR, $fchw['GraphvizDot']);
     $DataDir = str_replace('/', DIRECTORY_SEPARATOR, $wgUploadDirectory.$ImgDir);
-	$Filename = hash('ripemd160', $Filename);
+    $Filename = hash('md5', $Filename);
     $PNGFile = $DataDir."$Filename.png";
     $MAPFile = $DataDir."$Filename.map";
-    $TXTFile = $DataDir."$Filename.txt";
+    $DOTFile = $DataDir."$Filename.dot";
+    $MD5File = $DataDir."$Filename.dot.md5";
     
     // create upload directory
     if (!is_dir($DataDir)) 
 	mkdir($DataDir, 0777); 
     // we need to remove png and map if exists
-    if (file_exists($PNGFile)) unlink($PNGFile);
-    if (file_exists($MAPFile)) unlink($MAPFile);
-    if (file_exists($TXTFile)) unlink($TXTFile);
-
-    error_reporting(E_ALL);
-    ini_set('error_reporting', E_ALL);
-    ini_set('display_errors', 'On');
+    if (file_exists($DOTFile)) unlink($DOTFile);
 
     // prepare graphdata and create graph
-    $gd = fopen($TXTFile, "w");
+    $gd = fopen($DOTFile, "w");
     fwrite($gd, $GraphData);
     fclose($gd);    
-    $exec = escapeshellarg($DotDir)." -Tpng -o ".escapeshellarg($PNGFile)." ".escapeshellarg($TXTFile);
-    if (substr(php_uname(), 0, 7) == "Windows") { 
-        $obj = new COM("WScript.Shell");
-	$obj->Run("".$exec, 0, true);
-    } else {
-        exec($exec);
-    }
-    $exec = escapeshellarg($DotDir)." -Tcmapx -o ".escapeshellarg($MAPFile)." ".escapeshellarg($TXTFile);
-    if (substr(php_uname(), 0, 7) == "Windows") { 
-	$obj->Run("".$exec, 0, true);
-    } else {
-        exec($exec);
-    }
+
+    if (file_exists($MD5File))
+        $OldMD5 = implode('', file($MD5File));
+      else
+        $OldMD5 = "";
+    $NewMD5 = md5($GraphData);
+    if (Trim($OldMD5) != $NewMD5) {
     
+//	die("Changed MD5");
+    
+	// ONLY CHANGE
+	$gd = fopen($MD5File, "w");
+	fwrite($gd, $NewMD5);
+        fclose($gd);    
+
+        if (file_exists($PNGFile)) unlink($PNGFile);
+        if (file_exists($MAPFile)) unlink($MAPFile);
+    
+	// generate graphs
+	$exec = escapeshellarg($DotDir)." -Tpng -o ".escapeshellarg($PNGFile)." ".escapeshellarg($DOTFile);
+	if (substr(php_uname(), 0, 7) == "Windows") { 
+    	    $obj = new COM("WScript.Shell");
+	    $obj->Run("".$exec, 0, true);
+	} else {
+    	    exec($exec);
+	}
+	$exec = escapeshellarg($DotDir)." -Tcmapx -o ".escapeshellarg($MAPFile)." ".escapeshellarg($DOTFile);
+	if (substr(php_uname(), 0, 7) == "Windows") { 
+	    $obj->Run("".$exec, 0, true);
+	} else {
+    	    exec($exec);
+	}
+
+    }
+
     // results...
     $ImgWeb  = str_replace(DIRECTORY_SEPARATOR, "/", "$wgUploadPath$ImgDir$Filename.png");
     $MAPFile  = str_replace("/", DIRECTORY_SEPARATOR, $MAPFile);
