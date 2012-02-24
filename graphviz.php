@@ -62,20 +62,22 @@ function Graphviz($Filename, $GraphData) {
         if (file_exists($MAPFile)) unlink($MAPFile);
     
 	// generate graphs
-	$exec = escapeshellarg($DotDir)." -Tpng -o ".escapeshellarg($PNGFile)." ".escapeshellarg($DOTFile);
+	$exec = escapeshellarg($DotDir)." -Tpng -o ".$PNGFile." ".$DOTFile;
 	if (substr(php_uname(), 0, 7) == "Windows") { 
     	    $obj = new COM("WScript.Shell") or die("Unable to init WScript.Shell for Png file"); 
-	    die("COMMAND: ".$exec);
-	    $obj->Run("".$exec, 0, true);
+	    $Res = $obj->Run("".$exec, 0, true);
+	    if ($Res != 0) 
+		die("Dot error - Png file");
 	    $obj = null;
 	} else {
     	    exec($exec);
 	}
-	$exec = escapeshellarg($DotDir)." -Tcmapx -o ".escapeshellarg($MAPFile)." ".escapeshellarg($DOTFile);
+	$exec = escapeshellarg($DotDir)." -Tcmapx -o ".$MAPFile." ".$DOTFile;
 	if (substr(php_uname(), 0, 7) == "Windows") { 
     	    $obj = new COM("WScript.Shell") or die("Unable to init WScript.Shell for Map file"); 
-	    die("COMMAND: ".$exec);
-	    $obj->Run("".$exec, 0, true);
+	    $Res = $obj->Run("".$exec, 0, true);
+	    if ($Res != 0) 
+		die("Dot error - Map file");
 	    $obj = null;
 	} else {
     	    exec($exec);
@@ -84,7 +86,7 @@ function Graphviz($Filename, $GraphData) {
     }
 
     if (!file_exists($MAPFile)) {
-	return "MAP file cann't be created !!!";
+	return "MAP file doesn't exists !!!";
     }
 
     // results...
