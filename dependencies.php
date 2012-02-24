@@ -39,7 +39,7 @@ function renderDepType() {
     $output = "";
     $dbr =& wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );
-    $sql = "SELECT from_title, relation, to_title FROM $relations WHERE from_title like '".$wgParser->getTitle()->mTextform."' and relation = 'Type' LIMIT 500";
+    $sql = "SELECT from_title, relation, to_title FROM $relations WHERE from_title like '".$dbr->strencode($wgParser->getTitle()->mTextform)."' and relation = 'Type' LIMIT 500";
     $res = $dbr->query( $sql );
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
@@ -57,7 +57,7 @@ function renderWhereDoIlink() {
     $output = "";
     $dbr =& wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );
-    $sql = "SELECT from_title, relation, to_title FROM $relations WHERE from_title like '".$wgParser->getTitle()->mTextform."' LIMIT 500";
+    $sql = "SELECT from_title, relation, to_title FROM $relations WHERE from_title like '".$dbr->strencode($wgParser->getTitle()->mTextform)."' LIMIT 500";
     $res = $dbr->query( $sql );
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
@@ -79,7 +79,7 @@ function renderWhoLinksHere() {
     $output = "";
     $dbr =& wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );
-    $sql = "SELECT from_title, relation, to_title FROM $relations WHERE to_title like '".$wgParser->getTitle()->mTextform."' LIMIT 500";
+    $sql = "SELECT from_title, relation, to_title FROM $relations WHERE to_title like '".$dbr->strencode($wgParser->getTitle()->mTextform)."' LIMIT 500";
     $res = $dbr->query( $sql );
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
@@ -94,7 +94,7 @@ function renderWhoLinksHere() {
     }
     $dbr->freeResult( $res );
     // links for types
-    $sql = "SELECT from_title, relation, to_title FROM $relations WHERE to_title like '".$wgParser->getTitle()->mTextform."' and relation='Type' LIMIT 500";
+    $sql = "SELECT from_title, relation, to_title FROM $relations WHERE to_title like '".$dbr->strencode($wgParser->getTitle()->mTextform)."' and relation='Type' LIMIT 500";
     $res = $dbr->query( $sql );
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {

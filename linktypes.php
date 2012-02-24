@@ -90,7 +90,7 @@ function fchw_UpdateLinks($linksupdate) {
     $fchw['Pages'] = fchw_GetPages();
     $fchw['dbr'] = &wfGetDB(DB_SLAVE);
     $fchw['table_relation'] = $fchw['dbr']->tableName('fchw_relation');
-    $sql = "delete from ".$fchw['table_relation']." where from_title like '".$linksupdate->mTitle->mPrefixedText."'";
+    $sql = "delete from ".$fchw['table_relation']." where from_title like '".$fchw['dbr']->strencode($linksupdate->mTitle->mPrefixedText)."'";
     $res = $fchw['dbr']->query($sql);                                                                                                                     
     $cnt = 1;
     foreach($linksupdate->mLinks as $Key2=>$Value2) {

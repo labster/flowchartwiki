@@ -25,7 +25,7 @@
 function fchw_GetCurrentCategory($Title) {
 //    global $wgTitle;
     $dbr =& wfGetDB( DB_SLAVE );
-    $res = $dbr->query( "select cl_to from categorylinks where cl_sortkey = '".$Title."'");
+    $res = $dbr->query( "select cl_to from categorylinks where cl_sortkey = '".$dbr->strencode($Title)."'");
     $count = $dbr->numRows( $res );
     if ($count > 0 ) {
 	while ($row = $dbr->fetchObject( $res )) {
@@ -84,7 +84,7 @@ function fchw_GetRedirectedPages() {
 // Get ModelType for specified category
 function fchw_GetCategoryModelType($Category) {
     $dbr =& wfGetDB( DB_SLAVE );
-    $res = $dbr->query("select to_title from fchw_relation where from_title like '$Category' and relation='ModelType'");
+    $res = $dbr->query("select to_title from fchw_relation where from_title like '".$dbr->strencode($Category)."' and relation='ModelType'");
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
 	$row = $dbr->fetchObject( $res );
@@ -174,7 +174,7 @@ function fchw_GetGraphDefinitions($ModelType) {
 		    $CatBroDef[$Type][$Ele[0]]['Style'] 		= $Ele[3]; else
 	    	    $CatBroDef[$Type][$Ele[0]]['Style'] 		= "solid";
 		if (isset( $Ele[4] ))
-		    $CatBroDef[$Type][$Ele[0]]['Label'] 		= $Ele[4]; else
+		    $CatBroDef[$Type][$Ele[0]]['Label'] 		= str_replace("_", " ", $Ele[4]); else
 	    	    $CatBroDef[$Type][$Ele[0]]['Label'] 		= "";
 	    }
 	}
@@ -196,7 +196,7 @@ function fchw_GetCurrentLevel() {
     $res = $dbr->query( "SELECT rel1.to_title as level  FROM $page ".
        "LEFT OUTER JOIN categorylinks $CategoryLinks ON $CategoryLinks.cl_from = $page.page_id ".
        "LEFT OUTER JOIN fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'Level') ".
-       "WHERE $CategoryLinks.cl_to = '".$fchw['CurrentCategory']."' AND $page.page_title = '".$title."'" );            
+       "WHERE $CategoryLinks.cl_to = '".$fchw['CurrentCategory']."' AND $page.page_title = '".$dbr->strencode($title)."'" );            
     $count = $dbr->numRows( $res );                                                                                   
     if( $count > 0 ) {                                                                                                
         $row = $dbr->fetchObject( $res );                                                                             
