@@ -67,6 +67,8 @@ function renderWhereDoIlink() {
 	      continue;
 	    if ($row->relation == "Level") 
 	      continue;
+	    if ($row->relation == "PageName")
+	      continue;
 	    $output .= " &nbsp; ".DeLink($row->to_title)." (".DeLink($row->relation).")<br />";
 	}
     }
@@ -88,6 +90,8 @@ function renderWhoLinksHere() {
 	    if ($row->relation == "Type") 
 	      continue;
 	    if ($row->relation == "Level") 
+	      continue;
+	    if ($row->relation == "PageName")
 	      continue;
 	    $output .= " &nbsp; ".DeLink($row->from_title)." (".DeLink($row->relation).")<br />";
 	}

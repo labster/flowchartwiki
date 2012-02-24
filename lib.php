@@ -228,6 +228,8 @@ $page.page_id ".
     return $Levels;
 }      
 
+
+
 // get array with near levels /+-2/
 function fchw_GetNearLevels($Levels, $CurrentLevel, $Minus = 2, $Plus = 2) {
     $NearLevels = FALSE;
@@ -321,3 +323,35 @@ if (!function_exists('hash')) {
         if($algo == 'crc32') return(crc32($data));
     }
 }
+
+// get array with pagenames
+function fchw_GetPageNames($Category) {
+    $PageNames = "";                                                                                              
+    $dbr =& wfGetDB( DB_SLAVE );      
+    $page = $dbr->tableName( 'page' );
+    $CategoryLinks = $dbr->tableName( 'categorylinks' );
+    $res = $dbr->query("SELECT from_title, rel1.to_title as level from $page LEFT OUTER JOIN $CategoryLinks ON $CategoryLinks.cl_from = 
+$page.page_id ".
+        "LEFT OUTER JOIN fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'PageName') ".                         
+        "WHERE $CategoryLinks.cl_to = '".$Category."' group by rel1.to_title order by rel1.to_title");               
+    $count = $dbr->numRows( $res );                                                                                                             
+    if( $count > 0 ) {                                                                                                                          
+        while ($row = $dbr->fetchObject( $res )) {                                                                                              
+            if (Trim($row->level) != "") {                                                                                                      
+                $PageNames[$row->from_title] = $row->level;                                                                                                
+            }                                                                                                                                   
+        }                                                                                                                                       
+    }           
+    $dbr->freeResult( $res );                                                                                                                   
+    return $PageNames;
+}      
+
+// translate pagename
+function fchw_TranslatePageName($Page) {
+    global $fchw;
+    if (isset($fchw['PageNames'][$Page]))
+	return $fchw['PageNames'][$Page];
+      else
+        return $Page;
+}
+

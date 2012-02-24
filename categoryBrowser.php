@@ -58,7 +58,7 @@ function findLevelRanking($FullGraph) {
 		$group = $row->level;
 		$groupcache = "{ rank = same; ";
 	    }
-	    $groupcache .= "\"".$row->from_title."\"; ";
+	    $groupcache .= "\"".fchw_TranslatePageName($row->from_title)."\"; ";
 	}
     	if ($groupcache != "") {
 	    $groupcache .= " }\n";
@@ -131,7 +131,7 @@ function findPages($FullGraph) {
 	    if ($row->page_title == $fchw['CurrentPage2']) 
 	       $color .= "color=black, fontcolor=white, style=filled, ";
 	    $params .= $color;
-	    $output .= "\"".str_replace("_", " ", $row->page_title)."\" [".$params."];\n";
+	    $output .= "\"".str_replace("_", " ", fchw_TranslatePageName($row->page_title))."\" [".$params."];\n";
 	}
     }
     $dbr->freeResult( $res );
@@ -164,6 +164,8 @@ function findLinks($FullGraph) {
 	      continue;
 	    if ($row->relation == "Level") 
 	      continue;
+	    if ($row->relation == "PageName") 
+	      continue;
 //	    if ((isset($fchw['Categories'][$row->from_title])) ||  
 //	        (isset($fchw['Categories'][$row->from_title]))) 
 //	      continue;
@@ -171,7 +173,7 @@ function findLinks($FullGraph) {
 	    if (isset($fchw['GraphDefs']['arrows'][$row->relation])) {		    		
 	       $params .= "color=\"".$fchw['GraphDefs']['arrows'][$row->relation]['Color']."\", arrowhead=".$fchw['GraphDefs']['arrows'][$row->relation]['Shape'].", style=\"".$fchw['GraphDefs']['arrows'][$row->relation]['Style']."\", label=\"".$fchw['GraphDefs']['arrows'][$row->relation]['Label']."\"";
 	    }
-	    $output .= "\"".str_replace("_", " ",$row->from_title)."\"->\"".str_replace("_", " ",$row->to_title)."\" [ $params ];\n";
+	    $output .= "\"".str_replace("_", " ",fchw_TranslatePageName($row->from_title))."\"->\"".str_replace("_", " ",fchw_TranslatePageName($row->to_title))."\" [ $params ];\n";
 	    //
 
 	}
@@ -217,6 +219,7 @@ function renderCategoryBrowser($input, $params, &$parser, $Mode)
     }
 //    $html = "CURRENT PAGE:: ".$fchw['CurrentPage']." CURRENT PAGE2:: ".$fchw['CurrentPage2']."CURRENT CATEGORY:: ".$fchw['CurrentCategory']." myTitle $myTitle<br />";
     $fchw['CurrentLevel'] 	= fchw_GetCurrentLevel();
+    $fchw['PageNames']		= fchw_GetPageNames($fchw['CurrentCategory']);
     $fchw['Levels'] 		= fchw_GetLevels($fchw['CurrentCategory']);
     $fchw['NearLevels'] 		= fchw_GetNearLevels($fchw['Levels'], $fchw['CurrentLevel']);
     $fchw['GraphDefs'] 		= fchw_GetGraphDefinitions(fchw_GetCategoryModelType($fchw['CurrentCategory']));
