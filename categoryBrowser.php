@@ -2,7 +2,7 @@
 
 //////////////////////////////////////////////////////////////
 //
-//    Copyright (C) Bratislava 2008 Thomas Kock                                         
+//    Copyright (C) Thomas Kock, Delmenhorst, 2009
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -229,16 +229,16 @@ function renderCategoryBrowser($input, $params, &$parser, $Mode)
     $fchw['GraphDefs'] 		= fchw_GetGraphDefinitions(fchw_GetCategoryModelType($fchw['CurrentCategory']));
     $GraphHeight = count($fchw['Levels']) ;
     if (($fchw['CurrentLevel'] == "") || ($Mode == 1)) {
-	$output  = "digraph G { size =\"7,$GraphHeight\"; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
+	$output  = "digraph G { size =\"7,$GraphHeight\"; concentrate=true; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
 	$html    .= Graphviz($GraphFileName, $output);
 //        $html    .= "<pre>$output</pre>";
     } else {
         $html    .= "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td width='10' style='padding-right: 16px' valign='top'>";
-	$output  = "digraph G { size =\"3,$GraphHeight\"; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
+	$output  = "digraph G { size =\"3,$GraphHeight\"; concentrate=true; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
 	$html    .= Graphviz($GraphFileName."_process", $output);
 //	    $html    .= "<pre>$output</pre>";
 	$html    .= "</td><td valign='top'>";
-	$output  = "digraph G { size =\"5,$GraphHeight\"; ".findLevelRanking(false).findPages(false).findLinks(false)."}";
+	$output  = "digraph G { size =\"5,$GraphHeight\"; concentrate=true; ".findLevelRanking(false).findPages(false).findLinks(false)."}";
 	$html    .= Graphviz($GraphFileName, $output);
 //	    $html    .= "<pre>$output</pre>";
 	$html    .= "</td></tr></table>";
