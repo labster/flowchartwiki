@@ -1,3 +1,25 @@
+FlowchartWiki 1.2.0-beta1
+   * major rebuild of .dot file creation,
+     reduced Database-accesses and moved data-structure into internal
+     object hierarchy (see fchwobjects.php for the objects)
+   * This was a prerequsite for adding other features to the graph:
+   * Include a Link to the Category-Page on top of the graph,
+     if Customizing has a Page-Type "Category".
+   * Position all Pages that have no [[Level::xxxx]] assigned at the
+     bottom of the graph, sorted in alphabetical order.
+   * These pages CAN have a [[Type::xxxx]] assigned to use a shape and Color
+     from the customizing. Links to these pages may work, but will probably
+     screw up the graph :-)
+   * add Customizing-Function fchw['zLevels'] for the number or items
+     per row for the "Unassigned" Pages.
+   * This can be set in LocalSettings.php. If not set, it defaults to 4
+     and is set in flowchartwiki.php.
+   * Calculate the Height of the graph based on the approximate number
+     of rows. (This may not work properly for <CategoryBrowser2 /> which
+     displays two images.)
+   * Upgrade from 1.1.x: Replace the extension directory with the new version
+     and delete the images in ./images/flowchartwiki
+
 FlowchartWiki 1.1.1
    * ' (Apostroph) in Category-Names bombed the CategoryBrowser with a SQL Error
      Added $dbr->strencode($Category) to many SQL-Statements

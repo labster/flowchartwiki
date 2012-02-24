@@ -35,15 +35,13 @@ function Graphviz($Filename, $GraphData) {
 
     // create upload directory
     if (!is_dir($DataDir))
-    mkdir($DataDir, 0777);
-
+       mkdir($DataDir, 0777);
     if (file_exists($MD5File))
-    $OldMD5 = implode('', file($MD5File));
+       $OldMD5 = implode('', file($MD5File));
     else
-    $OldMD5 = "";
+       $OldMD5 = "";
     $NewMD5 = md5($GraphData);
     if (Trim($OldMD5) != $NewMD5) {
-
         // prepare graphdata and create graph
         if (file_exists($DOTFile)) unlink($DOTFile);
         $gd = fopen($DOTFile, "w");
@@ -59,7 +57,6 @@ function Graphviz($Filename, $GraphData) {
         // delete png and map
         if (file_exists($PNGFile)) unlink($PNGFile);
         if (file_exists($MAPFile)) unlink($MAPFile);
-
 
         // Determine the Platform
         // Three alternative platform mechanisms:
@@ -135,4 +132,3 @@ function Graphviz($Filename, $GraphData) {
     $temp = trim(str_replace("/>\n", "/>", preg_replace("#<ma(.*)>#", " ", str_replace("</map>", "", implode("", file($MAPFile))))));
     return "<map name='$Filename'>$temp</map><img usemap='#$Filename' src='$ImgWeb?TimeStamp=".date("YmdHis", filemtime($MD5File))."' />";
 }
-

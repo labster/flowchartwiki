@@ -36,7 +36,7 @@ function DeLink($input) {
 
 function renderDepType() {
     global $wgTitle, $wgParser;
-	global $wgDBprefix;
+    global $wgDBprefix;
     $output = "";
     $dbr =& wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );
@@ -45,9 +45,9 @@ function renderDepType() {
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
         # Make list
-	while( $row = $dbr->fetchObject( $res ) ) {
-	    $output .= DeLink($row->to_title)."<br />";
-	}
+        while( $row = $dbr->fetchObject( $res ) ) {
+            $output .= DeLink($row->to_title)."<br />";
+        }
     }
     $dbr->freeResult( $res );
     return $output;
@@ -55,7 +55,7 @@ function renderDepType() {
 
 function renderWhereDoIlink() {
     global $wgTitle, $wgParser;
-	global $wgDBprefix;
+    global $wgDBprefix;
     $output = "";
     $dbr =& wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );
@@ -64,15 +64,15 @@ function renderWhereDoIlink() {
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
         # Make list
-	while( $row = $dbr->fetchObject( $res ) ) {
-	    if ($row->relation == "Type") 
-	      continue;
-	    if ($row->relation == "Level") 
-	      continue;
-	    if ($row->relation == "PageName")
-	      continue;
-	    $output .= " &nbsp; ".DeLink($row->to_title)." (".DeLink($row->relation).")<br />";
-	}
+        while( $row = $dbr->fetchObject( $res ) ) {
+            if ($row->relation == "Type")
+            continue;
+            if ($row->relation == "Level")
+            continue;
+            if ($row->relation == "PageName")
+            continue;
+            $output .= " &nbsp; ".DeLink($row->to_title)." (".DeLink($row->relation).")<br />";
+        }
     }
     $dbr->freeResult( $res );
     return $output;
@@ -80,7 +80,7 @@ function renderWhereDoIlink() {
 
 function renderWhoLinksHere() {
     global $wgTitle, $wgParser;
-	global $wgDBprefix;
+    global $wgDBprefix;
     $output = "";
     $dbr =& wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );
@@ -89,15 +89,15 @@ function renderWhoLinksHere() {
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
         # Make list
-	while( $row = $dbr->fetchObject( $res ) ) {
-	    if ($row->relation == "Type") 
-	      continue;
-	    if ($row->relation == "Level") 
-	      continue;
-	    if ($row->relation == "PageName")
-	      continue;
-	    $output .= " &nbsp; ".DeLink($row->from_title)." (".DeLink($row->relation).")<br />";
-	}
+        while( $row = $dbr->fetchObject( $res ) ) {
+            if ($row->relation == "Type")
+            continue;
+            if ($row->relation == "Level")
+            continue;
+            if ($row->relation == "PageName")
+            continue;
+            $output .= " &nbsp; ".DeLink($row->from_title)." (".DeLink($row->relation).")<br />";
+        }
     }
     $dbr->freeResult( $res );
     // links for types
@@ -106,10 +106,10 @@ function renderWhoLinksHere() {
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
         # Make list
-	while( $row = $dbr->fetchObject( $res ) ) {
-	    $output .= " &nbsp; ".DeLink($row->from_title)."<br />";
-	}
-    }    
+        while( $row = $dbr->fetchObject( $res ) ) {
+            $output .= " &nbsp; ".DeLink($row->from_title)."<br />";
+        }
+    }
     $dbr->freeResult( $res );
     return $output;
 }

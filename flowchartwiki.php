@@ -20,26 +20,30 @@
 // http://www.gnu.org/copyleft/gpl.html
 //
 //////////////////////////////////////////////////////////////
-global $fchw, $wgHooks, $wgExtensionMessagesFiles;	
+global $fchw, $wgHooks, $wgExtensionMessagesFiles;
 
 if( !defined( 'MEDIAWIKI' ) ) {
     echo( "This file is an extension to the MediaWiki software and cannot be used standalone.\n" );
     die( 1 );
-}                                                                                                  
+}
 
-$dir = dirname(__FILE__) . '/';                                                                    
-$wgExtensionMessagesFiles['flowchartwiki'] = $dir . 'flowchartwiki.i18n.php';                      
+$dir = dirname(__FILE__) . '/';
+$wgExtensionMessagesFiles['flowchartwiki'] = $dir . 'flowchartwiki.i18n.php';
 $wgExtensionFunctions[] = 'wfFlowcharwikiSetup';
 function wfFlowcharwikiSetup() {
     wfLoadExtensionMessages('flowchartwiki');
 }
-
-
+// Customizing-Info: Number of Items per Row of Pages
+// that have no [[Level::1234]] assigned.
+if (! isset( $fchw['zLevels'])) {
+     $fchw['zLevels'] = 4;
+}
 //error_reporting(E_ALL);
 //ini_set('error_reporting', E_ALL);
 //ini_set('display_errors', 'On');
 
 require_once("version.php");
+require_once("fchwobjects.php");
 require_once("lib.php");
 require_once("graphviz.php");
 require_once("dependencies.php");

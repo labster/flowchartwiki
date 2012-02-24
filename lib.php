@@ -26,7 +26,8 @@ function fchw_GetCurrentCategory($Title) {
     //    global $wgTitle;
     global $wgDBprefix;
     $dbr =& wfGetDB( DB_SLAVE );
-    $res = $dbr->query( "select cl_to from ".$wgDBprefix."categorylinks where cl_sortkey = '".$dbr->strencode($Title)."'");
+    $res = $dbr->query( "SELECT cl_to FROM ".$wgDBprefix."categorylinks ".
+           "WHERE cl_sortkey = '".$dbr->strencode($Title)."'");
     $count = $dbr->numRows( $res );
     if ($count > 0 ) {
         while ($row = $dbr->fetchObject( $res )) {
@@ -41,7 +42,8 @@ function fchw_GetCategories() {
     global $wgDBprefix;
     $CatBroCategories = NULL;
     $dbr =& wfGetDB( DB_SLAVE );
-    $res = $dbr->query( "select cl_to from ".$wgDBprefix."categorylinks group by cl_to order by cl_to");
+    $res = $dbr->query( "SELECT cl_to FROM ".$wgDBprefix."categorylinks ".
+           "GROUP BY cl_to ORDER BY cl_to");
     $count = $dbr->numRows( $res );
     if ($count > 0 ) {
         while ($row = $dbr->fetchObject( $res )) {
@@ -56,7 +58,9 @@ function fchw_GetRedirectedPages() {
     global $wgDBprefix;
     $RedirectedPages = NULL;
     $dbr =& wfGetDB( DB_SLAVE );
-    $res = $dbr->query( "select rd_from, page2.page_id, rd_title from ".$wgDBprefix."redirect left outer join ".$wgDBprefix."page page2 on page2.page_title = ".$wgDBprefix."redirect.rd_title");
+    $res = $dbr->query( "SELECT rd_from, page2.page_id, rd_title ".
+           "FROM ".$wgDBprefix."redirect ".
+           "LEFT OUTER JOIN ".$wgDBprefix."page page2 ON page2.page_title = ".$wgDBprefix."redirect.rd_title");
     $count = $dbr->numRows( $res );
     if ($count > 0 ) {
         while ($row = $dbr->fetchObject( $res )) {
@@ -88,7 +92,8 @@ function fchw_GetRedirectedPages() {
 function fchw_GetCategoryModelType($Category) {
     global $wgDBprefix;
     $dbr =& wfGetDB( DB_SLAVE );
-    $res = $dbr->query("select to_title from ".$wgDBprefix."fchw_relation where from_title like '".$dbr->strencode($Category)."' and relation='ModelType'");
+    $res = $dbr->query("SELECT to_title FROM ".$wgDBprefix."fchw_relation ".
+           "WHERE from_title like '".$dbr->strencode($Category)."' AND relation='ModelType'");
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
         $row = $dbr->fetchObject( $res );
@@ -99,7 +104,7 @@ function fchw_GetCategoryModelType($Category) {
 
 // Get graph definitions for specified model type
 //  Customizing:Configure_<ChartType>
-//  Customizing:Configure_Chart with <ChartType> inside this page. 
+//  Customizing:Configure_Chart with <ChartType> inside this page.
 function fchw_GetGraphDefinitions($ModelType) {
     global $wgDBprefix;
     global $wgDBtype;
@@ -112,13 +117,21 @@ function fchw_GetGraphDefinitions($ModelType) {
     $TablePageContent	= $dbr->tableName( 'text' );
     $TableRevision 	= $dbr->tableName( 'revision' );
     $ModelTypeText = "";
-    $res = $dbr->query( "select page_title, old_text from ".$wgDBprefix."page inner join $TableRevision on $TableRevision.rev_id=$TablePage.page_latest inner join $TablePageContent on $TablePageContent.old_id = $TableRevision.rev_text_id where page_title = 'Customizing:Configure_$ModelType';");
+    $res = $dbr->query( "SELECT page_title, old_text ".
+           "FROM ".$wgDBprefix."page ".
+           "INNER JOIN $TableRevision ON $TableRevision.rev_id=$TablePage.page_latest ".
+           "INNER JOIN $TablePageContent ON $TablePageContent.old_id = $TableRevision.rev_text_id ".
+           "WHERE page_title = 'Customizing:Configure_$ModelType';");
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
         $row = $dbr->fetchObject( $res );
         $ModelTypeText = $row->old_text;
     } else {
-        $res = $dbr->query( "select page_title, old_text from ".$wgDBprefix."page inner join $TableRevision on $TableRevision.rev_id=$TablePage.page_latest inner join $TablePageContent on $TablePageContent.old_id = $TableRevision.rev_text_id where page_title = 'Customizing:Configure_Chart';");
+        $res = $dbr->query( "SELECT page_title, old_text ".
+               "FROM ".$wgDBprefix."page ".
+               "INNER JOIN $TableRevision ON $TableRevision.rev_id=$TablePage.page_latest ".
+               "INNER JOIN $TablePageContent ON $TablePageContent.old_id = $TableRevision.rev_text_id ".
+               "WHERE page_title = 'Customizing:Configure_Chart';");
         $count = $dbr->numRows( $res );
         if( $count > 0 ) {
             $row = $dbr->fetchObject( $res );
@@ -193,49 +206,45 @@ function fchw_GetGraphDefinitions($ModelType) {
 
 // get current level
 function fchw_GetCurrentLevel() {
-    global $wgDBprefix;
     global $fchw, $wgTitle, $wgParser;
-    $dbr =& wfGetDB( DB_SLAVE );
-    $page = $dbr->tableName( 'page' );
-    $CategoryLinks = $dbr->tableName( 'categorylinks' );
+    if (!isset($fchw['Pages'])) { $fchw['Pages'] = fchw_LoadPages(); }
     $title = $wgParser->getTitle()->mTextform;
-    $res = $dbr->query( "SELECT rel1.to_title as level  FROM $page ".
-       "LEFT OUTER JOIN  $CategoryLinks ON $CategoryLinks.cl_from = $page.page_id ".
-       "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'Level') ".
-       "WHERE $CategoryLinks.cl_to = '".$dbr->strencode($fchw['CurrentCategory'])."' AND $page.page_title = '".$dbr->strencode($title)."'" );
-    $count = $dbr->numRows( $res );
-    if( $count > 0 ) {
-        $row = $dbr->fetchObject( $res );
-        return $row->level;
+    $pages = $fchw['Pages'];
+    $p = $pages[$title];
+    if ($p != NULL) {
+        return $p->level;
+    } else {
+        return 0;
     }
-    $dbr->freeResult( $res );
-    return 	0;
 }
 
 // get array with all used levels
-function fchw_GetLevels($Category) {
-    global $wgDBprefix;
-    $Levels = "";
-    $dbr =& wfGetDB( DB_SLAVE );
-    $page = $dbr->tableName( 'page' );
-    $CategoryLinks = $dbr->tableName( 'categorylinks' );
-    $res = $dbr->query("SELECT rel1.to_title as level from $page LEFT OUTER JOIN $CategoryLinks ON $CategoryLinks.cl_from =
-        $page.page_id ".
-        "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'Level') ".
-        "WHERE $CategoryLinks.cl_to = '".$dbr->strencode($Category)."' group by rel1.to_title order by rel1.to_title");
-    $count = $dbr->numRows( $res );
-    if( $count > 0 ) {
-        while ($row = $dbr->fetchObject( $res )) {
-            if (Trim($row->level) != "") {
-                $Levels[$row->level] = 1;
+// $all = false will only retrieve the Levels where Pages have been assigned
+//        and will omit the 'zzzzzzzz' level with all the pages that have no level assigned.
+function fchw_GetLevels($all=true) {
+    global $fchw;
+    if (!isset($fchw['Pages'])) { $fchw['Pages'] = fchw_LoadPages(); }
+    $pages = $fchw['Pages'];
+    $Levels = array();
+    foreach($pages as $page) {
+        if (Trim($page->level) != "") {
+            $l = (string) $page->level;
+            if (! isset($Levels[$l])) {
+                $Levels[$l] = array();
+            }
+            $Levels[$l][]=$page->pageName;
+        } else {
+            if ($all == true) {
+                if (! isset($Levels['zzzzzzzz'])) {
+                    $Levels['zzzzzzzz'] = array();
+                }
+                $Levels['zzzzzzzz'][]=$page->pageName;
             }
         }
     }
-    $dbr->freeResult( $res );
+    ksort($Levels, SORT_STRING);
     return $Levels;
-}      
-
-
+}
 
 // get array with near levels /+-2/
 function fchw_GetNearLevels($Levels, $CurrentLevel, $Minus = 2, $Plus = 2) {
@@ -261,7 +270,7 @@ function fchw_GetNearLevels($Levels, $CurrentLevel, $Minus = 2, $Plus = 2) {
         }
     }
     return $NearLevels;
-}                               
+}
 
 // get array with pages
 function fchw_GetPages() {
@@ -269,7 +278,7 @@ function fchw_GetPages() {
     $Pages = FALSE;
     $dbr =& wfGetDB( DB_SLAVE );
     $page = $dbr->tableName( 'page' );
-    $res = $dbr->query("select page_id, page_title from $page order by page_title");
+    $res = $dbr->query("SELECT page_id, page_title FROM $page ORDER BY page_title");
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
         while ($row = $dbr->fetchObject( $res )) {
@@ -280,7 +289,7 @@ function fchw_GetPages() {
     }
     $dbr->freeResult( $res );
     return $Pages;
-}      
+}
 
 // Preload pages
 function fchw_PreloadPage($Title) {
@@ -312,7 +321,7 @@ function OneSpaceOnly($Input) {
         $lastch = $ch;
     }
     return $text;
-}    
+}
 
 // HASH replacement - if function doesn't exists
 if (!function_exists('hash_algos')) {
@@ -332,36 +341,70 @@ if (!function_exists('hash')) {
     }
 }
 
-// get array with pagenames
-function fchw_GetPageNames($Category) {
-    global $wgDBprefix;
-    $PageNames = "";
-    $dbr =& wfGetDB( DB_SLAVE );
-    $page = $dbr->tableName( 'page' );
-    $CategoryLinks = $dbr->tableName( 'categorylinks' );
-    $res = $dbr->query("SELECT from_title, rel1.to_title as level from $page LEFT OUTER JOIN $CategoryLinks ON $CategoryLinks.cl_from =
-        $page.page_id ".
-        "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'PageName') ".
-        "WHERE $CategoryLinks.cl_to = '".$dbr->strencode($Category)."' group by rel1.to_title order by rel1.to_title");
-    $count = $dbr->numRows( $res );
-    if( $count > 0 ) {
-        while ($row = $dbr->fetchObject( $res )) {
-            if (Trim($row->level) != "") {
-                $PageNames[$row->from_title] = $row->level;
-            }
-        }
-    }
-    $dbr->freeResult( $res );
-    return $PageNames;
-}      
-
 // translate pagename
 function fchw_TranslatePageName($Page) {
     global $fchw;
+    if (!isset($fchw['Pages'])) { $fchw['Pages'] = fchw_LoadPages(); }
     $Page2 = str_replace("_", " ", $Page);
-    if (isset($fchw['PageNames'][$Page2]))
-    return $fchw['PageNames'][$Page2];
-    else
-    return $Page;
+    $p = $fchw['Pages'][$Page2];
+    if ($p != NULL) {
+        return $p->getTranslatedName();
+    } else {
+        return $Page;
+    }
 }
 
+// Load all the Pages and Links for the current Graph into memory
+function fchw_LoadPages() {
+    global $wgDBprefix;
+    global $fchw;
+    $dbr =& wfGetDB( DB_SLAVE );
+    $relations = $dbr->tableName( 'fchw_relation' );
+    $Categorylinks = $dbr->tableName( 'categorylinks' );
+    // Step 1: Load all Pages (Just the PageNames) and create Objects of them.
+    $sql = "SELECT cl_from, cl_sortkey from ${Categorylinks} ".
+           "WHERE  $Categorylinks.cl_to = '".$dbr->strencode($fchw['CurrentCategory'])."' ";
+    $res = $dbr->query( $sql );
+    $count = $dbr->numRows( $res );
+    $pages = array();
+    if( $count > 0 ) {
+        while( $row = $dbr->fetchObject( $res ) ) {
+            $pageName = $row->cl_sortkey;
+            $p = new FchwPage($pageName, $row->cl_from);
+            $pages[$pageName] = $p;
+        }
+    }
+    $dbr->freeResult( $res );
+    // Step 2: Add Details to the Objects
+    foreach($pages as $p) {
+        $pageId = $p->id;
+        $sql = "SELECT * from ${relations} WHERE  from_id = ${pageId} ";
+        $res = $dbr->query( $sql );
+        $count = $dbr->numRows( $res );
+        if( $count > 0 ) {
+            while( $row = $dbr->fetchObject( $res ) ) {
+                switch ($row->relation) {
+                    case "Level":
+                        $p->level = $row->to_title;
+                        break;
+                    case "PageName":
+                        $p->displayName = $row->to_title;
+                        break;
+                    case "Type":
+                        $p->pageType = $row->to_title;
+                        break;
+                    default: // This is a link to another page
+                        //$fromId = $row->from_id;
+                        //$fromTitle = $row->from_title;
+                        //$to_id  = $row->to_id;
+                        //$toTitle = $row->to_title;
+                        //$linkType = $row->relation;
+                        $l = new FchwLink($row->from_id, $row->from_title, $row->to_id, $row->to_title, $row->relation);
+                        $p->links[] = $l;
+                }
+            }
+        }
+        $dbr->freeResult( $res );
+    }
+    return $pages;
+}

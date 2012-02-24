@@ -21,14 +21,8 @@
 //
 //////////////////////////////////////////////////////////////
 
-/**
- * Internationalisation file for the ProtectSection extension
- *
- * @addtogroup Extensions
- */
- 
 $messages = array();
- 
+
 /* English */
 $messages['en'] = array(
     'fchw_TypeOfPage' => 'Type of page',
@@ -44,7 +38,7 @@ $messages['es'] = array(
     'fchw_WhoLinksHere' => 'Qué enlaza aquí:',
     'fchw_ExportPDF' => 'Exportar a PDF'
 );
-	 
+
 /* Slovak */
 $messages['sk'] = array(
     'fchw_TypeOfPage' => 'Typ stránky',
@@ -60,5 +54,3 @@ $messages['de'] = array(
     'fchw_WhoLinksHere' => 'Es verweisen zu dieser Seite:',
     'fchw_ExportPDF' => 'PDF erzeugen'
 );
-
-	

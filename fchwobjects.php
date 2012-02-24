@@ -1,5 +1,4 @@
 <?php
-
 //////////////////////////////////////////////////////////////
 //
 //    Copyright (C) Thomas Kock, Delmenhorst, 2008, 2009
@@ -21,18 +20,35 @@
 //
 //////////////////////////////////////////////////////////////
 
-$messages = array();
-$messages['en'] = array(
-    'fchwrenumlevels' => 'FlowChartWiki - renumber levels',
-    'fchwrenumlevelsCategory' => 'Process name / Category',
-    'fchwrenumlevelsStartWith' => 'Start with',
-    'fchwrenumlevelsStep' => 'Step',
-    'fchwrenumlevelsRenum' => 'Renumber'
-);
-$messages['es'] = array(
-    'fchwrenumlevels' => 'FlowChartWiki - renumerar niveles',
-    'fchwrenumlevelsCategory' => 'Nombre del proceso / Categoría',
-    'fchwrenumlevelsStartWith' => 'Comenzar por',
-    'fchwrenumlevelsStep' => 'Paso',
-    'fchwrenumlevelsRenum' => 'Renumerar'
-);
+/**
+ * Description of FchwPage
+ *
+ * @author thomas
+ */
+class FchwPage {
+    function __construct($pageName = "", $id="", $displayName = "", $level ="", $pageType="") {
+        $this->id = $id;  // id in cl_from field
+        $this->pageName = $pageName; // name of page in Wiki
+        $this->displayName = $displayName; // Override the displayName of the Page in the graph
+        $this->level = $level;
+        $this->pageType = $pageType;
+        $this->links = array();
+    }
+    function getTranslatedName() {
+        if ($this->displayName != "") {
+            return $this->displayName;
+        } else {
+            return $this->pageName;
+        }
+    }
+}
+class FchwLink {
+    function __construct($fromId="", $linkFrom="", $toId="", $linkTo="", $linkType="") {
+        $this->fromId = $fromId;
+        $this->linkFrom = $linkFrom;
+        $this->toId = $toId;
+        $this->linkTo = $linkTo;
+        $this->linkType = $linkType;
+    }
+}
+?>

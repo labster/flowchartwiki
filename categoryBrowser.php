@@ -1,5 +1,4 @@
 <?php
-
 //////////////////////////////////////////////////////////////
 //
 //    Copyright (C) Thomas Kock, Delmenhorst, 2008, 2009
@@ -24,178 +23,242 @@
 $wgExtensionFunctions[] = "wfCategoryBrowserExtension";
 $wgHooks['ArticleSaveComplete'][] = 'wfCategoryBrowserSaveComplete';
 function wfCategoryBrowserExtension() {
-	global $wgParser;
-	$wgParser->setHook( "CategoryBrowser", "renderCategoryBrowser1" );
-	$wgParser->setHook( "CategoryBrowser2", "renderCategoryBrowser2" );
+    global $wgParser;
+    $wgParser->setHook( "CategoryBrowser", "renderCategoryBrowser1" );
+    $wgParser->setHook( "CategoryBrowser2", "renderCategoryBrowser2" );
 }
 
+// Export {rank=same; "PageName1", "PageName2"} for each level.
 function findLevelRanking($FullGraph) {
-	global $wgDBprefix;
     global $fchw;
     $output = "";
-    $dbr =& wfGetDB( DB_SLAVE );
-    $relations = $dbr->tableName( 'fchw_relation' );
-    $Categorylinks = $dbr->tableName( 'categorylinks' );
-    $sql = "SELECT from_title, relation, to_title as level FROM $relations ".
-      " LEFT OUTER JOIN ${Categorylinks} ON (${Categorylinks}.cl_from = from_id) ".
-      " WHERE $Categorylinks.cl_to = '".$dbr->strencode($fchw['CurrentCategory'])."' and (not (${Categorylinks}.cl_sortkey like '%:Category:".$dbr->strencode($fchw['CurrentCategory'])."')) and relation='Level' ".
-      " group by from_title, relation, to_title order by to_title, from_title LIMIT 500";
-    $res = $dbr->query( $sql );
-    $count = $dbr->numRows( $res );
-    if( $count > 0 ) {
-        # Make list
-	$group = -1;
-	$groupcache = ""; 
-	while( $row = $dbr->fetchObject( $res ) ) {
-	    if ((!$FullGraph) && (!isset($fchw['NearLevels'][$row->level])))
-	      continue;
-//	    if (isset($fchw['Categories'][$row->from_title]))
-//	      continue;
-	    if ($group != $row->level) {
-		if ($groupcache != "") {
-		    $groupcache .= " }\n";
-		    $output .= $groupcache;
-		}	  
-		$group = $row->level;
-		$groupcache = "{ rank = same; ";
-	    }
-	    $groupcache .= "\"".str_replace("_", " ", fchw_TranslatePageName($row->from_title))."\"; ";
-	}
-    	if ($groupcache != "") {
-	    $groupcache .= " }\n";
-	    $output .= $groupcache;
-	}	  
+    $levels = array_keys($fchw['Levels']);
+    if ($FullGraph) { $output .= renderCategoryLevel(); }
+    foreach($levels as $level) {
+        if ($level != 'zzzzzzzz') {
+            if ((!$FullGraph) && (!isset($fchw['NearLevels'][$level]))) {
+               continue;
+            }
+            $groupcache = "{ rank = same; ";
+            $pagesOnLevel = $fchw['Levels'][$level];
+            foreach($pagesOnLevel as $page) {
+                $groupcache .= "\"".str_replace("_", " ", fchw_TranslatePageName($page))."\"; ";
+            }
+            $groupcache .= " }\n";
+            $output .= $groupcache;
+        }
     }
-    $dbr->freeResult( $res );
+    if ($FullGraph) { $output .= renderOverflowLevel(); }
+    return $output;
+}
+// if there is a Customizing to include the category as the first item in
+// the graph, render it.
+function renderCategoryLevel() {
+    global $fchw;
+    $groupcache = "";
+    $pageType="Category";
+    if (isset($fchw['GraphDefs']['nodes'][$pageType])) {
+        $groupcache = "{ rank = source; ";
+        $groupcache .= "\"".$fchw['CurrentCategory']."\"; ";
+        $groupcache .= " }\n";
+    }
+    return $groupcache;
+}
+// Render all Pages with "{rank=same; "PageX"} plus indivdual Page Info
+// for all Pages that have no [[Level::1234]] Tag assigned.
+// Multiple Parts:
+// 1: Render an invisible "zzzzzzzz" Entry underneath the normal Graph.
+// 2: Render the remaining Pages in Rows of $fchw['zLevels'] each.
+// 3: Add invisible Links from "last" Row of Graph to "zzzzzzzz" Entry
+// 4: Add invisible Links inbetween the remaining Pages
+// 5: Add an invisible "zzzzzzzza" Entry underneath and invisible links
+//    from the last row of remaining Pages to it.
+function renderOverflowLevel() {
+    //{ rank = same; "Ende"; } "Ende" [shape=circle,width=.01,height=.01,color=white, label=""]
+    global $fchw;
+    $params = "style=invis,";
+    $groupcache = "";
+    if (isset($fchw['Levels']['zzzzzzzz'])) {
+        $groupcache .= "/* Overflow */\n";
+        $groupcache .= "{ rank = same; \"zzzzzzzz\"; } \"zzzzzzzz\" [shape=circle,width=.01,height=.01,color=white, label=\"\"]\n";
+        $overflowPages = $fchw['Levels']['zzzzzzzz'];
+        sort($overflowPages);  // have the pages sorted alphabetically
+        $numPages = count($overflowPages);
+        // distribute those pages into multiple Rows
+        // $fchw['zLevels'] = 4 is default and set in flowchartwiki.php,
+        // if not configured in LocalSettings.php
+        $i = 0;
+        $row = 0;
+        $overRows = array();
+        $overRows[$row]=array();
+        while ($i < $numPages) {
+            if (count($overRows[$row]) > $fchw['zLevels'] - 1) {
+                $row += 1;
+                $overRows[$row]=array();
+            }
+            $overRows[$row][]=$overflowPages[$i];
+            $i += 1;
+        }
+        // Add these rows to the output
+        $groupcache .= "/* Overflow Rows */\n";
+        $i=0;
+        while ($i <= $row) {
+            $groupcache .= "{ rank = same; ";
+            foreach($overRows[$i] as $page) {
+                $groupcache .= "\"".str_replace("_", " ", fchw_TranslatePageName($page))."\"; ";
+            }
+            $groupcache .= " }\n";
+            $i += 1;
+        }
+        // Add (invisible) links
+        // from last row to invisible 'zzzzzzzz'
+        $groupcache .= "/* Links from Last row to invisible 'zzzzzzzz' */\n";
+        $levelCount = count($fchw['Levels']);
+        $levelkeys = array_keys($fchw['Levels']);
+        if ($levelCount > 1) { // we do not just have 0:'zzzzzzzz'
+            $lastGraphLevel = $fchw['Levels'][$levelkeys[$levelCount - 2]];
+            foreach($lastGraphLevel as $page) {
+                $groupcache .= "\"".str_replace("_", " ",fchw_TranslatePageName($page))."\"->\"zzzzzzzz\" [ $params ];\n";
+            }
+        }
+        // from invisible 'zzzzzzzz' to the pages in the first row.
+        $groupcache .= "/* Links from invisible 'zzzzzzzz' to first overflow-row */\n";
+        foreach($overRows[0] as $page) {
+            $groupcache .= "\"zzzzzzzz\"->\"".str_replace("_", " ",fchw_TranslatePageName($page))."\" [ $params ];\n";
+        }
+        // invisible links inside Overflow
+        $groupcache .= "/* Invisible Links inside Overflow */\n";
+        $i=1;
+        while ($i <= $row) {
+            $j = 0;
+            foreach($overRows[$i] as $page) {
+                $groupcache .= "\"".str_replace("_", " ",fchw_TranslatePageName($overRows[$i-1][$j]))."\"->\"".str_replace("_", " ",fchw_TranslatePageName($page))."\" [ $params ];\n";
+                $j +=1;
+            }
+            $i += 1;
+        }
+        $groupcache .= "/* Sink */\n";
+        $groupcache .= "{ rank = sink; \"zzzzzzzza\"; } \"zzzzzzzza\" [shape=circle,width=.01,height=.01,color=white, label=\"\"]\n";
+        foreach($overRows[$row] as $page) {
+            $groupcache .= "\"".str_replace("_", " ",fchw_TranslatePageName($page))."\"->\"zzzzzzzza\" [ $params ];\n";
+        }
+
+        $groupcache .= "/* DONE overflow */\n";
+    }
+    return $groupcache;
+}
+
+// Render all the individual Pages (Page Data, Shape,Color)
+// of the "Non-Levell-ZZZZZZ" Pages.
+function findPages($FullGraph) {
+    global $fchw, $wgScriptPath, $wgScriptExtension;
+    $output = "";
+    $path = $wgScriptPath."/index".$wgScriptExtension;
+    $pages = $fchw['Pages'];
+    if ($FullGraph) { $output .= renderCategoryPage(); }
+    foreach($pages as $page) {
+        if ((!$FullGraph) && (!isset($fchw['NearLevels'][$page->level]))) {
+            continue;
+        }
+        $params = "";
+        $params .= "URL=\"".(( isset($fchw['Categories'][$page->pageName])) ? "$path/Category:" : "").str_replace("_", " ",$page->pageName)."\",";
+        $color  = "";
+        if (isset($fchw['GraphDefs']['nodes'][$page->pageType])) {
+           $params .= "shape=".$fchw['GraphDefs']['nodes'][$page->pageType]['Shape'].",";
+           $color .= "color=".$fchw['GraphDefs']['nodes'][$page->pageType]['BackColor'].", fontcolor=".$fchw['GraphDefs']['nodes'][$page->pageType]['FontColor'].", style=filled,";
+        }
+        // SELECT CURRENT PAGE
+        if (str_replace("_", " ", $page->pageName) == $fchw['CurrentPage2'])
+           $color = "color=black, fontcolor=white, style=filled, ";
+        $params .= $color;
+        $output .= "\"".str_replace("_", " ", $page->getTranslatedName())."\" [".$params."];\n";
+    }
     return $output;
 }
 
-function findPages($FullGraph) {
-    global $fchw, $wgParser, $wgScriptPath, $wgScriptExtension;
-	global $wgDBprefix;
+// Do the Page-Rendering for the Category-Page.
+function renderCategoryPage() {
+    global $fchw, $wgScriptPath, $wgScriptExtension;
     $path = $wgScriptPath."/index".$wgScriptExtension;
     $output = "";
-    $dbr =& wfGetDB( DB_SLAVE );
-    $page = $dbr->tableName( 'page' );
-    $CategoryLinks = $dbr->tableName( 'categorylinks' );
-    $res = $dbr->query( "SELECT $page.page_namespace, $page.page_title, $page.page_is_redirect, $CategoryLinks.cl_to, rel1.to_title, rel2.to_title as level  FROM $page ".
-       "LEFT OUTER JOIN $CategoryLinks ON $CategoryLinks.cl_from = $page.page_id ".
-       "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'Type') ".
-       "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel2 ON (rel2.from_id = $page.page_id) and (rel2.relation = 'Level') ".
-       "WHERE $CategoryLinks.cl_to = '".$dbr->strencode($fchw['CurrentCategory'])."' and (not (${CategoryLinks}.cl_sortkey like '%:Category:".$dbr->strencode($fchw['CurrentCategory'])."'))".
-       "group by $page.page_namespace, $page.page_title, $page.page_is_redirect, $CategoryLinks.cl_to, rel1.to_title, rel2.to_title ORDER BY $page.page_title  LIMIT 500" );
-    $count = $dbr->numRows( $res );
-    if( $count > 0 ) {
-        # Make list
-	while( $row = $dbr->fetchObject( $res ) ) {
-	    if ($row->page_title == "Type") 
-		continue;
-	    if ((!$FullGraph) && (!isset($fchw['NearLevels'][$row->level])))
-	      continue;
-	    $params = "";
-	    $params .= "URL=\"".(( isset($fchw['Categories'][$row->page_title])) ? "$path/Category:" : "").str_replace("_", " ",$row->page_title)."\",";
-	    $color  = "";
-/*	    // OBJECT TYPE
-	    if ($row->to_title == "Event") {
-	       $params .= "shape=hexagon,";
-	       $color .= "color=azure3, fontcolor=black, style=filled,";
-	    }
-	    if ($row->to_title == "Decision") { 
-	       $params .= "shape=diamond,";
-	       $color .= "color=azure3, fontcolor=black, style=filled,";
-	    }
-	    if ($row->to_title == "Function") {
-	       $params .= "shape=parallelogram,";
-	       $color .= "color=azure3, fontcolor=black, style=filled,";
-	    }
-	    if ($row->to_title == "DataSource") {
-	       $params .= "shape=rect,";
-	       $color .= "color=khaki1, fontcolor=black, style=filled,";
-	    }
-	    if ($row->to_title == "Person") {
-	       $params .= "shape=box,";
-	       $color .= "color=chartreuse1, fontcolor=black, style=filled,";
-	    }
-	    if ($row->to_title == "Department") {
-	       $params .= "shape=ellipse,";
-	       $color .= "color=chartreuse1, fontcolor=black, style=filled,";
-	    }
-	    if ($row->to_title == "Product") {
-	       $params .= "shape=rect,";
-	       $color .= "color=yellow, fontcolor=black, style=filled,";
-	    }
-*/
-	    if (isset($fchw['GraphDefs']['nodes'][$row->to_title])) {		    
-	       $params .= "shape=".$fchw['GraphDefs']['nodes'][$row->to_title]['Shape'].",";
-	       $color .= "color=".$fchw['GraphDefs']['nodes'][$row->to_title]['BackColor'].", fontcolor=".$fchw['GraphDefs']['nodes'][$row->to_title]['FontColor'].", style=filled,";
-	    }
-	    // SELECT CURRENT PAGE
-//	    $output .= "\n".$row->page_title." == ".$fchw['CurrentPage2']."\n";
-	    if (str_replace("_", " ", $row->page_title) == $fchw['CurrentPage2']) 
-	       $color = "color=black, fontcolor=white, style=filled, ";
-	    $params .= $color;
-	    $output .= "\"".str_replace("_", " ", fchw_TranslatePageName($row->page_title))."\" [".$params."];\n";
-	}
+    $pageType="Category";
+    if (isset($fchw['GraphDefs']['nodes'][$pageType])) {
+        $params = "";
+        $params .= "URL=\"".(( isset($fchw['Categories'][$fchw['CurrentCategory']])) ? "$path/Category:" : "").str_replace("_", " ",$fchw['CurrentCategory'])."\",";
+        $color  = "";
+        if (isset($fchw['GraphDefs']['nodes'][$pageType])) {
+           $params .= "shape=".$fchw['GraphDefs']['nodes'][$pageType]['Shape'].",";
+           $color .= "color=".$fchw['GraphDefs']['nodes'][$pageType]['BackColor'].", fontcolor=".$fchw['GraphDefs']['nodes'][$pageType]['FontColor'].", style=filled,";
+        }
+        // SELECT CURRENT PAGE
+        if (str_replace("_", " ", $fchw['CurrentCategory']) == $fchw['CurrentPage2'])
+           $color = "color=black, fontcolor=white, style=filled, ";
+        $params .= $color;
+        $output .= "\"".str_replace("_", " ", $fchw['CurrentCategory'])."\" [".$params."];\n";
     }
-    $dbr->freeResult( $res );
     return $output;
 }
 
+// Render all the Links inside the Graph
 function findLinks($FullGraph) {
     global $fchw;
-	global $wgDBprefix;
     $output = "";
-    $dbr =& wfGetDB( DB_SLAVE );
-    $relations = $dbr->tableName( 'fchw_relation' );
-    $CategoryLinks = $dbr->tableName( 'categorylinks' );
-    $sql = "SELECT rel0.from_title, rel0.relation, rel0.to_title, rel1.to_title as level1, rel2.to_title as level2 FROM $relations rel0 ".
-      " LEFT OUTER JOIN $CategoryLinks ON ($CategoryLinks.cl_from = rel0.from_id) ".
-       "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel1 ON (rel1.from_id = rel0.from_id) and (rel1.relation = 'Level') ".
-       "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel2 ON (rel2.from_id = rel0.to_id) and (rel2.relation = 'Level') ".
-      " WHERE $CategoryLinks.cl_to = '".$dbr->strencode($fchw['CurrentCategory'])."' and (not ($CategoryLinks.cl_sortkey like '%:Category:".$dbr->strencode($fchw['CurrentCategory'])."')) and (rel0.relation <> 'ModelType') ".
-      " group by rel0.from_title, rel0.relation, rel0.to_title, rel1.to_title, rel2.to_title order by rel0.from_title, rel0.to_title LIMIT 500";
-    $res = $dbr->query($sql );
-    $count = $dbr->numRows( $res );
-    if( $count > 0 ) {
-        # Make list
-	while( $row = $dbr->fetchObject( $res ) ) {
-	    if (!$FullGraph) {
-	      if (((!isset($fchw['NearLevels'][$row->level1]))) || 
-	          ((!isset($fchw['NearLevels'][$row->level2]))))
-	      continue;
-	    }
-	    if ($row->relation == "Type") 
-	      continue;
-	    if ($row->relation == "Level") 
-	      continue;
-	    if ($row->relation == "PageName") 
-	      continue;
-//	    if ((isset($fchw['Categories'][$row->from_title])) ||  
-//	        (isset($fchw['Categories'][$row->from_title]))) 
-//	      continue;
-	    $params = "";	    
-	    if (isset($fchw['GraphDefs']['arrows'][$row->relation])) {		    		
-	       $params .= "color=\"".$fchw['GraphDefs']['arrows'][$row->relation]['Color']."\", arrowhead=".$fchw['GraphDefs']['arrows'][$row->relation]['Shape'].", style=\"".$fchw['GraphDefs']['arrows'][$row->relation]['Style']."\", label=\"".$fchw['GraphDefs']['arrows'][$row->relation]['Label']."\"";
-	    }
-	    $output .= "\"".str_replace("_", " ",fchw_TranslatePageName($row->from_title))."\"->\"".str_replace("_", " ",fchw_TranslatePageName($row->to_title))."\" [ $params ];\n";
-	    //
-
-	}
+    if ($FullGraph) { $output .= renderCategoryLinks(); }
+    $pages = $fchw['Pages'];
+    foreach($pages as $page) {
+        $links = $page->links;
+        if (isset($links)) {  // do we have some links to other pages on this page?
+            foreach($links as $link) {
+                if (!$FullGraph) {
+                  if (((!isset($fchw['NearLevels'][$pages[$link->linkFrom]->level]))) ||
+                      ((!isset($fchw['NearLevels'][$pages[$link->linkTo]->level]))))
+                  continue;
+                }
+                $params = "";
+                if (isset($fchw['GraphDefs']['arrows'][$link->linkType])) {
+                   $params .= "color=\"".$fchw['GraphDefs']['arrows'][$link->linkType]['Color']."\", arrowhead=".$fchw['GraphDefs']['arrows'][$link->linkType]['Shape'].", style=\"".$fchw['GraphDefs']['arrows'][$link->linkType]['Style']."\", label=\"".$fchw['GraphDefs']['arrows'][$link->linkType]['Label']."\"";
+                }
+                $output .= "\"".str_replace("_", " ",fchw_TranslatePageName($link->linkFrom))."\"->\"".str_replace("_", " ",fchw_TranslatePageName($link->linkTo))."\" [ $params ];\n";
+            }
+        }
     }
-    $dbr->freeResult( $res );
+    return $output;
+}
+// Render the (invisible) Links from the Category-Page to the pages on the
+// first Level.
+function renderCategoryLinks() {
+    global $fchw;
+    $pages = $fchw['Pages'];
+    $output = "";
+    $pageType="Category";
+    if (isset($fchw['GraphDefs']['nodes'][$pageType])) {
+        $params = "style=invis,";
+        $levels = array_keys($fchw['Levels']);
+        $pagesOnLevel = $fchw['Levels'][$levels[0]]; // we invisibly link to the pages on the first level.
+        if (isset($pagesOnLevel)) {
+            foreach($pagesOnLevel as $page) {
+                $output .= "\"".str_replace("_", " ",$fchw['CurrentCategory'])."\"->\"".str_replace("_", " ",$pages[$page]->getTranslatedName())."\" [ $params ];\n";
+            }
+        }
+    }
     return $output;
 }
 
+// Tag: <CategoryBrowser /> or <CategoryBrowser>CategoryName</CategoryBrowser>
+// CategoryBrowser renders the whole graph.
 function renderCategoryBrowser1($input, $params, &$parser) {
     return renderCategoryBrowser($input, $params, $parser, 1);
 }
 
+// Tag: <CategoryBrowser2 /> or <CategoryBrowser2>CategoryName</CategoryBrowser2>
+// CategoryBrowser2 renders two images,
+// 1: The whole graph
+// 2: Just the 2 rows above and below the current row.
 function renderCategoryBrowser2($input, $params, &$parser) {
     return renderCategoryBrowser($input, $params, $parser, 2);
 }
-
-function renderCategoryBrowser($input, $params, &$parser, $Mode)
-{
+// Render the Image, calls most of the functions above.
+function renderCategoryBrowser($input, $params, &$parser, $Mode) {
     global $fchw, $wgTitle, $wgUploadDirectory, $wgParser;
     $html = "";
     $fchw['Categories'] = fchw_GetCategories();
@@ -206,50 +269,59 @@ function renderCategoryBrowser($input, $params, &$parser, $Mode)
     $fchw['CurrentCategory'] = fchw_GetCurrentCategory($myTitle);
     $GraphFileName = $myTitle;
     if ($wgTitle->mNamespace == NS_CATEGORY) {
-       //if (strpos(strtoupper($GraphFileName), strtoupper($wgCanonicalNamespaceNames[NS_CATEGORY]).":") === 0) {
-	   $fchw['CurrentCategory'] = substr($GraphFileName, strpos($GraphFileName, ":")+1);
+       $fchw['CurrentCategory'] = substr($GraphFileName, strpos($GraphFileName, ":")+1);
     }
     if ($input) {
         $fchw['CurrentCategory'] = $input;
-	$GraphFileName = $myTitle."_".$input;
-    }    
-    $fchw['CurrentPage']		= $wgParser->getTitle()->mTextform;
-    $fchw['CurrentPage2']	= $fchw['CurrentPage'];
+        $GraphFileName = $myTitle."_".$input;
+    }
+    $fchw['CurrentPage']        = $wgParser->getTitle()->mTextform;
+    $fchw['CurrentPage2']    = $fchw['CurrentPage'];
     if (!(strpos($fchw['CurrentPage'], ":") === FALSE)) {
-	$fchw['CurrentPage2'] = substr($fchw['CurrentPage'], strpos($fchw['CurrentPage'], ":")+1);
+       $fchw['CurrentPage2'] = substr($fchw['CurrentPage'], strpos($fchw['CurrentPage'], ":")+1);
     }
     if ($fchw['CurrentPage'] != $myTitle) {
-	$GraphFileName .= "_".$fchw['CurrentPage'];
+       $GraphFileName .= "_".$fchw['CurrentPage'];
     }
-//    $html = "CURRENT PAGE:: ".$fchw['CurrentPage']." CURRENT PAGE2:: ".$fchw['CurrentPage2']."CURRENT CATEGORY:: ".$fchw['CurrentCategory']." myTitle $myTitle<br />";
     $fchw['CurrentCategory'] = str_replace(" ","_",$fchw['CurrentCategory']);
-    $fchw['CurrentLevel'] 	= fchw_GetCurrentLevel();
-    $fchw['PageNames']		= fchw_GetPageNames($fchw['CurrentCategory']); //$fchw['CurrentCategory']
-    $fchw['Levels'] 		= fchw_GetLevels($fchw['CurrentCategory']); // $fchw['CurrentCategory']
-    $fchw['NearLevels'] 	= fchw_GetNearLevels($fchw['Levels'], $fchw['CurrentLevel']);
-    $fchw['GraphDefs'] 		= fchw_GetGraphDefinitions(fchw_GetCategoryModelType($fchw['CurrentCategory'])); // $fchw['CurrentCategory']
-    $GraphHeight = count($fchw['Levels']) ;
+    $fchw['Pages']       = fchw_LoadPages(); // of fchw['currentCategory']
+    $fchw['CurrentLevel']     = fchw_GetCurrentLevel();
+    $fchw['Levels']         = fchw_GetLevels();
+    $fchw['NearLevels']     = fchw_GetNearLevels(fchw_GetLevels(false), $fchw['CurrentLevel']);
+    $fchw['GraphDefs']         = fchw_GetGraphDefinitions(fchw_GetCategoryModelType($fchw['CurrentCategory']));
+    // Calculate Height of Graph: How many "Rows"="Levels" do we have?
+    $GraphHeight = 0;
+    // Will the Category be shown?
+    if (isset($fchw['GraphDefs']['nodes']["Category"])) {
+        $GraphHeight += 1;
+    }
+    // Do we have Pages without a "[[Level::1000]]" assigned?
+    if (isset($fchw['Levels']['zzzzzzzz'])) {
+        $GraphHeight += intval(count($fchw['Levels']['zzzzzzzz']) / $fchw['zLevels']) + 1 ;
+        $GraphHeight += count($fchw['Levels']) - 1 ;
+    } else {
+        $GraphHeight += count($fchw['Levels']) ;
+    }
     if (($fchw['CurrentLevel'] == "") || ($Mode == 1)) {
-	$output  = "digraph G { size =\"7,$GraphHeight\"; concentrate=true; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
-	$html    .= Graphviz($GraphFileName, $output);
-//        $html    .= "<pre>$output</pre>";
+        $output  = "digraph G { size =\"7,$GraphHeight\"; concentrate=true; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
+        $html    .= Graphviz($GraphFileName, $output);
+        //$html    .= "<pre>$output</pre>";
     } else {
         $html    .= "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td width='10' style='padding-right: 16px' valign='top'>";
-	$output  = "digraph G { size =\"3,$GraphHeight\"; concentrate=true; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
-	$html    .= Graphviz($GraphFileName."_process", $output);
-//	    $html    .= "<pre>$output</pre>";
-	$html    .= "</td><td valign='top'>";
-	$output  = "digraph G { size =\"5,$GraphHeight\"; concentrate=true; ".findLevelRanking(false).findPages(false).findLinks(false)."}";
-	$html    .= Graphviz($GraphFileName, $output);
-//	    $html    .= "<pre>$output</pre>";
-	$html    .= "</td></tr></table>";
+        $output  = "digraph G { size =\"3,$GraphHeight\"; concentrate=true; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
+        $html    .= Graphviz($GraphFileName."_process", $output);
+        //$html    .= "<pre>$output</pre>";
+        $html    .= "</td><td valign='top'>";
+        //$output  = "digraph G { size =\"5,$GraphHeight\"; concentrate=true; ".findLevelRanking(false).findPages(false).findLinks(false)."}";
+        $output  = "digraph G { size =\"5,6\"; concentrate=true; ".findLevelRanking(false).findPages(false).findLinks(false)."}";
+        $html    .= Graphviz($GraphFileName, $output);
+        //$html    .= "<pre>$output</pre>";
+        $html    .= "</td></tr></table>";
     }
-	return $html;
-//    return $output;
+    return $html;
+    //return $output;
 }
 
 function wfCategoryBrowserSaveComplete(&$article, &$user, &$text, &$summary, &$minoredit, &$watchthis, &$sectionanchor, &$flags, $revision) {
     return true;
 }
-
-

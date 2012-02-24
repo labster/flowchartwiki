@@ -36,16 +36,10 @@ class CheckFchw extends SpecialPage {
         # Get request data from, e.g.
         $param = $wgRequest->getText('param');
 
-        # Do stuff
-        # ...
-
         function Status($Ok, $Text, $Hint) {
             //<strong>".(($Ok) ? "ok" : "failed")."</strong>
             return "<tr><td style='padding-left: 4px; padding-right: 16px; background: ".(($Ok) ? "green" : "red").";'><strong>".(($Ok) ? "OK" : "ERROR")."</strong></td><td valign='top' style='padding: 8px; background: ".(($Ok) ? "green" : "red").";'><strong>$Text</strong><br /><font color='white'>".(($Ok) ? "" : $Hint)."</font></td></tr>";
         }
-
-
-        # Output
 
         # Output
         $output = "";
