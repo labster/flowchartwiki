@@ -65,6 +65,7 @@ function Graphviz($Filename, $GraphData) {
 	$exec = escapeshellarg($DotDir)." -Tpng -o ".escapeshellarg($PNGFile)." ".escapeshellarg($DOTFile);
 	if (substr(php_uname(), 0, 7) == "Windows") { 
     	    $obj = new COM("WScript.Shell") or die("Unable to init WScript.Shell for Png file"); 
+	    die("COMMAND: ".$exec);
 	    $obj->Run("".$exec, 0, true);
 	    $obj = null;
 	} else {
@@ -73,6 +74,7 @@ function Graphviz($Filename, $GraphData) {
 	$exec = escapeshellarg($DotDir)." -Tcmapx -o ".escapeshellarg($MAPFile)." ".escapeshellarg($DOTFile);
 	if (substr(php_uname(), 0, 7) == "Windows") { 
     	    $obj = new COM("WScript.Shell") or die("Unable to init WScript.Shell for Map file"); 
+	    die("COMMAND: ".$exec);
 	    $obj->Run("".$exec, 0, true);
 	    $obj = null;
 	} else {

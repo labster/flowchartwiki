@@ -349,8 +349,9 @@ $page.page_id ".
 // translate pagename
 function fchw_TranslatePageName($Page) {
     global $fchw;
-    if (isset($fchw['PageNames'][$Page]))
-	return $fchw['PageNames'][$Page];
+    $Page2 = str_replace("_", " ", $Page);
+    if (isset($fchw['PageNames'][$Page2]))
+	return $fchw['PageNames'][$Page2];
       else
         return $Page;
 }

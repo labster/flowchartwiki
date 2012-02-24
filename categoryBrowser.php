@@ -58,7 +58,7 @@ function findLevelRanking($FullGraph) {
 		$group = $row->level;
 		$groupcache = "{ rank = same; ";
 	    }
-	    $groupcache .= "\"".fchw_TranslatePageName($row->from_title)."\"; ";
+	    $groupcache .= "\"".str_replace("_", " ", fchw_TranslatePageName($row->from_title))."\"; ";
 	}
     	if ($groupcache != "") {
 	    $groupcache .= " }\n";
@@ -128,8 +128,9 @@ function findPages($FullGraph) {
 	       $color .= "color=".$fchw['GraphDefs']['nodes'][$row->to_title]['BackColor'].", fontcolor=".$fchw['GraphDefs']['nodes'][$row->to_title]['FontColor'].", style=filled,";
 	    }
 	    // SELECT CURRENT PAGE
-	    if ($row->page_title == $fchw['CurrentPage2']) 
-	       $color .= "color=black, fontcolor=white, style=filled, ";
+//	    $output .= "\n".$row->page_title." == ".$fchw['CurrentPage2']."\n";
+	    if (str_replace("_", " ", $row->page_title) == $fchw['CurrentPage2']) 
+	       $color = "color=black, fontcolor=white, style=filled, ";
 	    $params .= $color;
 	    $output .= "\"".str_replace("_", " ", fchw_TranslatePageName($row->page_title))."\" [".$params."];\n";
 	}
@@ -227,7 +228,7 @@ function renderCategoryBrowser($input, $params, &$parser, $Mode)
     if (($fchw['CurrentLevel'] == "") || ($Mode == 1)) {
 	$output  = "digraph G { size =\"7,$GraphHeight\"; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
 	$html    .= Graphviz($GraphFileName, $output);
-//	    $html    .= "<pre>$output</pre>";
+//        $html    .= "<pre>$output</pre>";
     } else {
         $html    .= "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td width='10' style='padding-right: 16px' valign='top'>";
 	$output  = "digraph G { size =\"3,$GraphHeight\"; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
@@ -237,7 +238,6 @@ function renderCategoryBrowser($input, $params, &$parser, $Mode)
 	$output  = "digraph G { size =\"5,$GraphHeight\"; ".findLevelRanking(false).findPages(false).findLinks(false)."}";
 	$html    .= Graphviz($GraphFileName, $output);
 //	    $html    .= "<pre>$output</pre>";
-//    $html    .= $output;
 	$html    .= "</td></tr></table>";
     }
 	return $html;
