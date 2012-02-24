@@ -91,7 +91,7 @@ function findPages($FullGraph) {
 	    if ((!$FullGraph) && (!isset($fchw['NearLevels'][$row->level])))
 	      continue;
 	    $params = "";
-	    $params .= "URL=\"".((isset($fchw['Categories'][$row->page_title])) ? "$path/Category:" : "").$row->page_title."\",";
+	    $params .= "URL=\"".(( isset($fchw['Categories'][$row->page_title])) ? "$path/Category:" : "").str_replace("_", " ",$row->page_title)."\",";
 	    $color  = "";
 /*	    // OBJECT TYPE
 	    if ($row->to_title == "Event") {
@@ -131,7 +131,7 @@ function findPages($FullGraph) {
 	    if ($row->page_title == $fchw['CurrentPage2']) 
 	       $color .= "color=black, fontcolor=white, style=filled, ";
 	    $params .= $color;
-	    $output .= "\"". $row->page_title."\" [".$params."];\n";
+	    $output .= "\"".str_replace("_", " ", $row->page_title)."\" [".$params."];\n";
 	}
     }
     $dbr->freeResult( $res );
@@ -167,7 +167,7 @@ function findLinks($FullGraph) {
 //	    if ((isset($fchw['Categories'][$row->from_title])) ||  
 //	        (isset($fchw['Categories'][$row->from_title]))) 
 //	      continue;
-	    $output .= $row->from_title."->".$row->to_title.";\n";
+	    $output .= "\"".str_replace("_", " ",$row->from_title)."\"->\"".str_replace("_", " ",$row->to_title)."\";\n";
 	}
     }
     $dbr->freeResult( $res );
