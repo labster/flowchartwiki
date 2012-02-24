@@ -45,19 +45,22 @@ See [[Customizing:Configure_Chart_Documentation]] for Details on how to configur
 
 == Configuration ==
 *Sample_Configure_ChartType
-**PageType Shape Color_of_Shape [Color_of_Font Defaults to Black]
-**PageType Shape Color_of_Shape Color_of_Font
+**Nodes
+***PageType Shape Color_of_Shape [Color_of_Font Defaults to Black]
+***PageType Shape Color_of_Shape Color_of_Font
 
 
 *Configure_Draw
-**Rect_Blue   box            blue
-**Rect_Yellow rect           yellow
-**Rect_Red    rect           firebrick2
-**Rect_Green  rect           forestgreen
-**Elli_Blue   ellipse        blue
+**Nodes
+***Rect_Blue   box            blue
+***Rect_Yellow rect           yellow
+***Rect_Red    rect           firebrick2
+***Rect_Green  rect           forestgreen
+***Elli_Blue   ellipse        blue
 
 *Configure_ValueStream
-**Rect_Red    polygon        cyan3</text>
+**Nodes
+***Rect_Red    polygon        cyan3</text>
     </revision>
   </page>
   <page>
@@ -74,13 +77,14 @@ See [[Customizing:Configure_Chart_Documentation]] for Details on how to configur
       <comment>1 revision</comment>
       <text xml:space="preserve">== Configuration ==
 *Configure_EPK
-**Event      hexagon        azure3
-**Decision   diamond        azure3
-**Function   parallelogram  azure3
-**DataSource rect           khaki1
-**Person     box            chartreuse1
-**Department ellipse        chartreuse1
-**Product    rect           yellow</text>
+**Nodes
+***Event      hexagon        azure3
+***Decision   diamond        azure3
+***Function   parallelogram  azure3
+***DataSource rect           khaki1
+***Person     box            chartreuse1
+***Department ellipse        chartreuse1
+***Product    rect           yellow</text>
     </revision>
   </page>
   <page>
@@ -96,39 +100,40 @@ See [[Customizing:Configure_Chart_Documentation]] for Details on how to configur
       <comment>New page: == Configuration == *Configure_ShapeTest **Box         box            blue **Polygon     polygon        blue **Ellipse     ellipse        blue **Circle      circle         blue **Point    ...</comment>
       <text xml:space="preserve">== Configuration ==
 *Configure_ShapeTest
-**Box         box            blue
-**Polygon     polygon        blue
-**Ellipse     ellipse        blue
-**Circle      circle         blue
-**Point       point          blue
-**Egg         egg            blue
-**Triangle    triangle       blue
-**Plaintext   plaintext      blue
-**Diamond     diamond        blue
-**Trapezium   trapezium      blue
-**Parallelogram parallelogram blue
-**House         house         blue
-**Pentagon      pentagon      blue
-**Hexagon       hexagon       blue
-**Septagon      septagon      blue
-**Octagon       octagon       blue
-**Doublecircle  doublecircle  blue
-**Doubleoctagon doubleoctagon blue
-**Tripleoctagon tripleoctagon blue
-**Invtriangle   invtriangle   blue
-**Invtrapezium  invtrapezium  blue
-**Invhouse      invhouse      blue
-**Mdiamond      mdiamond      blue
-**Msquare       msquare       blue
-**Mcircle       mcircle       blue
-**Rect          rect          blue
-**Rectangle     rectangle     blue
-**None          none          blue
-**Note          note          blue
-**Tab           tab           blue
-**Folder        folder        blue
-**Box3d         box3d         blue
-**Component     component     blue</text>
+**Nodes
+***Box         box            blue
+***Polygon     polygon        blue
+***Ellipse     ellipse        blue
+***Circle      circle         blue
+***Point       point          blue
+***Egg         egg            blue
+***Triangle    triangle       blue
+***Plaintext   plaintext      blue
+***Diamond     diamond        blue
+***Trapezium   trapezium      blue
+***Parallelogram parallelogram blue
+***House         house         blue
+***Pentagon      pentagon      blue
+***Hexagon       hexagon       blue
+***Septagon      septagon      blue
+***Octagon       octagon       blue
+***Doublecircle  doublecircle  blue
+***Doubleoctagon doubleoctagon blue
+***Tripleoctagon tripleoctagon blue
+***Invtriangle   invtriangle   blue
+***Invtrapezium  invtrapezium  blue
+***Invhouse      invhouse      blue
+***Mdiamond      mdiamond      blue
+***Msquare       msquare       blue
+***Mcircle       mcircle       blue
+***Rect          rect          blue
+***Rectangle     rectangle     blue
+***None          none          blue
+***Note          note          blue
+***Tab           tab           blue
+***Folder        folder        blue
+***Box3d         box3d         blue
+***Component     component     blue</text>
     </revision>
   </page>
 </mediawiki>

@@ -23,7 +23,7 @@
 
 function Graphviz($Filename, $GraphData) {
     global $fchw, $wgUploadPath, $wgUploadDirectory;
-    $ImgDir  = "/fchw/"; 
+    $ImgDir  = "/flowchartwiki/"; 
 	$ImgDir  = str_replace('/', DIRECTORY_SEPARATOR, $ImgDir);
 	$DotDir  = str_replace('/', DIRECTORY_SEPARATOR, $fchw['GraphvizDot']);
     $DataDir = str_replace('/', DIRECTORY_SEPARATOR, $wgUploadDirectory.$ImgDir);

@@ -67,9 +67,11 @@ function fchw_GetRedirectedPages() {
 	if (is_array($RedirectedPages)) {
             foreach($RedirectedPages as $Key=>$Value) {
 	        if (isset($RedirectedPages[$Value['to_id']])) {
-		    $RedirectedPages[$Key]['to_id'] = $RedirectedPages[$Value['to_id']]['to_id'];
-		    $RedirectedPages[$Key]['to_title'] = $RedirectedPages[$Value['to_id']]['to_title'];
-		    $Counter++;
+		    if ($RedirectedPages[$Key]['to_id'] <> $RedirectedPages[$Value['to_id']]['to_id']) {
+	    	        $RedirectedPages[$Key]['to_id'] = $RedirectedPages[$Value['to_id']]['to_id'];
+			$RedirectedPages[$Key]['to_title'] = $RedirectedPages[$Value['to_id']]['to_title'];
+			$Counter++;
+		    }
 		}
 	    }
 	} else break;
@@ -120,9 +122,12 @@ function fchw_GetGraphDefinitions($ModelType) {
     }
     // parser
     $CatBroDef = NULL;
+    $CatBroDef['nodes'] 	= NULL;
+    $CatBroDef['arrows'] 	= NULL;
     $Lines = explode("\n", $ModelTypeText);
     $StartConfigBlock = false;
     $StartModelTypeBlock = false;
+    $Type = "";
     foreach ($Lines as $value) {
 	$LineUpper = strtoupper($value);
 	$LineUpperNoSpace = str_replace(" ", "", strtoupper($value));
@@ -140,16 +145,37 @@ function fchw_GetGraphDefinitions($ModelType) {
 	    $StartModelTypeBlock = true;
 	}
         // parse def.
-	if (($StartModelTypeBlock == true) && (strpos($LineUpper, "**") === 0)) {
+	if (($StartModelTypeBlock == true) && ($LineUpper == "**NODES")) {
+	    $Type = "nodes";
+	}
+	if (($StartModelTypeBlock == true) && ($LineUpper == "**ARROWS")) {
+	    $Type = "arrows";
+	}
+	if (($StartModelTypeBlock == true) && (strpos($LineUpper, "***") === 0) && ($Type == "nodes")) {
 	    $Ele = explode (" ", OneSpaceOnly($value));
 	    if (isset($Ele[0]) && isset($Ele[1]) && isset($Ele[2])) {
     	        $Ele[0] = str_replace("*", "", $Ele[0]);
-		$CatBroDef[$Ele[0]]['Visible'] 		= true;
-		$CatBroDef[$Ele[0]]['Shape'] 		= $Ele[1];
-		$CatBroDef[$Ele[0]]['BackColor'] 		= $Ele[2];
+		$CatBroDef[$Type][$Ele[0]]['Visible'] 		= true;
+		$CatBroDef[$Type][$Ele[0]]['Shape'] 			= $Ele[1];
+		$CatBroDef[$Type][$Ele[0]]['BackColor'] 		= $Ele[2];
 		if (isset( $Ele[3] ))
-		    $CatBroDef[$Ele[0]]['FontColor'] 		= $Ele[3]; else
-	    	    $CatBroDef[$Ele[0]]['FontColor'] 		= "black";
+		    $CatBroDef[$Type][$Ele[0]]['FontColor'] 		= $Ele[3]; else
+	    	    $CatBroDef[$Type][$Ele[0]]['FontColor'] 		= "black";
+	    }
+	}
+	if (($StartModelTypeBlock == true) && (strpos($LineUpper, "***") === 0) && ($Type == "arrows")) {
+	    $Ele = explode (" ", OneSpaceOnly($value));
+	    if (isset($Ele[0]) && isset($Ele[1]) && isset($Ele[2])) {
+    	        $Ele[0] = str_replace("*", "", $Ele[0]);
+		$CatBroDef[$Type][$Ele[0]]['Visible'] 		= true;
+		$CatBroDef[$Type][$Ele[0]]['Shape'] 			= $Ele[1];
+		$CatBroDef[$Type][$Ele[0]]['Color'] 		= $Ele[2];
+		if (isset( $Ele[3] ))
+		    $CatBroDef[$Type][$Ele[0]]['Style'] 		= $Ele[3]; else
+	    	    $CatBroDef[$Type][$Ele[0]]['Style'] 		= "solid";
+		if (isset( $Ele[4] ))
+		    $CatBroDef[$Type][$Ele[0]]['Label'] 		= $Ele[4]; else
+	    	    $CatBroDef[$Type][$Ele[0]]['Label'] 		= "";
 	    }
 	}
 //	text .= "$value <br />";

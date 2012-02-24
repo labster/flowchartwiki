@@ -123,9 +123,9 @@ function findPages($FullGraph) {
 	       $color .= "color=yellow, fontcolor=black, style=filled,";
 	    }
 */
-	    if (isset($fchw['GraphDefs'][$row->to_title])) {		    
-	       $params .= "shape=".$fchw['GraphDefs'][$row->to_title]['Shape'].",";
-	       $color .= "color=".$fchw['GraphDefs'][$row->to_title]['BackColor'].", fontcolor=".$fchw['GraphDefs'][$row->to_title]['FontColor'].", style=filled,";
+	    if (isset($fchw['GraphDefs']['nodes'][$row->to_title])) {		    
+	       $params .= "shape=".$fchw['GraphDefs']['nodes'][$row->to_title]['Shape'].",";
+	       $color .= "color=".$fchw['GraphDefs']['nodes'][$row->to_title]['BackColor'].", fontcolor=".$fchw['GraphDefs']['nodes'][$row->to_title]['FontColor'].", style=filled,";
 	    }
 	    // SELECT CURRENT PAGE
 	    if ($row->page_title == $fchw['CurrentPage2']) 
@@ -167,7 +167,13 @@ function findLinks($FullGraph) {
 //	    if ((isset($fchw['Categories'][$row->from_title])) ||  
 //	        (isset($fchw['Categories'][$row->from_title]))) 
 //	      continue;
-	    $output .= "\"".str_replace("_", " ",$row->from_title)."\"->\"".str_replace("_", " ",$row->to_title)."\";\n";
+	    $params = "";	    
+	    if (isset($fchw['GraphDefs']['arrows'][$row->relation])) {		    		
+	       $params .= "color=\"".$fchw['GraphDefs']['arrows'][$row->relation]['Color']."\", arrowhead=".$fchw['GraphDefs']['arrows'][$row->relation]['Shape'].", style=\"".$fchw['GraphDefs']['arrows'][$row->relation]['Style']."\", label=\"".$fchw['GraphDefs']['arrows'][$row->relation]['Label']."\"";
+	    }
+	    $output .= "\"".str_replace("_", " ",$row->from_title)."\"->\"".str_replace("_", " ",$row->to_title)."\" [ $params ];\n";
+	    //
+
 	}
     }
     $dbr->freeResult( $res );

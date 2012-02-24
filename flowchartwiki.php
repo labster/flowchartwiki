@@ -46,5 +46,8 @@
     require_once("categoryBrowser.php");
     require_once("wizardProcessStep.php");
     require_once("linktypes.php");
+
+    require_once("checkfchw.php");
+    require_once("renumber_levels.php");
 	 
 	 

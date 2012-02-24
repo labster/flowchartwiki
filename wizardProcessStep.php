@@ -66,7 +66,7 @@ function ProcessStepWizard2($action, $article) {
     
     // get modeltype elements
     $Types = "<select name='pagetype'>";
-    foreach($ModelStruc as $key => $value) {
+    foreach($ModelStruc['nodes'] as $key => $value) {
 	$Types .= "<option>$key</option><br />";
     }
     $Types .= "</select>";
