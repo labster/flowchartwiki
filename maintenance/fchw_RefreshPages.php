@@ -3,10 +3,10 @@ require_once ( getenv('MW_INSTALL_PATH') !== false
     ? getenv('MW_INSTALL_PATH')."/maintenance/commandLine.inc"
     : dirname( __FILE__ ) . '/../../../maintenance/commandLine.inc' );
 require_once("$IP/maintenance/counter.php");
-require_once("./extensions/fchw/lib.php");
-require_once("./extensions/fchw/linktypes.php");
+require_once("./extensions/flowchartwiki/lib.php");
+require_once("./extensions/flowchartwiki/linktypes.php");
 
-global $wgParser;
+global $wgParser, $wgTitle;
 global $smwgEnableUpdateJobs, $wgServer;
 $smwgEnableUpdateJobs = false; // do not fork additional update jobs while running this script
 
@@ -22,6 +22,7 @@ for ($id = 0; $id <= $end; $id++) {
     if ($revision === NULL) continue;
     $parserOutput = $wgParser->parse($revision->getText(), $title, $options, true, true, $revision->getID());
     print "Page $title\n";
+    $wgTitle = $title;
     $u = new LinksUpdate($title, $parserOutput);
     //$u->doUpdate();
     //fchw_UpdateLinks($u);
