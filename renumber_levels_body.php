@@ -7,7 +7,7 @@ class FchwRenumLevels extends SpecialPage {
  
         function execute( $par ) {
                 global $wgRequest, $wgOut, $wgScriptPath, $fchw, $dbr;
- 
+    global $wgDBprefix;
                 $this->setHeaders();
  
                 # Get request data from, e.g.	
@@ -15,7 +15,7 @@ class FchwRenumLevels extends SpecialPage {
  
                 # Output
 		$dbr = wfGetDB( DB_MASTER );	
-		$res = $dbr->query("select * from category", 'FchwRenumLevels' );
+		$res = $dbr->query("select * from ".$wgDBprefix."category", 'FchwRenumLevels' );
 		$Categories = "";
     		while ( $row = $dbr->fetchObject( $res ) ) {
 		    $n = $row->cat_title;

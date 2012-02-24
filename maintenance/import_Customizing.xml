@@ -1,7 +1,7 @@
 <mediawiki xmlns="http://www.mediawiki.org/xml/export-0.3/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.3/ http://www.mediawiki.org/xml/export-0.3.xsd" version="0.3" xml:lang="en">
   <siteinfo>
     <sitename>Flowchartwiki</sitename>
-    <base>http://localhost/wiki/index.php/Main_Page</base>
+    <base>http://www.flowchartwiki.org/wiki/index.php/Main_Page</base>
     <generator>MediaWiki 1.13.1</generator>
     <case>first-letter</case>
       <namespaces>
@@ -29,12 +29,13 @@
     <title>Customizing:Configure Chart</title>
     <id>77</id>
     <revision>
-      <id>202</id>
-      <timestamp>2008-09-12T13:13:22Z</timestamp>
+      <id>343</id>
+      <timestamp>2008-11-15T15:35:55Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
+      <comment>/* Configuration */</comment>
       <text xml:space="preserve">=== Configure the ModelType / Graphics ===
 == Important Info==
 This page is for customizing purposes only.
@@ -57,6 +58,9 @@ See [[Customizing:Configure_Chart_Documentation]] for Details on how to configur
 ***Rect_Red    rect           firebrick2
 ***Rect_Green  rect           forestgreen
 ***Elli_Blue   ellipse        blue
+**Arrows
+***Install diamond blue solid Installation
+***Hosting normal green solid Hosting
 
 *Configure_ValueStream
 **Nodes
@@ -67,14 +71,13 @@ See [[Customizing:Configure_Chart_Documentation]] for Details on how to configur
     <title>Customizing:Configure EPK</title>
     <id>76</id>
     <revision>
-      <id>151</id>
-      <timestamp>2008-09-12T11:41:34Z</timestamp>
+      <id>345</id>
+      <timestamp>2008-11-15T15:55:48Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <minor/>
-      <comment>1 revision</comment>
+      <comment>/* Configuration */</comment>
       <text xml:space="preserve">== Configuration ==
 *Configure_EPK
 **Nodes
@@ -84,20 +87,22 @@ See [[Customizing:Configure_Chart_Documentation]] for Details on how to configur
 ***DataSource rect           khaki1
 ***Person     box            chartreuse1
 ***Department ellipse        chartreuse1
-***Product    rect           yellow</text>
+***Product    rect           yellow
+**Arrows
+***No diamond blue solid No
+***Yes normal green solid Yes</text>
     </revision>
   </page>
   <page>
     <title>Customizing:Configure ShapeTest</title>
     <id>81</id>
     <revision>
-      <id>219</id>
-      <timestamp>2008-09-12T13:47:29Z</timestamp>
+      <id>311</id>
+      <timestamp>2008-11-14T15:38:14Z</timestamp>
       <contributor>
         <username>Admin</username>
         <id>1</id>
       </contributor>
-      <comment>New page: == Configuration == *Configure_ShapeTest **Box         box            blue **Polygon     polygon        blue **Ellipse     ellipse        blue **Circle      circle         blue **Point    ...</comment>
       <text xml:space="preserve">== Configuration ==
 *Configure_ShapeTest
 **Nodes

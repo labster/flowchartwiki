@@ -36,6 +36,7 @@ function DeLink($input) {
 
 function renderDepType() {
     global $wgTitle, $wgParser;
+	global $wgDBprefix;
     $output = "";
     $dbr =& wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );
@@ -54,6 +55,7 @@ function renderDepType() {
 
 function renderWhereDoIlink() {
     global $wgTitle, $wgParser;
+	global $wgDBprefix;
     $output = "";
     $dbr =& wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );
@@ -78,6 +80,7 @@ function renderWhereDoIlink() {
 
 function renderWhoLinksHere() {
     global $wgTitle, $wgParser;
+	global $wgDBprefix;
     $output = "";
     $dbr =& wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );

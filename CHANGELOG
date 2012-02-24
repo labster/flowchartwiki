@@ -1,0 +1,36 @@
+FlowchartWiki 1.1.0-RC6
+
+    * Added DB prefix value to Special:CheckFchw page
+    * Special:CheckFchw try to show real graph
+
+FlowchartWiki 1.1.0-RC5
+
+    * Fixed call to GraphViz.exe on Windows installations (fixed problems on W2K and W2K3 servers), Unix installs are not affected
+    * Added optional PageName::DifferentNameForPage Tag to override the labeling of the box in the Graph (Defaults to Name of WikiPage)
+    * BugFix: Quote in PageName
+    * BugFix: "_" are replaced with " " in PageName 
+
+FlowchartWiki 1.1.0-RC1
+
+    * Added special page Special:CheckFchw to check correct installation Special:CheckFchw
+    * Fixed bug: Redirected pages causes timeout in some cases
+    * New customization format allows to set color, label, shape on arrows in graph 
+
+FlowchartWiki 1.0.1
+
+    * Fixed bug: Broken graph if name of pages contains " " space 
+
+FlowchartWiki 1.0.0-RC3
+
+    * Added simple cache for graphs
+    * Replacement for Hash function (if not exists - on some Solaris hosts) 
+
+FlowchartWiki 1.0.0-RC2
+
+    * Fixed for Windows hosts (flowchartwiki and pdfbook too)
+    * Fixed duplicate entries in dependencies 
+
+FlowchartWiki 1.0.0-RC1
+
+    * First Release of FlowchartWiki. Please send feedback to thomas dot kock at gmx dot de. 	
+

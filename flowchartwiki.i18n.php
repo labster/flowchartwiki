@@ -14,6 +14,14 @@ $messages['en'] = array(
     'fchw_WhoLinksHere' => 'Who links here:',
     'fchw_ExportPDF' => 'Export to PDF'
 );
+
+/* Spanisg */
+$messages['es'] = array(
+    'fchw_TypeOfPage' => 'Tipo de página',
+    'fchw_WhereDoILinkTo' => 'A dónde enlazo:',
+    'fchw_WhoLinksHere' => 'Qué enlaza aquí:',
+    'fchw_ExportPDF' => 'Exportar a PDF'
+);
 	 
 /* Slovak */
 $messages['sk'] = array(

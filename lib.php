@@ -24,8 +24,9 @@
 // Get current category name
 function fchw_GetCurrentCategory($Title) {
 //    global $wgTitle;
+	global $wgDBprefix;
     $dbr =& wfGetDB( DB_SLAVE );
-    $res = $dbr->query( "select cl_to from categorylinks where cl_sortkey = '".$dbr->strencode($Title)."'");
+    $res = $dbr->query( "select cl_to from ".$wgDBprefix."categorylinks where cl_sortkey = '".$dbr->strencode($Title)."'");
     $count = $dbr->numRows( $res );
     if ($count > 0 ) {
 	while ($row = $dbr->fetchObject( $res )) {
@@ -37,9 +38,10 @@ function fchw_GetCurrentCategory($Title) {
 
 // Get list of categories
 function fchw_GetCategories() {
+	global $wgDBprefix;
     $CatBroCategories = NULL;
     $dbr =& wfGetDB( DB_SLAVE );
-    $res = $dbr->query( "select cl_to from categorylinks group by cl_to order by cl_to");
+    $res = $dbr->query( "select cl_to from ".$wgDBprefix."categorylinks group by cl_to order by cl_to");
     $count = $dbr->numRows( $res );
     if ($count > 0 ) {
 	while ($row = $dbr->fetchObject( $res )) {
@@ -51,9 +53,10 @@ function fchw_GetCategories() {
 
 // Get list of redirected pages
 function fchw_GetRedirectedPages() {
+	global $wgDBprefix;
     $RedirectedPages = NULL;
     $dbr =& wfGetDB( DB_SLAVE );
-    $res = $dbr->query( "select rd_from, page2.page_id, rd_title from redirect left outer join page page2 on page2.page_title = redirect.rd_title");
+    $res = $dbr->query( "select rd_from, page2.page_id, rd_title from ".$wgDBprefix."redirect left outer join ".$wgDBprefix."page page2 on page2.page_title = ".$wgDBprefix."redirect.rd_title");
     $count = $dbr->numRows( $res );
     if ($count > 0 ) {
 	while ($row = $dbr->fetchObject( $res )) {
@@ -83,8 +86,9 @@ function fchw_GetRedirectedPages() {
 
 // Get ModelType for specified category
 function fchw_GetCategoryModelType($Category) {
+	global $wgDBprefix;
     $dbr =& wfGetDB( DB_SLAVE );
-    $res = $dbr->query("select to_title from fchw_relation where from_title like '".$dbr->strencode($Category)."' and relation='ModelType'");
+    $res = $dbr->query("select to_title from ".$wgDBprefix."fchw_relation where from_title like '".$dbr->strencode($Category)."' and relation='ModelType'");
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
 	$row = $dbr->fetchObject( $res );
@@ -97,6 +101,7 @@ function fchw_GetCategoryModelType($Category) {
 //  Customizing:Configure_<ChartType>
 //  Customizing:Configure_Chart with <ChartType> inside this page. 
 function fchw_GetGraphDefinitions($ModelType) {
+	global $wgDBprefix;
     global $wgDBtype;
     $text = "";
     $dbr =& wfGetDB( DB_SLAVE );
@@ -107,13 +112,13 @@ function fchw_GetGraphDefinitions($ModelType) {
         $TablePageContent	= $dbr->tableName( 'text' );
     $TableRevision 	= $dbr->tableName( 'revision' );
     $ModelTypeText = "";
-    $res = $dbr->query( "select page_title, old_text from page inner join $TableRevision on $TableRevision.rev_id=$TablePage.page_latest inner join $TablePageContent on $TablePageContent.old_id = $TableRevision.rev_text_id where page_title = 'Customizing:Configure_$ModelType';");
+    $res = $dbr->query( "select page_title, old_text from ".$wgDBprefix."page inner join $TableRevision on $TableRevision.rev_id=$TablePage.page_latest inner join $TablePageContent on $TablePageContent.old_id = $TableRevision.rev_text_id where page_title = 'Customizing:Configure_$ModelType';");
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
 	$row = $dbr->fetchObject( $res );
 	$ModelTypeText = $row->old_text;
     } else {
-        $res = $dbr->query( "select page_title, old_text from page inner join $TableRevision on $TableRevision.rev_id=$TablePage.page_latest inner join $TablePageContent on $TablePageContent.old_id = $TableRevision.rev_text_id where page_title = 'Customizing:Configure_Chart';");
+        $res = $dbr->query( "select page_title, old_text from ".$wgDBprefix."page inner join $TableRevision on $TableRevision.rev_id=$TablePage.page_latest inner join $TablePageContent on $TablePageContent.old_id = $TableRevision.rev_text_id where page_title = 'Customizing:Configure_Chart';");
 	$count = $dbr->numRows( $res );
 	if( $count > 0 ) {
 	    $row = $dbr->fetchObject( $res );
@@ -188,14 +193,15 @@ function fchw_GetGraphDefinitions($ModelType) {
 
 // get current level
 function fchw_GetCurrentLevel() {
+	global $wgDBprefix;
     global $fchw, $wgTitle, $wgParser; 
     $dbr =& wfGetDB( DB_SLAVE );      
     $page = $dbr->tableName( 'page' );
     $CategoryLinks = $dbr->tableName( 'categorylinks' );
     $title = $wgParser->getTitle()->mTextform;                     
     $res = $dbr->query( "SELECT rel1.to_title as level  FROM $page ".
-       "LEFT OUTER JOIN categorylinks $CategoryLinks ON $CategoryLinks.cl_from = $page.page_id ".
-       "LEFT OUTER JOIN fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'Level') ".
+       "LEFT OUTER JOIN  $CategoryLinks ON $CategoryLinks.cl_from = $page.page_id ".
+       "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'Level') ".
        "WHERE $CategoryLinks.cl_to = '".$fchw['CurrentCategory']."' AND $page.page_title = '".$dbr->strencode($title)."'" );            
     $count = $dbr->numRows( $res );                                                                                   
     if( $count > 0 ) {                                                                                                
@@ -208,13 +214,14 @@ function fchw_GetCurrentLevel() {
 
 // get array with all used levels
 function fchw_GetLevels($Category) {
+	global $wgDBprefix;
     $Levels = "";                                                                                              
     $dbr =& wfGetDB( DB_SLAVE );      
     $page = $dbr->tableName( 'page' );
     $CategoryLinks = $dbr->tableName( 'categorylinks' );
     $res = $dbr->query("SELECT rel1.to_title as level from $page LEFT OUTER JOIN $CategoryLinks ON $CategoryLinks.cl_from = 
 $page.page_id ".
-        "LEFT OUTER JOIN fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'Level') ".                         
+        "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'Level') ".                         
         "WHERE $CategoryLinks.cl_to = '".$Category."' group by rel1.to_title order by rel1.to_title");               
     $count = $dbr->numRows( $res );                                                                                                             
     if( $count > 0 ) {                                                                                                                          
@@ -258,6 +265,7 @@ function fchw_GetNearLevels($Levels, $CurrentLevel, $Minus = 2, $Plus = 2) {
 
 // get array with pages
 function fchw_GetPages() {
+	global $wgDBprefix;
     $Pages = FALSE;                                                                                              
     $dbr =& wfGetDB( DB_SLAVE );      
     $page = $dbr->tableName( 'page' );
@@ -326,13 +334,14 @@ if (!function_exists('hash')) {
 
 // get array with pagenames
 function fchw_GetPageNames($Category) {
+	global $wgDBprefix;
     $PageNames = "";                                                                                              
     $dbr =& wfGetDB( DB_SLAVE );      
     $page = $dbr->tableName( 'page' );
     $CategoryLinks = $dbr->tableName( 'categorylinks' );
     $res = $dbr->query("SELECT from_title, rel1.to_title as level from $page LEFT OUTER JOIN $CategoryLinks ON $CategoryLinks.cl_from = 
 $page.page_id ".
-        "LEFT OUTER JOIN fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'PageName') ".                         
+        "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'PageName') ".                         
         "WHERE $CategoryLinks.cl_to = '".$Category."' group by rel1.to_title order by rel1.to_title");               
     $count = $dbr->numRows( $res );                                                                                                             
     if( $count > 0 ) {                                                                                                                          

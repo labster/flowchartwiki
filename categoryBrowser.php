@@ -30,6 +30,7 @@ function wfCategoryBrowserExtension() {
 }
 
 function findLevelRanking($FullGraph) {
+	global $wgDBprefix;
     global $fchw;
     $output = "";
     $dbr =& wfGetDB( DB_SLAVE );
@@ -71,15 +72,16 @@ function findLevelRanking($FullGraph) {
 
 function findPages($FullGraph) {
     global $fchw, $wgParser, $wgScriptPath, $wgScriptExtension;
+	global $wgDBprefix;
     $path = $wgScriptPath."/index".$wgScriptExtension;
     $output = "";
     $dbr =& wfGetDB( DB_SLAVE );
     $page = $dbr->tableName( 'page' );
-    $CategoryLinks = $dbr->tableName( 'catlinks' );
+    $CategoryLinks = $dbr->tableName( 'categorylinks' );
     $res = $dbr->query( "SELECT $page.page_namespace, $page.page_title, $page.page_is_redirect, $CategoryLinks.cl_to, rel1.to_title, rel2.to_title as level  FROM $page ".
-       "LEFT OUTER JOIN categorylinks $CategoryLinks ON $CategoryLinks.cl_from = $page.page_id ".
-       "LEFT OUTER JOIN fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'Type') ".
-       "LEFT OUTER JOIN fchw_relation rel2 ON (rel2.from_id = $page.page_id) and (rel2.relation = 'Level') ".
+       "LEFT OUTER JOIN $CategoryLinks ON $CategoryLinks.cl_from = $page.page_id ".
+       "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel1 ON (rel1.from_id = $page.page_id) and (rel1.relation = 'Type') ".
+       "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel2 ON (rel2.from_id = $page.page_id) and (rel2.relation = 'Level') ".
        "WHERE $CategoryLinks.cl_to = '".$fchw['CurrentCategory']."' and (not (${CategoryLinks}.cl_sortkey like '%:Category:".$fchw['CurrentCategory']."'))".
        "group by $page.page_namespace, $page.page_title, $page.page_is_redirect, $CategoryLinks.cl_to, rel1.to_title, rel2.to_title ORDER BY $page.page_title  LIMIT 500" );
     $count = $dbr->numRows( $res );
@@ -141,15 +143,16 @@ function findPages($FullGraph) {
 
 function findLinks($FullGraph) {
     global $fchw;
+	global $wgDBprefix;
     $output = "";
     $dbr =& wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );
     $CategoryLinks = $dbr->tableName( 'categorylinks' );
     $sql = "SELECT rel0.from_title, rel0.relation, rel0.to_title, rel1.to_title as level1, rel2.to_title as level2 FROM $relations rel0 ".
       " LEFT OUTER JOIN $CategoryLinks ON ($CategoryLinks.cl_from = rel0.from_id) ".
-       "LEFT OUTER JOIN fchw_relation rel1 ON (rel1.from_id = rel0.from_id) and (rel1.relation = 'Level') ".
-       "LEFT OUTER JOIN fchw_relation rel2 ON (rel2.from_id = rel0.to_id) and (rel2.relation = 'Level') ".
-      " WHERE $CategoryLinks.cl_to = '".$fchw['CurrentCategory']."' and (not (categorylinks.cl_sortkey like '%:Category:".$fchw['CurrentCategory']."')) and (rel0.relation <> 'ModelType') ".
+       "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel1 ON (rel1.from_id = rel0.from_id) and (rel1.relation = 'Level') ".
+       "LEFT OUTER JOIN ".$wgDBprefix."fchw_relation rel2 ON (rel2.from_id = rel0.to_id) and (rel2.relation = 'Level') ".
+      " WHERE $CategoryLinks.cl_to = '".$fchw['CurrentCategory']."' and (not ($CategoryLinks.cl_sortkey like '%:Category:".$fchw['CurrentCategory']."')) and (rel0.relation <> 'ModelType') ".
       " group by rel0.from_title, rel0.relation, rel0.to_title, rel1.to_title, rel2.to_title order by rel0.from_title, rel0.to_title LIMIT 500";
     $res = $dbr->query($sql );
     $count = $dbr->numRows( $res );
@@ -224,7 +227,7 @@ function renderCategoryBrowser($input, $params, &$parser, $Mode)
     $fchw['Levels'] 		= fchw_GetLevels($fchw['CurrentCategory']);
     $fchw['NearLevels'] 		= fchw_GetNearLevels($fchw['Levels'], $fchw['CurrentLevel']);
     $fchw['GraphDefs'] 		= fchw_GetGraphDefinitions(fchw_GetCategoryModelType($fchw['CurrentCategory']));
-    $GraphHeight = count($fchw['Levels']) * 0.6;
+    $GraphHeight = count($fchw['Levels']) ;
     if (($fchw['CurrentLevel'] == "") || ($Mode == 1)) {
 	$output  = "digraph G { size =\"7,$GraphHeight\"; ".findLevelRanking(true).findPages(true).findLinks(true)."}";
 	$html    .= Graphviz($GraphFileName, $output);

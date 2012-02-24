@@ -1,15 +1,20 @@
+-- postgresql
+-- Note: If your wiki is using DB prefix
+--       please replace fchw_relation to  (prefix)fchw_relation
+--       for example DB prefix = MYDB         MYDBfchw_relation
+-- You can check current db prefix on wiki Special:Check flowchart wiki page
 
-    CREATE TABLE fchw_relation (
+CREATE TABLE fchw_relation (
 	from_id		integer not null,
 	from_title	text	not null,
 	to_id		integer null,
 	to_title	text	not null,
 	relation 	text	not null 
-    );
+);
     
-    CREATE INDEX fchw_relation_idx_tt ON fchw_relation(to_title);
-    CREATE INDEX fchw_relation_idx_r ON fchw_relation(relation);
-    CREATE INDEX fchw_relation_idx_fir ON fchw_relation(from_id, relation);
-    CREATE INDEX fchw_relation_idx_ftr ON fchw_relation(from_title, relation);
+CREATE INDEX fchw_relation_idx_tt ON fchw_relation(to_title);
+CREATE INDEX fchw_relation_idx_r ON fchw_relation(relation);
+CREATE INDEX fchw_relation_idx_fir ON fchw_relation(from_id, relation);
+CREATE INDEX fchw_relation_idx_ftr ON fchw_relation(from_title, relation);
 	      
     

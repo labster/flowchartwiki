@@ -74,6 +74,7 @@ function fchw_ParseLinks(&$parser, &$text) {
 
 // each save - fill relations table for current page
 function fchw_UpdateLinks($linksupdate) {
+    global $wgDBprefix;
     global $fchw, $wgParser;
     if ($fchw['ParseLinks'] == 0) 
 	return true;
@@ -106,6 +107,7 @@ function fchw_UpdateLinks($linksupdate) {
 // Delete links when deleting page
 function fchw_DeleteLinks(&$article, &$user, &$reason) {
     global $fchw;
+	global $wgDBprefix;
     $fchw['dbr'] = &wfGetDB(DB_SLAVE);
     $fchw['table_relation'] = $fchw['dbr']->tableName('fchw_relation');
     $sql = "delete from ".$fchw['table_relation']." where from_id = '".$article->getID()."'";
@@ -116,6 +118,7 @@ function fchw_DeleteLinks(&$article, &$user, &$reason) {
 // Move links when moving page
 function fchw_MoveLinks(&$title, &$newtitle, &$user, $oldid, $newid) {
     global $fchw;
+	global $wgDBprefix;
     $fchw['dbr'] = &wfGetDB(DB_SLAVE);
     $fchw['table_relation'] = $fchw['dbr']->tableName('fchw_relation');
     $fchw['Pages'] = fchw_GetPages();
@@ -134,6 +137,7 @@ function fchw_MoveLinks(&$title, &$newtitle, &$user, $oldid, $newid) {
 // Undelete links when un-deleting page
 function fchw_UndeleteLinks($title, $create) {
     global $fchw;
+	global $wgDBprefix;
     $fchw['dbr'] = &wfGetDB(DB_SLAVE);
     $fchw['table_relation'] = $fchw['dbr']->tableName('fchw_relation');
     $fchw['Pages'] = fchw_GetPages();

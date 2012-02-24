@@ -8,10 +8,11 @@ require_once("./extensions/flowchartwiki/linktypes.php");
 
 global $wgParser, $wgTitle;
 global $smwgEnableUpdateJobs, $wgServer;
+	global $wgDBprefix;
 $smwgEnableUpdateJobs = false; // do not fork additional update jobs while running this script
 
 $dbr = &wfGetDB(DB_MASTER);
-$dbr->query("delete from fchw_relation");
+$dbr->query("delete from ".$wgDBprefix."fchw_relation");
 $end = $dbr->selectField('page', 'max(page_id)', false, 'SMW_refreshData' );
 $counter = 0;
 $options = new ParserOptions();

@@ -36,13 +36,6 @@ function Graphviz($Filename, $GraphData) {
     // create upload directory
     if (!is_dir($DataDir)) 
 	mkdir($DataDir, 0777); 
-    // we need to remove png and map if exists
-    if (file_exists($DOTFile)) unlink($DOTFile);
-
-    // prepare graphdata and create graph
-    $gd = fopen($DOTFile, "w");
-    fwrite($gd, $GraphData);
-    fclose($gd);    
 
     if (file_exists($MD5File))
         $OldMD5 = implode('', file($MD5File));
@@ -50,14 +43,20 @@ function Graphviz($Filename, $GraphData) {
         $OldMD5 = "";
     $NewMD5 = md5($GraphData);
     if (Trim($OldMD5) != $NewMD5) {
+
+	// prepare graphdata and create graph
+	if (file_exists($DOTFile)) unlink($DOTFile);
+	$gd = fopen($DOTFile, "w");
+	fwrite($gd, $GraphData);
+	fclose($gd);    
     
-//	die("Changed MD5");
-    
-	// ONLY CHANGE
+	// save new md5
+	if (file_exists($MD5File)) unlink($MD5File);
 	$gd = fopen($MD5File, "w");
 	fwrite($gd, $NewMD5);
         fclose($gd);    
 
+	// delete png and map
         if (file_exists($PNGFile)) unlink($PNGFile);
         if (file_exists($MAPFile)) unlink($MAPFile);
     
@@ -93,6 +92,6 @@ function Graphviz($Filename, $GraphData) {
     $ImgWeb  = str_replace(DIRECTORY_SEPARATOR, "/", "$wgUploadPath$ImgDir$Filename.png");
     $MAPFile  = str_replace("/", DIRECTORY_SEPARATOR, $MAPFile);
     $temp = trim(str_replace("/>\n", "/>", preg_replace("#<ma(.*)>#", " ", str_replace("</map>", "", implode("", file($MAPFile))))));
-    return "<map name='$Filename'>$temp</map><img usemap='#$Filename' src='$ImgWeb' />";
+    return "<map name='$Filename'>$temp</map><img usemap='#$Filename' src='$ImgWeb?TimeStamp=".date("YmdHis", filemtime($MD5File))."' />";
 }
 
