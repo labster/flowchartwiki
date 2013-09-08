@@ -85,7 +85,7 @@ function renderOverflowLevel() {
     $groupcache = "";
     if (isset($fchw['Levels']['zzzzzzzz'])) {
         $groupcache .= "/* Overflow */\n";
-        $groupcache .= "{ rank = same; \"zzzzzzzz\"; } \"zzzzzzzz\" [shape=circle,width=.01,height=.01,color=white, label=\"\"]\n";
+        $groupcache .= "{ rank = same; \"zzzzzzzz\"; } \"zzzzzzzz\" [shape=circle,width=.01,height=.01,color=white, label=\" \"]\n";
         $overflowPages = $fchw['Levels']['zzzzzzzz'];
         sort($overflowPages);  // have the pages sorted alphabetically
         $numPages = count($overflowPages);
@@ -143,7 +143,7 @@ function renderOverflowLevel() {
             $i += 1;
         }
         $groupcache .= "/* Sink */\n";
-        $groupcache .= "{ rank = sink; \"zzzzzzzza\"; } \"zzzzzzzza\" [shape=circle,width=.01,height=.01,color=white, label=\"\"]\n";
+        $groupcache .= "{ rank = sink; \"zzzzzzzza\"; } \"zzzzzzzza\" [shape=circle,width=.01,height=.01,color=white, label=\" \"]\n";
         foreach($overRows[$row] as $page) {
             $groupcache .= "\"".str_replace("_", " ",fchw_TranslatePageName($page))."\"->\"zzzzzzzza\" [ $params ];\n";
         }
