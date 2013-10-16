@@ -24,7 +24,7 @@
 class FchwRenumLevels extends SpecialPage {
     function FchwRenumLevels() {
         SpecialPage::SpecialPage("FchwRenumLevels");
-        wfLoadExtensionMessages('fchwrenumlevels');
+        // wfLoadExtensionMessages('fchwrenumlevels'); // removed in MW-1.21.1
     }
 
     function execute( $par ) {

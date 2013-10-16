@@ -24,7 +24,19 @@
 require_once ( getenv('MW_INSTALL_PATH') !== false
     ? getenv('MW_INSTALL_PATH')."/maintenance/commandLine.inc"
     : dirname( __FILE__ ) . '/../../../maintenance/commandLine.inc' );
-require_once("$IP/maintenance/counter.php");
+//require_once("$IP/maintenance/counter.php");
+// former Content of counter.php:
+/**
+ * Helper file for update.php
+ *
+ * @file
+ * @ingroup Maintenance
+ */
+
+function print_c($last, $current) {
+	echo str_repeat( chr(8), strlen( $last ) ) . $current;
+}
+// end former content of counter.php
 require_once("./extensions/flowchartwiki/lib.php");
 require_once("./extensions/flowchartwiki/linktypes.php");
 

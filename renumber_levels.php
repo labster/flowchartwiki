@@ -38,7 +38,7 @@ $wgHooks['LanguageGetSpecialPageAliases'][] = 'fchwrenumLocalizedPageName'; # Ad
 
 function fchwrenumLocalizedPageName(&$specialPageArray, $code) {
     # The localized title of the special page is among the messages of the extension:
-    wfLoadExtensionMessages('fchwrenumlevels');
+    // wfLoadExtensionMessages('fchwrenumlevels'); // removed in MW-1.21.1
     $text = wfMsg('fchwrenumlevels');
 
     # Convert from title in text form to DBKey and put it into the alias array:

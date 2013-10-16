@@ -24,12 +24,13 @@
 class CheckFchw extends SpecialPage {
     function CheckFchw() {
         SpecialPage::SpecialPage("CheckFchw");
-        wfLoadExtensionMessages('checkfchw');
+        // wfLoadExtensionMessages('checkfchw'); // removed in MW-1.21.1
     }
 
     function execute( $par ) {
         global $wgRequest, $wgOut, $wgScriptPath, $fchw, $dbr, $wgVersion, $IP, $wgDBprefix;
         global $wgUploadDirectory;
+        clearstatcache();
         $dbr = wfGetDB( DB_SLAVE );
         $this->setHeaders();
 

@@ -24,10 +24,16 @@
 // Get current category name
 function fchw_GetCurrentCategory($Title) {
     //    global $wgTitle;
-    global $wgDBprefix;
+    global $wgDBprefix, $wgVersion;
     $dbr =& wfGetDB( DB_SLAVE );
+    if (version_compare( $wgVersion, '1.17.0')>=0) {
+      $collation=Collation::singleton();
+      $searchTitle=$collation->getSortKey($Title);
+    } else {
+      $searchTitle=$Title;
+    }
     $res = $dbr->query( "SELECT cl_to FROM ".$wgDBprefix."categorylinks ".
-            "WHERE cl_sortkey = '".$dbr->strencode($Title)."'");
+            "WHERE cl_sortkey = '".$dbr->strencode($searchTitle)."'");
     $count = $dbr->numRows( $res );
     if ($count > 0 ) {
         while ($row = $dbr->fetchObject( $res )) {

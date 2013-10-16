@@ -32,7 +32,7 @@ $wgExtensionMessagesFiles['flowchartwiki'] = $dir . 'flowchartwiki.i18n.php';
 
 $wgExtensionFunctions[] = 'wfFlowcharwikiSetup';
 function wfFlowcharwikiSetup() {
-    wfLoadExtensionMessages('flowchartwiki');
+    //wfLoadExtensionMessages('flowchartwiki'); // removed in MW-1.21.1
 }
 // Customizing-Info: Number of Items per Row of Pages
 // that have no [[Level::1234]] assigned.
