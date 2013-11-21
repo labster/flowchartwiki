@@ -1,3 +1,10 @@
+FlowchartWiki 1.2.1
+   * dot not creating image files with empty label='', needs to be label=' ' instead.
+   * Multiple changes for MediaWiki 1.21.x
+     * ExtensionMessages was removed.
+     * counter.php was removed -> replaced by direct copy of old function.
+   * added call to PHP clearstatcache()
+
 FlowchartWiki 1.2.0
    * Bugfix by Hiroyuki S.: long pagenames in fchw_LoadPages() in lib.php
    * catching some php-Notice "undefined index" errors in lib.php with isset()
