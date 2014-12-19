@@ -119,7 +119,8 @@ function renderTable() {
     global $DepTitle;
     $output = "";
     $output .= "<p><table width='80%' cellpadding='0' cellspacing='0' border='0' class='dependencies'>";
-    $output .= "<tr><td colspan='2' style='padding: 2pt; border: 1px solid black;'><strong>".wfMsg('fchw_TypeOfPage')." '".$wgParser->getTitle()->mPrefixedText."':</strong> ".renderDepType()."</td></tr>";
+    //$output .= "<tr><td colspan='2' style='padding: 2pt; border: 1px solid black;'><strong>".wfMsg('fchw_TypeOfPage')." '".$wgParser->getTitle()->mPrefixedText."':</strong> ".renderDepType()."</td></tr>";
+    $output .= "<tr><td colspan='2' style='padding: 2pt; border: 1px solid black;'><strong>".wfMsg('fchw_TypeOfPage')." '".$wgParser->getTitle()->getPrefixedText()."':</strong> ".renderDepType()."</td></tr>";
     $output .= "<tr><td valign='top' style='padding: 2pt; border: 1px solid black;'><strong>".wfMsg('fchw_WhereDoILinkTo')."</strong><br />".renderWhereDoIlink()."</td>";
     $output .= "<td valign='top' style='padding: 2pt; border: 1px solid black;'><strong>".wfMsg('fchw_WhoLinksHere')."</strong><br />".renderWhoLinksHere()."</td></tr>";
     $output .= "</table>";

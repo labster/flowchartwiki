@@ -23,7 +23,8 @@
 
 class CheckFchw extends SpecialPage {
     function CheckFchw() {
-        SpecialPage::SpecialPage("CheckFchw");
+        //SpecialPage::SpecialPage("CheckFchw");
+        parent::__construct("CheckFchw");
         // wfLoadExtensionMessages('checkfchw'); // removed in MW-1.21.1
     }
 

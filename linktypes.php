@@ -94,7 +94,8 @@ function fchw_UpdateLinks($linksupdate) {
     $fchw['table_relation'] = $fchw['dbr']->tableName('fchw_relation');
     // <patch by Gerrit I.>
     //$sql = "delete from ".$fchw['table_relation']." where from_title like '".$fchw['dbr']->strencode($linksupdate->mTitle->mPrefixedText)."'";
-    $From_title = $linksupdate->mTitle->mPrefixedText;
+    //$From_title = $linksupdate->mTitle->mPrefixedText;
+    $From_title = $linksupdate->mTitle->getPrefixedText();
     if (strrpos($From_title, ":") > 0)
       $From_title = substr($From_title, strpos($From_title, ":")+1);
     $sql = "delete from ".$fchw['table_relation']." where from_title like '".$fchw['dbr']->strencode($From_title)."'";
@@ -165,7 +166,8 @@ function fchw_SaveLink($linksupdate, $Link) {
         $Relation = substr($Link, 0, strpos($Link, "::"));
         $To_title = substr($Link, strpos($Link, "::")+2);
         $To_id = 0;
-        $From_title = $linksupdate->mTitle->mPrefixedText;
+        //$From_title = $linksupdate->mTitle->mPrefixedText;
+        $From_title = $linksupdate->mTitle->getPrefixedText();
         if (strrpos($From_title, ":") > 0)
         $From_title = substr($From_title, strpos($From_title, ":")+1);
         if (strrpos($To_title, ":") > 0)

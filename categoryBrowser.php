@@ -267,10 +267,11 @@ function renderCategoryBrowser($input, $params, $parser, $Mode) {
     global $fchw, $wgTitle, $wgUploadDirectory, $wgParser;
     $html = "";
     $fchw['Categories'] = fchw_GetCategories();
-    if (is_object($wgTitle))
-        $myTitle = $wgTitle->mPrefixedText;
-      else
-        $myTitle = $wgTitle;
+    $myTitle = $parser->getTitle();
+    //if (is_object($wgTitle))
+    //    $myTitle = $wgTitle->mPrefixedText;
+    //  else
+    //    $myTitle = $wgTitle;
     $fchw['CurrentCategory'] = fchw_GetCurrentCategory($myTitle);
     $GraphFileName = $myTitle;
     if ($wgTitle->mNamespace == NS_CATEGORY) {
