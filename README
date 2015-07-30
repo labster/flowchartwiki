@@ -1,10 +1,8 @@
 FlowchartWiki
 
-Version: 1.2.0-beta2
-Release Date: 2009-08-27
 License: GNU General Public License, Version 2 (or later).
 
-Copyright: Thomas Kock, Delmenhorst, 2008, 2009
+Copyright: Thomas Kock, Delmenhorst, 2008 - 2015
 
 Flowchartwiki is an extension to MediaWiki for creating flowcharts from the
 links between wikipages to support process modelling and process documentation
