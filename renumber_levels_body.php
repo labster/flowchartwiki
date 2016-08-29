@@ -46,10 +46,10 @@ class FchwRenumLevels extends SpecialPage {
         $dbr->freeResult($res);
         $output = "<p><form method='post'>
 <table border='0' cellpadding='0' cellspacing='0'>
-<tr><td>".wfMsg("fchwrenumlevelsCategory")."</td><td><select name='RenumCategory'>$Categories</select></td></tr>
-<tr><td>".wfMsg("fchwrenumlevelsStartWith")."</td><td><input name='RenumStart' type='text' value='1000'></td></tr>
-<tr><td>".wfMsg("fchwrenumlevelsStep")."</td><td><input name='RenumStep' type='text' value='10'></td></tr>
-<tr><td>&nbsp;</td><td><input type='submit' name='RenumButton' value='".wfMsg("fchwrenumlevelsRenum")."'></td></tr>
+<tr><td>".wfMessage("fchwrenumlevelsCategory")->text()."</td><td><select name='RenumCategory'>$Categories</select></td></tr>
+<tr><td>".wfMessage("fchwrenumlevelsStartWith")->text()."</td><td><input name='RenumStart' type='text' value='1000'></td></tr>
+<tr><td>".wfMessage("fchwrenumlevelsStep")->text()."</td><td><input name='RenumStep' type='text' value='10'></td></tr>
+<tr><td>&nbsp;</td><td><input type='submit' name='RenumButton' value='".wfMessage("fchwrenumlevelsRenum")->text()."'></td></tr>
 </table>
 </form></p>";
 

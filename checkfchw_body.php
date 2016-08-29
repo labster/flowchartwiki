@@ -57,22 +57,22 @@ class CheckFchw extends SpecialPage {
         $output .= "<table border='0' cellpadding='0' cellspacing='0'>";
         $dir = dirname(dirname(dirname(__FILE__))) . '/images/flowchartwiki';
         $dircheck = file_exists($dir);
-        $output .= Status($dircheck, wfMessage('checkfchwFolderCreated')->text(), wfMessage('checkfchwFolderCreatedHint'))->text();
+        $output .= Status($dircheck, wfMessage('checkfchwFolderCreated')->text(), wfMessage('checkfchwFolderCreatedHint')->text());
 
         $dirtouch = false;
         if ($dircheck) {
             $dirtouch = (is_writable($dir));
         }
-        $output .= Status($dirtouch, wfMessage('checkfchwFolderPermissions')->text(), wfMessage('checkfchwFolderPermissionsHint'))->text()->text();
+        $output .= Status($dirtouch, wfMessage('checkfchwFolderPermissions')->text(), wfMessage('checkfchwFolderPermissionsHint')->text());
 
         $graphvizpath = isset( $fchw['GraphvizDot']);
-        $output .= Status($graphvizpath, wfMessage('checkfchwGraphVizPath')->text();, wfMessage('checkfchwGraphVizPathHint'))->text();
+        $output .= Status($graphvizpath, wfMessage('checkfchwGraphVizPath')->text(), wfMessage('checkfchwGraphVizPathHint')->text());
 
         $graphvizexec = false;
         if ($graphvizpath) {
             $graphvizexec = is_executable( $fchw['GraphvizDot']);
         }
-        $output .= Status($graphvizexec, wfMessage('checkfchwGraphVizExec')->text(), wfMessage('checkfchwGraphVizExecHint'))->text();
+        $output .= Status($graphvizexec, wfMessage('checkfchwGraphVizExec')->text(), wfMessage('checkfchwGraphVizExecHint')->text());
 
         $fchwdb = false;
         $dbr = &wfGetDB(DB_MASTER);
@@ -82,7 +82,7 @@ class CheckFchw extends SpecialPage {
         } catch (Exception $e) {
             $fchwdb = false;
         }
-        $output .= Status($fchwdb, wfMessage('checkfchwDbTables')->text(), wfMessage('checkfchwDbTablesHint'))->text();
+        $output .= Status($fchwdb, wfMessage('checkfchwDbTables')->text(), wfMessage('checkfchwDbTablesHint')->text());
 
         // REAL GRAPHVIZ TEST
         $execTest = false;
