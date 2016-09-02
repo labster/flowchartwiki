@@ -82,9 +82,9 @@ function fchw_UpdateLinks($linksupdate) {
     $fchw['ParseLinks'] = 0;
     $options = new ParserOptions();
     $title = Title::newFromID($linksupdate->mId);
-    if (($title === NULL)) continue;
+    if ($title === NULL) return true;
     $revision = Revision::newFromTitle($title);
-    if ($revision === NULL) continue;
+    if ($revision === NULL) return true;
     $parserOutput = $wgParser->parse($revision->getText(), $title, $options, true, true, $revision->getID());
     $linksupdate = new LinksUpdate($title, $parserOutput);
     $linksupdate->doUpdate();

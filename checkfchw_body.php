@@ -32,7 +32,7 @@ class CheckFchw extends SpecialPage {
         global $wgRequest, $wgOut, $wgScriptPath, $fchw, $dbr, $wgVersion, $IP, $wgDBprefix;
         global $wgUploadDirectory;
         clearstatcache();
-        $dbr = wfGetDB( DB_SLAVE );
+        $dbr = wfGetDB(DB_SLAVE);
         $this->setHeaders();
 
         # Get request data from, e.g.
@@ -75,7 +75,7 @@ class CheckFchw extends SpecialPage {
         $output .= Status($graphvizexec, wfMessage('checkfchwGraphVizExec')->text(), wfMessage('checkfchwGraphVizExecHint')->text());
 
         $fchwdb = false;
-        $dbr = &wfGetDB(DB_MASTER);
+        $dbr = wfGetDB(DB_MASTER);
         try {
             $dbr->query("select * from ".$wgDBprefix."fchw_relation where from_id=0");
             $fchwdb = true;
