@@ -24,7 +24,7 @@
 // Get current category name
 function fchw_GetCurrentCategory($Title) {
     //    global $wgTitle;
-    global $wgDBprefix, $wgVersion;
+    global  $wgVersion;
     $dbr = wfGetDB( DB_SLAVE );
     if (version_compare( $wgVersion, '1.17.0')>=0) {
       $collation=Collation::singleton();
@@ -32,47 +32,48 @@ function fchw_GetCurrentCategory($Title) {
     } else {
       $searchTitle=$Title;
     }
-    $res = $dbr->query( "SELECT cl_to FROM ".$wgDBprefix."categorylinks ".
-            "WHERE cl_sortkey = '".$dbr->strencode($searchTitle)."'");
-    $count = $dbr->numRows( $res );
-    if ($count > 0 ) {
-        while ($row = $dbr->fetchObject( $res )) {
-            return $row->cl_to;
-        }
-    }
-    return "";
+    $cat = $dbr->selectField(
+        'categorylinks',
+        'cl_to',
+        [ 'cl_sortkey' => $searchTitle ],
+        __FUNCTION__
+    );
+    return ( $cat || "" );
 }
 
 // Get list of categories
 function fchw_GetCategories() {
-    global $wgDBprefix;
     $CatBroCategories = NULL;
     $dbr = wfGetDB( DB_SLAVE );
-    $res = $dbr->query( "SELECT cl_to FROM ".$wgDBprefix."categorylinks ".
-            "GROUP BY cl_to ORDER BY cl_to");
-    $count = $dbr->numRows( $res );
-    if ($count > 0 ) {
-        while ($row = $dbr->fetchObject( $res )) {
-            $CatBroCategories[$row->cl_to] = 1;
-        }
+    $catList = $dbr->selectFieldValues(
+        'categorylinks',
+        'cl_to',
+        array(),
+        __FUNCTION__,
+        'DISTINCT'
+    );
+    foreach ($catList as $cat) {
+        $CatBroCategories[$cat] = 1;
     }
     return $CatBroCategories;
 }
 
 // Get list of redirected pages
 function fchw_GetRedirectedPages() {
-    global $wgDBprefix;
     $RedirectedPages = NULL;
     $dbr = wfGetDB( DB_SLAVE );
-    $res = $dbr->query( "SELECT rd_from, page2.page_id, rd_title ".
-            "FROM ".$wgDBprefix."redirect ".
-            "LEFT OUTER JOIN ".$wgDBprefix."page page2 ON page2.page_title = ".$wgDBprefix."redirect.rd_title");
-    $count = $dbr->numRows( $res );
-    if ($count > 0 ) {
-        while ($row = $dbr->fetchObject( $res )) {
-            $RedirectedPages[$row->rd_from]['to_id'] = $row->page_id;
-            $RedirectedPages[$row->rd_from]['to_title'] = $row->rd_title;
-        }
+
+    $res = $dbr->select(
+        [ 'redirect' ],
+        [ 'rd_from', 'rd_title', 'page_id' ],
+        [ ],
+        __FUNCTION__,
+        [ 'LEFT OUTER JOIN' => [ 'page' => 'page.page_title = redirect.rd_title' ] ]
+    );
+
+    foreach ( $res as $row ) {
+        $RedirectedPages[$row->rd_from]['to_id']    = $row->page_id;
+        $RedirectedPages[$row->rd_from]['to_title'] = $row->rd_title;
     }
 
     while (true) {
@@ -96,48 +97,49 @@ function fchw_GetRedirectedPages() {
 
 // Get ModelType for specified category
 function fchw_GetCategoryModelType($Category) {
-    global $wgDBprefix;
     $dbr = wfGetDB( DB_SLAVE );
-    $res = $dbr->query("SELECT to_title FROM ".$wgDBprefix."fchw_relation ".
-            "WHERE from_title like '".$dbr->strencode($Category)."' AND relation='ModelType'");
-    $count = $dbr->numRows( $res );
-    if( $count > 0 ) {
-        $row = $dbr->fetchObject( $res );
-        return $row->to_title;
-    }
-    return "";
+    $title = $dbr->selectField(
+        'fchw_relation',
+        'to_title',
+        [ $dbr->buildLike('from_title', $Category),
+          'relation' => 'ModelType' ],
+        __FUNCTION__
+    );
+    return ($title || "");
 }
 
 // Get graph definitions for specified model type
 //  Customizing:Configure_<ChartType>
 //  Customizing:Configure_Chart with <ChartType> inside this page.
 function fchw_GetGraphDefinitions($ModelType) {
-    global $wgDBprefix;
-    global $wgDBtype;
-    $text = "";
-    $dbr = wfGetDB( DB_SLAVE );
-    $TablePage 		= $dbr->tableName( 'page' );
-    if ($wgDBtype == "postgres")
-        $TablePageContent	= $dbr->tableName( 'pagecontent' );
-    else
-        $TablePageContent	= $dbr->tableName( 'text' );
-    $TableRevision 	= $dbr->tableName( 'revision' );
     $ModelTypeText = "";
-    $res = $dbr->query( "SELECT page_title, old_text ".
-            "FROM ".$wgDBprefix."page ".
-            "INNER JOIN $TableRevision ON $TableRevision.rev_id=$TablePage.page_latest ".
-            "INNER JOIN $TablePageContent ON $TablePageContent.old_id = $TableRevision.rev_text_id ".
-            "WHERE page_title = 'Customizing:Configure_$ModelType';");
+
+    $dbr = wfGetDB( DB_SLAVE );
+    $res = $dbr->select(
+        'page',
+        [ 'page_title', 'old_text' ],
+        [ 'page_title' => "Customizing:Configure_".$ModelType ],
+        __FUNCTION__,
+        array(),
+        [ 'revision' => [ 'INNER JOIN', 'rev_id=page_latest' ],
+          'text'     => [ 'INNER JOIN', 'old_id=rev_text_id' ],
+        ]
+    );
     $count = $dbr->numRows( $res );
     if( $count > 0 ) {
         $row = $dbr->fetchObject( $res );
         $ModelTypeText = $row->old_text;
     } else {
-        $res = $dbr->query( "SELECT page_title, old_text ".
-                "FROM ".$wgDBprefix."page ".
-                "INNER JOIN $TableRevision ON $TableRevision.rev_id=$TablePage.page_latest ".
-                "INNER JOIN $TablePageContent ON $TablePageContent.old_id = $TableRevision.rev_text_id ".
-                "WHERE page_title = 'Customizing:Configure_Chart';");
+    $res = $dbr->select(
+        'page',
+        [ 'page_title', 'old_text' ],
+        [ 'page_title' => 'Customizing:Configure_Chart' ],
+        __FUNCTION__,
+        array(),
+        [ 'revision' => [ 'INNER JOIN', 'rev_id=page_latest' ],
+          'text'     => [ 'INNER JOIN', 'old_id=rev_text_id' ],
+        ]
+    );
         $count = $dbr->numRows( $res );
         if( $count > 0 ) {
             $row = $dbr->fetchObject( $res );
@@ -287,7 +289,6 @@ function fchw_GetNearLevels($Levels, $CurrentLevel, $Minus = 2, $Plus = 2) {
 
 // get array with pages
 function fchw_GetPages() {
-    global $wgDBprefix;
     $Pages = FALSE;
     $dbr = wfGetDB( DB_SLAVE );
     $page = $dbr->tableName( 'page' );
@@ -374,47 +375,37 @@ function fchw_TranslatePageName($Page) {
 // Load all the Pages and Links for the current Graph into memory
 // added Bugfix by Hiroyuki S.
 function fchw_LoadPages() {
-    global $wgDBprefix;
     global $fchw;
     $dbr = wfGetDB( DB_SLAVE );
-    // add fix for long pagenames (1)
-    $pagedbr = wfGetDB( DB_SLAVE );
-    $pagetable = $pagedbr->tableName('page');
-    // end fix for long pagenames
 
-    $relations = $dbr->tableName( 'fchw_relation' );
-    $Categorylinks = $dbr->tableName( 'categorylinks' );
     // Step 1: Load all Pages (Just the PageNames) and create Objects of them.
-    $sql = "SELECT cl_from, cl_sortkey from ${Categorylinks} ".
-            "WHERE  $Categorylinks.cl_to = '".$dbr->strencode($fchw['CurrentCategory'])."' ";
-    $res = $dbr->query( $sql );
-    $count = $dbr->numRows( $res );
-    $pages = array();
-    if( $count > 0 ) {
-        while( $row = $dbr->fetchObject( $res ) ) {
-            //$pageName = $row->cl_sortkey; // replaced by the next block
-            // add Fix for long pagenames (2)
-            $pagesql = "SELECT page_title from $pagetable WHERE page_id = ".$row->cl_from;
-            $pageres = $pagedbr->query($pagesql);
-            $pagecount = $pagedbr->numRows ($pageres);
-            if ($pagecount == 1) {
-                $pagerow = $pagedbr->fetchObject($pageres);
-                $pageName = $pagerow->page_title;
-            }
-            // end Fix for long pagenames
-            $p = new FchwPage($pageName, $row->cl_from);
-            $pages[$pageName] = $p;
-        }
+    $res = $dbr->select(
+        [ 'categorylinks', 'page' ],
+        [ 'cl_from', 'page_title' ],
+        [ 'cl_to' => $fchw['CurrentCategory'],
+          'page_id = cl_from'
+        ],
+        __FUNCTION__
+    );
+    foreach ( $res as $row ) {
+        $p = new FchwPage($row->page_title, $row->cl_from);
+        $pages[$row->page_title] = $p;
+        $ids[$row->cl_from] = $row->page_title;
     }
     $dbr->freeResult( $res );
+
+
     // Step 2: Add Details to the Objects
-    foreach($pages as $p) {
-        $pageId = $p->id;
-        $sql = "SELECT * from ${relations} WHERE  from_id = ${pageId} ";
-        $res = $dbr->query( $sql );
-        $count = $dbr->numRows( $res );
-        if( $count > 0 ) {
-            while( $row = $dbr->fetchObject( $res ) ) {
+    $id_list = array_keys($ids);
+    $res = $dbr->select(
+        'fchw_relation',
+        '*',
+        [ 'from_id' => $id_list ],
+        __FUNCTION__
+    );
+    foreach ( $res as $row ) {
+        $p =& $pages[ $ids->from_id ];
+        if ($p) {
                 switch ($row->relation) {
                     case "Level":
                         $p->level = $row->to_title;
@@ -434,9 +425,9 @@ function fchw_LoadPages() {
                         $l = new FchwLink($row->from_id, $row->from_title, $row->to_id, $row->to_title, $row->relation);
                         $p->links[] = $l;
                 }
-            }
         }
-        $dbr->freeResult( $res );
     }
+    $dbr->freeResult( $res );
+
     return $pages;
 }
