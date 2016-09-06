@@ -38,7 +38,7 @@ function renderDepType() {
     global $wgTitle, $wgParser;
     global $wgDBprefix;
     $output = "";
-    $dbr =& wfGetDB( DB_SLAVE );
+    $dbr = wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );
     $sql = "SELECT from_title, relation, to_title FROM $relations WHERE from_title like '".$dbr->strencode($wgParser->getTitle()->mTextform)."' and relation = 'Type' LIMIT 500";
     $res = $dbr->query( $sql );
@@ -57,7 +57,7 @@ function renderWhereDoIlink() {
     global $wgTitle, $wgParser;
     global $wgDBprefix;
     $output = "";
-    $dbr =& wfGetDB( DB_SLAVE );
+    $dbr = wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );
     $sql = "SELECT from_title, relation, to_title FROM $relations WHERE from_title like '".$dbr->strencode($wgParser->getTitle()->mTextform)."' LIMIT 500";
     $res = $dbr->query( $sql );
@@ -82,7 +82,7 @@ function renderWhoLinksHere() {
     global $wgTitle, $wgParser;
     global $wgDBprefix;
     $output = "";
-    $dbr =& wfGetDB( DB_SLAVE );
+    $dbr = wfGetDB( DB_SLAVE );
     $relations = $dbr->tableName( 'fchw_relation' );
     $sql = "SELECT from_title, relation, to_title FROM $relations WHERE to_title like '".$dbr->strencode($wgParser->getTitle()->mTextform)."' LIMIT 500";
     $res = $dbr->query( $sql );

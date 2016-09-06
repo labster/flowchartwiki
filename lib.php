@@ -25,7 +25,7 @@
 function fchw_GetCurrentCategory($Title) {
     //    global $wgTitle;
     global $wgDBprefix, $wgVersion;
-    $dbr =& wfGetDB( DB_SLAVE );
+    $dbr = wfGetDB( DB_SLAVE );
     if (version_compare( $wgVersion, '1.17.0')>=0) {
       $collation=Collation::singleton();
       $searchTitle=$collation->getSortKey($Title);
@@ -47,7 +47,7 @@ function fchw_GetCurrentCategory($Title) {
 function fchw_GetCategories() {
     global $wgDBprefix;
     $CatBroCategories = NULL;
-    $dbr =& wfGetDB( DB_SLAVE );
+    $dbr = wfGetDB( DB_SLAVE );
     $res = $dbr->query( "SELECT cl_to FROM ".$wgDBprefix."categorylinks ".
             "GROUP BY cl_to ORDER BY cl_to");
     $count = $dbr->numRows( $res );
@@ -63,7 +63,7 @@ function fchw_GetCategories() {
 function fchw_GetRedirectedPages() {
     global $wgDBprefix;
     $RedirectedPages = NULL;
-    $dbr =& wfGetDB( DB_SLAVE );
+    $dbr = wfGetDB( DB_SLAVE );
     $res = $dbr->query( "SELECT rd_from, page2.page_id, rd_title ".
             "FROM ".$wgDBprefix."redirect ".
             "LEFT OUTER JOIN ".$wgDBprefix."page page2 ON page2.page_title = ".$wgDBprefix."redirect.rd_title");
@@ -97,7 +97,7 @@ function fchw_GetRedirectedPages() {
 // Get ModelType for specified category
 function fchw_GetCategoryModelType($Category) {
     global $wgDBprefix;
-    $dbr =& wfGetDB( DB_SLAVE );
+    $dbr = wfGetDB( DB_SLAVE );
     $res = $dbr->query("SELECT to_title FROM ".$wgDBprefix."fchw_relation ".
             "WHERE from_title like '".$dbr->strencode($Category)."' AND relation='ModelType'");
     $count = $dbr->numRows( $res );
@@ -115,7 +115,7 @@ function fchw_GetGraphDefinitions($ModelType) {
     global $wgDBprefix;
     global $wgDBtype;
     $text = "";
-    $dbr =& wfGetDB( DB_SLAVE );
+    $dbr = wfGetDB( DB_SLAVE );
     $TablePage 		= $dbr->tableName( 'page' );
     if ($wgDBtype == "postgres")
         $TablePageContent	= $dbr->tableName( 'pagecontent' );
@@ -289,7 +289,7 @@ function fchw_GetNearLevels($Levels, $CurrentLevel, $Minus = 2, $Plus = 2) {
 function fchw_GetPages() {
     global $wgDBprefix;
     $Pages = FALSE;
-    $dbr =& wfGetDB( DB_SLAVE );
+    $dbr = wfGetDB( DB_SLAVE );
     $page = $dbr->tableName( 'page' );
     $res = $dbr->query("SELECT page_id, page_title FROM $page ORDER BY page_title");
     $count = $dbr->numRows( $res );
@@ -376,9 +376,9 @@ function fchw_TranslatePageName($Page) {
 function fchw_LoadPages() {
     global $wgDBprefix;
     global $fchw;
-    $dbr =& wfGetDB( DB_SLAVE );
+    $dbr = wfGetDB( DB_SLAVE );
     // add fix for long pagenames (1)
-    $pagedbr =& wfGetDB( DB_SLAVE );
+    $pagedbr = wfGetDB( DB_SLAVE );
     $pagetable = $pagedbr->tableName('page');
     // end fix for long pagenames
 

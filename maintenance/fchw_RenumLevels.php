@@ -47,7 +47,7 @@ print("Function is under contruction !!");
 exit;
 
 // read levels
-$dbr =& wfGetDB( DB_SLAVE );
+$dbr = wfGetDB( DB_SLAVE );
 $data = null;
 $relations = $dbr->tableName( 'fchw_relation' );
 $Categorylinks = $dbr->tableName( 'categorylinks' );
@@ -64,7 +64,7 @@ if ( $count > 0 ) {
     }
 }
 $dbr->freeResult( $res );
-		    
+
 // data
 $LastLevel = -1;
 foreach ($data as $Key => $Value) {
@@ -74,7 +74,7 @@ foreach ($data as $Key => $Value) {
     	$LastLevel = $Value['level'];
 	//$output .= $Value['level']." ==> ".$data[$Key]['newlevel']."<br />";
 }
-		    
+
 // renumber pages
 foreach ($data as $Key => $Value) {
     print($Value['id']." ==> ".$Value['level']." ==> ".$Value['newlevel']."\n");

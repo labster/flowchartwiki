@@ -90,7 +90,7 @@ function fchw_UpdateLinks($linksupdate) {
     $linksupdate->doUpdate();
 
     $fchw['Pages'] = fchw_GetPages();
-    $fchw['dbr'] = &wfGetDB(DB_SLAVE);
+    $fchw['dbr'] = wfGetDB(DB_SLAVE);
     $fchw['table_relation'] = $fchw['dbr']->tableName('fchw_relation');
     // <patch by Gerrit I.>
     //$sql = "delete from ".$fchw['table_relation']." where from_title like '".$fchw['dbr']->strencode($linksupdate->mTitle->mPrefixedText)."'";
@@ -117,7 +117,7 @@ function fchw_UpdateLinks($linksupdate) {
 function fchw_DeleteLinks(&$article, &$user, &$reason, &$error) {
     global $fchw;
     global $wgDBprefix;
-    $fchw['dbr'] = &wfGetDB(DB_SLAVE);
+    $fchw['dbr'] = wfGetDB(DB_SLAVE);
     $fchw['table_relation'] = $fchw['dbr']->tableName('fchw_relation');
     $sql = "delete from ".$fchw['table_relation']." where from_id = '".$article->getID()."'";
     $res = $fchw['dbr']->query($sql);
@@ -128,7 +128,7 @@ function fchw_DeleteLinks(&$article, &$user, &$reason, &$error) {
 function fchw_MoveLinks(&$title, &$newtitle, &$user, $oldid, $newid) {
     global $fchw;
     global $wgDBprefix;
-    $fchw['dbr'] = &wfGetDB(DB_SLAVE);
+    $fchw['dbr'] = wfGetDB(DB_SLAVE);
     $fchw['table_relation'] = $fchw['dbr']->tableName('fchw_relation');
     $fchw['Pages'] = fchw_GetPages();
     $fchw['dbr']->update($fchw['table_relation'],
@@ -147,7 +147,7 @@ function fchw_MoveLinks(&$title, &$newtitle, &$user, $oldid, $newid) {
 function fchw_UndeleteLinks($title, $create) {
     global $fchw;
     global $wgDBprefix;
-    $fchw['dbr'] = &wfGetDB(DB_SLAVE);
+    $fchw['dbr'] = wfGetDB(DB_SLAVE);
     $fchw['table_relation'] = $fchw['dbr']->tableName('fchw_relation');
     $fchw['Pages'] = fchw_GetPages();
     $fchw['dbr']->update($fchw['table_relation'],
