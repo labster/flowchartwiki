@@ -209,7 +209,6 @@ function fchw_GetGraphDefinitions($ModelType) {
     //print($ModelType . "<br>");
     //print_r($CatBroDef);
     //die();
-    $dbr->freeResult( $res );
     return $CatBroDef;
 }
 
@@ -301,7 +300,6 @@ function fchw_GetPages() {
             }
         }
     }
-    $dbr->freeResult( $res );
     return $Pages;
 }
 
@@ -427,7 +425,6 @@ function fchw_LoadPages() {
                 }
         }
     }
-    $dbr->freeResult( $res );
 
     return $pages;
 }
