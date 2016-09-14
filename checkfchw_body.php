@@ -29,7 +29,7 @@ class CheckFchw extends SpecialPage {
     }
 
     function execute( $par ) {
-        global $wgRequest, $wgOut, $wgScriptPath, $fchw, $dbr, $wgVersion, $IP, $wgDBprefix;
+        global $wgRequest, $wgOut, $wgScriptPath, $fchw, $wgVersion, $IP, $wgDBprefix;
         global $wgUploadDirectory;
         clearstatcache();
         $dbr = wfGetDB(DB_SLAVE);
@@ -74,14 +74,8 @@ class CheckFchw extends SpecialPage {
         }
         $output .= Status($graphvizexec, wfMessage('checkfchwGraphVizExec')->text(), wfMessage('checkfchwGraphVizExecHint')->text());
 
-        $fchwdb = false;
-        $dbr = wfGetDB(DB_MASTER);
-        try {
-            $dbr->query("select * from ".$wgDBprefix."fchw_relation where from_id=0");
-            $fchwdb = true;
-        } catch (Exception $e) {
-            $fchwdb = false;
-        }
+        $dbw = wfGetDB( DB_MASTER );
+        $fchwdb = $dbw->tableExists('fchw_relation');
         $output .= Status($fchwdb, wfMessage('checkfchwDbTables')->text(), wfMessage('checkfchwDbTablesHint')->text());
 
         // REAL GRAPHVIZ TEST
