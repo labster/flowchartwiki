@@ -31,8 +31,8 @@ class FlowChartWikiDependencies {
     }
 
     function DeLink($input) {
-        global $wgUser;
-        $skin = $wgUser->getSkin();
+        $rc = RequestContext::getMain();
+        $skin = $rc->getSkin();
         return "<a href=\"".$skin->makeUrl($input)."\">$input</a>";
     }
 
